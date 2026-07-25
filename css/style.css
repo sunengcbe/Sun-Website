@@ -990,26 +990,37 @@ ul { list-style: none; }
    20. IMAGE PLACEHOLDERS
    ========================================================= */
 .img-placeholder {
-  width: 150%;
+  width: 100%;
   height: 100%;
-  min-height: 220px;
+  min-height: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: repeating-linear-gradient(
     45deg,
     var(--alt-bg),
     var(--alt-bg) 12px,
     #eef0f2 12px,
     #eef0f2 24px
+
   );
-  border: 2px dashed #cbd0d6;
-  border-radius: var(--radius-sm);
+  
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-2);
   color: var(--muted);
   font-size: 0.85rem;
-}
+
+  }
+  .aboutimg {
+    width: 100%;
+    max-width: 800px;
+    border-radius: var(--radius-sm);
+    height: auto;
+  };
+  
+  
 .img-placeholder span { line-height: 1.5; }
 .img-placeholder code {
   display: inline-block;
