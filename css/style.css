@@ -991,9 +991,7 @@ ul { list-style: none; }
    ========================================================= */
 .img-placeholder {
   width: 100%;
-  max-width: 800px;
-  border-radius: var(--radius-sm);
-  height: auto;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
