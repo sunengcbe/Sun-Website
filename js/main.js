@@ -118,3 +118,41 @@
     });
   }
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const helix = document.querySelector(".helix-track");
+
+    if (!helix) return;
+
+    const segments = 850;
+    const helixWidth = window.innerWidth * 1.25;
+    const radius = 250;
+
+    for (let i = 0; i < segments; i++) {
+
+        const segment = document.createElement("div");
+
+        segment.classList.add("helix-segment");
+
+        const progress = i / (segments - 1);
+
+        const x = progress * helixWidth - helixWidth / 2;
+
+        const angle = progress * Math.PI * 5;
+
+        const y = Math.cos(angle) * radius;
+
+        const z = Math.sin(angle) * radius;
+
+        const rotation = angle * 170 / Math.PI;
+
+        segment.style.transform = `
+            translate3d(${x}px, ${y}px, ${z}px)
+            rotateZ(${rotation}deg)
+        `;
+
+        helix.appendChild(segment);
+    }
+
+});

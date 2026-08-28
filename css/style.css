@@ -358,6 +358,252 @@ ul { list-style: none; }
   position: relative;
   overflow: hidden;
 }
+
+.header-thread {
+    position: absolute;
+
+    left: 0;
+    top: 50%;
+
+    width: 100%;
+    height: 300px;
+
+    transform: translateY(-50%);
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    opacity: 0.10;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header1 {
+    position: relative;
+
+    width: 100%;
+    min-height: 350px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    background: linear-gradient(
+        110deg,
+        #1c1c1c 0%,
+        #202020 50%,
+        #302d20 100%
+    );
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+========================================================= */
+
+.header-content1 {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+
+    /* Keep content LEFT aligned */
+    text-align: left;
+
+    /* Move the content slightly lower */
+    transform: translateY(30px);
+}
+
+
+/* =========================================================
+   THREAD BACKGROUND
+========================================================= */
+
+.header-thread {
+    position: absolute;
+
+    top: 60%;
+    left: 0;
+
+    width: 100%;
+    height: 300px;
+
+    transform: translateY(-50%);
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    /*
+       Keep it subtle behind the text
+    */
+    opacity: 0.08;
+}
+
+
+/* =========================================================
+   SVG
+========================================================= */
+
+.thread-svg {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    /*
+       TWO IDENTICAL PATTERNS
+    */
+    width: 200%;
+    height: 100%;
+
+    display: block;
+
+    overflow: visible;
+
+    /*
+       SLOW, CONTINUOUS MOVEMENT
+    */
+    animation: threadInfinite 28s linear infinite;
+
+    will-change: transform;
+}
+
+
+/* =========================================================
+   THREAD STROKE
+========================================================= */
+
+.thread-path {
+    fill: none;
+
+    stroke: #ffffff;
+
+    /*
+       Thin clean engineering line
+    */
+    stroke-width: 4;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    vector-effect: non-scaling-stroke;
+
+    /*
+       Very subtle glow
+    */
+    filter: drop-shadow(
+        0 0 2px rgba(255, 255, 255, 0.15)
+    );
+}
+
+
+/* =========================================================
+   SEAMLESS INFINITE LOOP
+========================================================= */
+
+/*
+   SVG is 200% wide.
+
+   First pattern = 0 → 600
+   Second pattern = 600 → 1200
+
+   Moving -50% moves exactly one pattern width.
+
+   Therefore the beginning and ending frames
+   are IDENTICAL and there is no jump.
+*/
+
+@keyframes threadInfinite {
+
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .header-thread {
+        height: 280px;
+        opacity: 0.075;
+    }
+
+    .thread-path {
+        stroke-width: 3.5;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .page-header1 {
+        min-height: 360px;
+    }
+
+    .header-thread {
+        height: 240px;
+        opacity: 0.065;
+    }
+
+    /*
+       Still slow on mobile
+    */
+    .thread-svg {
+        animation-duration: 22s;
+    }
+
+    .thread-path {
+        stroke-width: 3.5;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .page-header1 {
+        min-height: 340px;
+    }
+
+    .header-thread {
+        height: 220px;
+        opacity: 0.055;
+    }
+
+    .thread-svg {
+        animation-duration: 20s;
+    }
+
+}
+
 .page-header::before {
   content: "";
   position: absolute;
@@ -718,7 +964,7 @@ ul { list-style: none; }
   width: 100%;
 }
 
-.about-grid1 { display: grid; grid-template-columns: 1fr 1.25fr; align-items: center; gap: 70px; }
+.about-grid1 { display: grid; grid-template-columns: 1fr 1.25fr; align-items: center; gap: 70px; min-height: 350px; }
 
 .about-text1,
 .about-image1 {
