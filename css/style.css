@@ -348,6 +348,172 @@ ul { list-style: none; }
   50% { opacity: 1; transform: scaleY(1); }
 }
 
+/* =========================================================
+   HERO SPIRAL / ROTATING THREAD
+   ========================================================= */
+
+.hero-spiral {
+    position: absolute;
+
+    top: -15%;
+    right: 4%;
+
+    width: min(30vw, 420px);
+    height: 130%;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    opacity: 0.75;
+
+    overflow: hidden;
+
+    transform: rotate(8deg);
+}
+
+
+/* SVG container */
+
+.hero-spiral svg {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    overflow: visible;
+
+    animation: spiralFloat 30s linear infinite;
+}
+
+
+/* Main spiral line */
+
+.spiral-path {
+    fill: none;
+
+    stroke: url(#spiralGradient);
+
+    stroke-width: 5;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    filter:
+        drop-shadow(0 0 4px rgba(255,196,0,0.35))
+        drop-shadow(0 0 12px rgba(255,196,0,0.12));
+}
+
+
+/* Continuous top → bottom movement */
+
+@keyframes spiralFloat {
+
+    0% {
+        transform: translateY(-18%) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(0%) rotate(2deg);
+    }
+
+    100% {
+        transform: translateY(18%) rotate(0deg);
+    }
+
+}
+
+
+/* Subtle independent rotation */
+
+.hero-spiral::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,196,0,0.08),
+            transparent 60%
+        );
+
+    pointer-events: none;
+
+    animation: spiralGlow 4s ease-in-out infinite alternate;
+}
+
+
+@keyframes spiralGlow {
+
+    from {
+        opacity: 0.35;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+
+    .hero-spiral {
+        right: -2%;
+        width: 34vw;
+        opacity: 0.55;
+    }
+
+    .spiral-path {
+        stroke-width: 4;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero-spiral {
+        right: -12%;
+        width: 55vw;
+        height: 120%;
+
+        opacity: 0.35;
+    }
+
+    .spiral-path {
+        stroke-width: 3;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-spiral svg,
+    .hero-spiral::after {
+        animation: none;
+    }
+
+}
+
 
 /* =========================================================
    6b. PAGE HEADER (interior pages)

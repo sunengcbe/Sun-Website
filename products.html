@@ -40,6 +40,7 @@
 
   <!-- HEADER / NAVIGATION START -->
   <header id="header" class="header">
+    
     <nav class="nav container">
       <!-- LOGO START -->
       <a href="index.html" class="logo" aria-label="Sun Engineering Works home">
@@ -71,13 +72,91 @@
   <main>
 
     <!-- PAGE HEADER START -->
-    <section class="page-header">
-      <div class="container">
-        <span class="section-tag reveal">Outcome</span>
-        <h1 class="page-title reveal">Our Products</h1>
-        <p class="page-intro reveal">We manufacture a comprehensive range of engineered threaded and knurled components designed to meet diverse industrial requirements.</p>
-      </div>
-    </section>
+    <section class="page-header1">
+
+    <!-- =========================================
+         SEAMLESS ANIMATED THREAD PROFILE
+    ========================================== -->
+    <div class="header-thread" aria-hidden="true">
+
+        <svg
+            class="thread-svg"
+            viewBox="0 0 1200 240"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <defs>
+
+                <!-- EXACT ONE REPEATING PATTERN -->
+                <path
+                    id="threadPattern"
+                    d="
+                        M 0 180
+
+                        L 35 180
+
+                        L 105 65
+                        C 112 52, 122 45, 138 45
+                        L 162 45
+                        C 178 45, 188 52, 195 65
+
+                        L 265 180
+
+                        L 335 180
+
+                        L 405 65
+                        C 412 52, 422 45, 438 45
+                        L 462 45
+                        C 478 45, 488 52, 495 65
+
+                        L 565 180
+
+                        L 600 180
+                    "
+                />
+
+            </defs>
+            <!-- PATTERN 1 -->
+            <use
+                href="#threadPattern"
+                class="thread-path"
+                x="0"
+                y="0"
+            />
+
+            <!-- PATTERN 2 - EXACT COPY -->
+            <use
+                href="#threadPattern"
+                class="thread-path"
+                x="600"
+                y="0"
+            />
+
+        </svg>
+
+    </div>
+
+
+    <!-- =========================================
+         HEADER CONTENT
+    ========================================== -->
+    <div class="container header-content1">
+
+        <span class="section-tag reveal">
+            Outcome
+        </span>
+
+        <h1 class="page-title reveal">
+            Our Products
+        </h1>
+
+        <p class="page-intro reveal">
+            We manufacture a comprehensive range of engineered threaded and knurled components designed to meet diverse industrial requirements.
+        </p>
+
+    </div>
+
+</section>
     <!-- PAGE HEADER END -->
 
     <!-- PRODUCTS DETAILED LIST START -->
