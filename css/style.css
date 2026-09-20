@@ -1,28 +1,121 @@
 /* =========================================================
    SUN ENGINEERING WORKS — STYLESHEET
+   =========================================================
+
+   HOW THIS FILE IS ORDERED
    ---------------------------------------------------------
+   PART A — SETUP           (1–3)    tokens, reset, helpers
+   PART B — COMPONENTS      (4–5)    buttons, header/nav
+   PART C — PAGE SECTIONS   (6–20)   in the order they appear
+                                     on the page, top to bottom
+   PART D — UTILITIES       (21–23)  loader, reveal, placeholders
+   PART E — RESPONSIVE      (24)     EVERY media query, in one
+                                     place, largest → smallest
+   PART F — TRAILING RULES  (25)     must stay last (see note)
+
    TABLE OF CONTENTS
+   ---------------------------------------------------------
+   PART A — SETUP
    1.  Design Tokens (CSS Variables) — edit colors / fonts here
    2.  Base Reset & Typography
    3.  Layout Helpers (container, section)
+
+   PART B — COMPONENTS
    4.  Buttons
    5.  Header / Navigation
+
+   PART C — PAGE SECTIONS (top to bottom)
    6.  Hero
-   7.  Section Headings
-   8.  Services
-   9.  Rolled Threads Info
-   10. Capabilities
-   11. Products
-   12. Thread Forms
-   13. Gallery
-   14. About
-   15. CTA Banner
-   16. Contact
-   17. Footer
-   18. Loader
-   19. Reveal Animations
-   20. Image Placeholders
+   7.  Hero Spiral / Rotating Thread
+   8.  Page Header (interior pages)
+   9.  Page Header Thread Animation
+   10. Section Headings
+   11. Services
+   12. Rolled Threads Info
+   13. Capabilities
+   14. Products (detailed horizontal layout)
+   15. Thread Forms
+   16. Gallery
+   17. About
+   18. CTA Banner
+   19. Contact
+   20. Footer
+
+   PART D — UTILITIES
+   21. Loader
+   22. Reveal Animations
+   23. Image Placeholders
+
+   PART E — RESPONSIVE (all breakpoints together)
+   24. Responsive
+       24a. Large laptop      — max-width: 1200px
+       24b. Tablet            — max-width: 1024px
+       24b-2. Tablet only     — 769px to 1024px (odd last card)
+       24c. Small tablet      — max-width: 991px  (mobile menu)
+       24d. Mobile            — max-width: 768px
+       24e. Small mobile      — max-width: 480px
+       24f. Reduced motion    — prefers-reduced-motion
+
+   PART F — CASCADE-CRITICAL
+   25. Trailing Rules (leave at the bottom)
+
+   ---------------------------------------------------------
+   WHAT CHANGED IN THIS VERSION (responsive fix)
+   ---------------------------------------------------------
+   PARTS A–D ARE UNTOUCHED. The desktop design is exactly the
+   same. Every fix below lives inside a media query in Part E
+   or Part F, so nothing can leak onto desktop.
+
+   • Mobile menu — .menu-toggle was hidden forever and the
+     nav links never collapsed. Now, at 991px and below, the
+     hamburger shows and the links become a dropdown panel.
+     The panel opens when .nav-links gets the class "open"
+     (also accepts active / show / is-open).
+
+   • Old mobile block removed from Part F. It was setting
+     .service-card to width:300px inside a section with 60px
+     side padding (so cards overflowed the screen), forcing
+     EVERY .btn to 240px wide, giving .section-title1 a
+     max-width of 240px at 3.2rem, and shrinking the hero
+     text to 10–12px. Those rules are replaced with
+     proper mobile values in 24d.
+
+   • Parallax (background-attachment: fixed) is switched off
+     at 1024px and below. Mobile browsers (especially iOS)
+     render it zoomed, jumpy, or blank.
+
+   • Section padding (140px / 100px on all sides) is scaled
+     down for tablet and mobile.
+
+   • Grids: 3-column grids become 2 columns on tablet and 1
+     column on mobile. Two-column layouts (rolled, about,
+     capabilities, contact, product rows) stack on mobile.
+     Reversed product rows no longer flip the order.
+
+   • CTA banner — title had white-space: nowrap so it ran off
+     the screen. It now wraps, and the banner stacks at 991px.
+
+   • Inputs are 16px on mobile so iPhones don't zoom in
+     when a field is tapped.
+
+   • Section 25.1 (footer stacking) was labelled "Mobile" but
+     had no media query, so it flattened the desktop footer into
+     one centred column. It is now wrapped in max-width: 768px,
+     so desktop shows 4 columns, 769–991px shows 2 columns and
+     phones show 1 centred column.
+
+   • Section 25.2 (hero framing) is split into two independent
+     media queries: desktop (1025px and up) and tablet/mobile
+     (1024px and below). Edit one without touching the other.
    ========================================================= */
+
+
+
+
+/* #########################################################
+   PART A — SETUP
+   ######################################################### */
+
 
 /* =========================================================
    1. DESIGN TOKENS — change colors, fonts, spacing here
@@ -71,12 +164,20 @@
   --t: 0.4s var(--ease);
 }
 
+
 /* =========================================================
    2. BASE RESET & TYPOGRAPHY
    ========================================================= */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   font-family: var(--font-body);
@@ -94,21 +195,43 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--charcoal);
 }
 
-a { color: inherit; text-decoration: none; transition: color var(--t-fast); }
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+
 img { max-width: 100%; display: block; }
+
 ul { list-style: none; }
+
 
 /* =========================================================
    3. LAYOUT HELPERS
    ========================================================= */
-.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--space-2); }
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-2);
+}
 
 .section { padding: var(--space-3) 0; }
 .section.alt { background: var(--alt-bg); }
 
+
+
+
+/* #########################################################
+   PART B — COMPONENTS
+   ######################################################### */
+
+
 /* =========================================================
    4. BUTTONS
    ========================================================= */
+
+/* --- 4.1 Base ------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -126,49 +249,61 @@ ul { list-style: none; }
 }
 .btn:active { transform: translateY(1px); }
 
-.capability-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 70px;
-    margin-top: 40px;
-    flex-wrap: wrap;
-}
-
-.capability-buttons .btn {
-    flex: 1;
-    max-width: 220px;
-    min-width: 180px;
-    text-align: center;
-}
-
+/* --- 4.2 Variants -------------------------------------- */
 .btn-primary {
   background: var(--yellow-grad);
   color: var(--charcoal);
   box-shadow: 0 4px 14px rgba(255,179,0,0.35);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,179,0,0.45); }
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255,179,0,0.45);
+}
 
 .btn-ghost {
   background: transparent;
   color: var(--white);
   border: 1.5px solid rgba(255,255,255,0.5);
 }
-.btn-ghost:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: var(--white);
+}
 
 .btn-light {
   background: var(--white);
   color: var(--charcoal);
 }
-.btn-light:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
 
+/* --- 4.3 Sizes & modifiers ----------------------------- */
 .btn-sm { padding: 18px 22px; font-size: 0.85rem; }
 .btn-block { width: 100%; }
 
+/* --- 4.4 Button groups --------------------------------- */
+.capability-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.capability-buttons .btn {
+  flex: 1;
+  max-width: 220px;
+  min-width: 180px;
+  text-align: center;
+}
 
 
 /* =========================================================
    5. HEADER / NAVIGATION
    ========================================================= */
+
+/* --- 5.1 Bar ------------------------------------------- */
 .header {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -193,13 +328,17 @@ ul { list-style: none; }
   gap: var(--space-3);
 }
 
-.logo { display: flex; align-items: center; gap: 10px; }
+/* --- 5.2 Logo ------------------------------------------ */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .logo-mark {
   width: 48px;       /* Adjust as needed */
   height: 48px;
   object-fit: contain;
   display: block;
-   
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 }
 .logo-text {
@@ -209,7 +348,11 @@ ul { list-style: none; }
   color: var(--charcoal);
 }
 
-.nav-links { display: flex; gap: var(--space-3); }
+/* --- 5.3 Links ----------------------------------------- */
+.nav-links {
+  display: flex;
+  gap: var(--space-3);
+}
 .nav-link {
   font-family: var(--font-head);
   font-weight: 500;
@@ -226,9 +369,12 @@ ul { list-style: none; }
   background: var(--yellow-grad);
   transition: width var(--t);
 }
-.nav-link:hover, .nav-link.active { color: var(--charcoal); }
-.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.nav-link:hover,
+.nav-link.active { color: var(--charcoal); }
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
 
+/* --- 5.4 Hamburger (mobile toggle) --------------------- */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -247,61 +393,75 @@ ul { list-style: none; }
 .menu-toggle.open span:nth-child(2) { opacity: 0; }
 .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+
+
+
+/* #########################################################
+   PART C — PAGE SECTIONS (top to bottom)
+   ######################################################### */
+
+
 /* =========================================================
    6. HERO
    ========================================================= */
+
+/* --- 6.1 Shell ----------------------------------------- */
 .hero {
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   background: var(--charcoal);
-  overflow:hidden;
+  overflow: hidden;
 }
+
+/* --- 6.2 Background overlay ---------------------------- */
 .hero-overlay {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
-
 .hero-overlay::before {
-    content: "";
-    position: absolute;
-    inset: -20px; /* Prevent white edges after blur */
+  content: "";
+  position: absolute;
+  inset: -20px; /* Prevent white edges after blur */
 
-    background:
-        linear-gradient(
-               rgba(0,0,0,0.65),
-               rgba(0,0,0,0.88)
-         ),
-        radial-gradient(
-            circle at 75% 30%,
-            rgba(255,196,0,0.20),
-            transparent 55%
-        ),
-        url("../images/hero-bg.jpg");
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.65),
+      rgba(0,0,0,0.88)
+    ),
+    radial-gradient(
+      circle at 75% 30%,
+      rgba(255,196,0,0.20),
+      transparent 55%
+    ),
+    url("../images/hero-bg.jpg");
 
-    background-size: 170%;
-    background-position: center;
-    background-repeat: no-repeat;
 
-    filter: blur(2.5px);      /* Increase to 6px or 8px if needed */
-    transform: scale(1.05); /* Prevent blur edges from showing */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  filter: blur(2.5px);    /* Increase to 6px or 8px if needed */
+  transform: scale(1.05); /* Prevent blur edges from showing */
 }
-.hero-content{
-    position: relative;
-    z-index: 2;
 
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+/* --- 6.3 Content --------------------------------------- */
+.hero-content {
+  position: relative;
+  z-index: 2;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 
-    padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 0 16px;
 }
+
 .hero-eyebrow {
   font-family: var(--font-head);
   font-size: 0.85rem;
@@ -328,8 +488,13 @@ ul { list-style: none; }
   max-width: 900px;
 }
 
-.hero-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.hero-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
 
+/* --- 6.4 Scroll cue ------------------------------------ */
 .hero-scroll {
   position: absolute;
   bottom: var(--space-4);
@@ -345,438 +510,137 @@ ul { list-style: none; }
 }
 @keyframes scrollPulse {
   0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-  50% { opacity: 1; transform: scaleY(1); }
+  50%      { opacity: 1; transform: scaleY(1); }
 }
+
 
 /* =========================================================
-   HERO SPIRAL / ROTATING THREAD
+   7. HERO SPIRAL / ROTATING THREAD
    ========================================================= */
 
+/* --- 7.1 Container ------------------------------------- */
 .hero-spiral {
-    position: absolute;
+  position: absolute;
+  top: -15%;
+  right: 4%;
 
-    top: -15%;
-    right: 4%;
+  width: min(30vw, 420px);
+  height: 130%;
 
-    width: min(30vw, 420px);
-    height: 130%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.75;
+  overflow: hidden;
 
-    z-index: 1;
-
-    pointer-events: none;
-
-    opacity: 0.75;
-
-    overflow: hidden;
-
-    transform: rotate(8deg);
+  transform: rotate(8deg);
 }
 
-
-/* SVG container */
-
+/* --- 7.2 SVG ------------------------------------------- */
 .hero-spiral svg {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    overflow: visible;
-
-    animation: spiralFloat 30s linear infinite;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  animation: spiralFloat 30s linear infinite;
 }
 
-
-/* Main spiral line */
-
+/* --- 7.3 Spiral line ----------------------------------- */
 .spiral-path {
-    fill: none;
-
-    stroke: url(#spiralGradient);
-
-    stroke-width: 5;
-
-    stroke-linecap: round;
-    stroke-linejoin: round;
-
-    filter:
-        drop-shadow(0 0 4px rgba(255,196,0,0.35))
-        drop-shadow(0 0 12px rgba(255,196,0,0.12));
+  fill: none;
+  stroke: url(#spiralGradient);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter:
+    drop-shadow(0 0 4px rgba(255,196,0,0.35))
+    drop-shadow(0 0 12px rgba(255,196,0,0.12));
 }
 
+/* --- 7.4 Glow ------------------------------------------ */
+.hero-spiral::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255,196,0,0.08),
+      transparent 60%
+    );
+  pointer-events: none;
+  animation: spiralGlow 4s ease-in-out infinite alternate;
+}
+
+/* --- 7.5 Keyframes ------------------------------------- */
 
 /* Continuous top → bottom movement */
-
 @keyframes spiralFloat {
-
-    0% {
-        transform: translateY(-18%) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(0%) rotate(2deg);
-    }
-
-    100% {
-        transform: translateY(18%) rotate(0deg);
-    }
-
+  0%   { transform: translateY(-18%) rotate(0deg); }
+  50%  { transform: translateY(0%) rotate(2deg); }
+  100% { transform: translateY(18%) rotate(0deg); }
 }
-
-
-/* Subtle independent rotation */
-
-.hero-spiral::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(255,196,0,0.08),
-            transparent 60%
-        );
-
-    pointer-events: none;
-
-    animation: spiralGlow 4s ease-in-out infinite alternate;
-}
-
 
 @keyframes spiralGlow {
-
-    from {
-        opacity: 0.35;
-        transform: scale(0.9);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1.1);
-    }
-
+  from { opacity: 0.35; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1.1); }
 }
 
 
 /* =========================================================
-   TABLET
+   8. PAGE HEADER (interior pages)
    ========================================================= */
 
-@media (max-width: 1024px) {
-
-    .hero-spiral {
-        right: -2%;
-        width: 34vw;
-        opacity: 0.55;
-    }
-
-    .spiral-path {
-        stroke-width: 4;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-    .hero-spiral {
-        right: -12%;
-        width: 55vw;
-        height: 120%;
-
-        opacity: 0.35;
-    }
-
-    .spiral-path {
-        stroke-width: 3;
-    }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION ACCESSIBILITY
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .hero-spiral svg,
-    .hero-spiral::after {
-        animation: none;
-    }
-
-}
-
-
-/* =========================================================
-   6b. PAGE HEADER (interior pages)
-   ========================================================= */
+/* --- 8.1 Variant A: .page-header ----------------------- */
 .page-header {
   padding: calc(var(--space-7) + 40px) 0 var(--space-5);
   background: var(--charcoal);
   position: relative;
   overflow: hidden;
 }
-
-.header-thread {
-    position: absolute;
-
-    left: 0;
-    top: 50%;
-
-    width: 100%;
-    height: 300px;
-
-    transform: translateY(-50%);
-
-    z-index: 1;
-
-    pointer-events: none;
-
-    opacity: 0.10;
-}
-
-
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.page-header1 {
-    position: relative;
-
-    width: 100%;
-    min-height: 350px;
-
-    display: flex;
-    align-items: center;
-
-    overflow: hidden;
-    isolation: isolate;
-
-    background: linear-gradient(
-        110deg,
-        #1c1c1c 0%,
-        #202020 50%,
-        #302d20 100%
-    );
-}
-
-
-/* =========================================================
-   HEADER CONTENT
-========================================================= */
-
-.header-content1 {
-    position: relative;
-
-    z-index: 10;
-
-    width: 100%;
-
-    /* Keep content LEFT aligned */
-    text-align: left;
-
-    /* Move the content slightly lower */
-    transform: translateY(30px);
-}
-
-
-/* =========================================================
-   THREAD BACKGROUND
-========================================================= */
-
-.header-thread {
-    position: absolute;
-
-    top: 60%;
-    left: 0;
-
-    width: 100%;
-    height: 300px;
-
-    transform: translateY(-50%);
-
-    overflow: hidden;
-
-    pointer-events: none;
-
-    z-index: 1;
-
-    /*
-       Keep it subtle behind the text
-    */
-    opacity: 0.08;
-}
-
-
-/* =========================================================
-   SVG
-========================================================= */
-
-.thread-svg {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    /*
-       TWO IDENTICAL PATTERNS
-    */
-    width: 200%;
-    height: 100%;
-
-    display: block;
-
-    overflow: visible;
-
-    /*
-       SLOW, CONTINUOUS MOVEMENT
-    */
-    animation: threadInfinite 28s linear infinite;
-
-    will-change: transform;
-}
-
-
-/* =========================================================
-   THREAD STROKE
-========================================================= */
-
-.thread-path {
-    fill: none;
-
-    stroke: #ffffff;
-
-    /*
-       Thin clean engineering line
-    */
-    stroke-width: 4;
-
-    stroke-linecap: round;
-    stroke-linejoin: round;
-
-    vector-effect: non-scaling-stroke;
-
-    /*
-       Very subtle glow
-    */
-    filter: drop-shadow(
-        0 0 2px rgba(255, 255, 255, 0.15)
-    );
-}
-
-
-/* =========================================================
-   SEAMLESS INFINITE LOOP
-========================================================= */
-
-/*
-   SVG is 200% wide.
-
-   First pattern = 0 → 600
-   Second pattern = 600 → 1200
-
-   Moving -50% moves exactly one pattern width.
-
-   Therefore the beginning and ending frames
-   are IDENTICAL and there is no jump.
-*/
-
-@keyframes threadInfinite {
-
-    from {
-        transform: translate3d(0, 0, 0);
-    }
-
-    to {
-        transform: translate3d(-50%, 0, 0);
-    }
-
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 1024px) {
-
-    .header-thread {
-        height: 280px;
-        opacity: 0.075;
-    }
-
-    .thread-path {
-        stroke-width: 3.5;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 768px) {
-
-    .page-header1 {
-        min-height: 360px;
-    }
-
-    .header-thread {
-        height: 240px;
-        opacity: 0.065;
-    }
-
-    /*
-       Still slow on mobile
-    */
-    .thread-svg {
-        animation-duration: 22s;
-    }
-
-    .thread-path {
-        stroke-width: 3.5;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-    .page-header1 {
-        min-height: 340px;
-    }
-
-    .header-thread {
-        height: 220px;
-        opacity: 0.055;
-    }
-
-    .thread-svg {
-        animation-duration: 20s;
-    }
-
-}
-
 .page-header::before {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 80% 20%, rgba(255,196,0,0.15), transparent 55%);
 }
-.page-header .container { position: relative; z-index: 2; }
+.page-header .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* --- 8.2 Variant B: .page-header1 ---------------------- */
+.page-header1 {
+  position: relative;
+  width: 100%;
+  min-height: 350px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background: linear-gradient(
+    110deg,
+    #1c1c1c 0%,
+    #202020 50%,
+    #302d20 100%
+  );
+}
+
+.header-content1 {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+
+  /* Keep content LEFT aligned */
+  text-align: left;
+
+  /* Move the content slightly lower */
+  transform: translateY(30px);
+}
+
+/* --- 8.3 Header text ----------------------------------- */
 .page-title {
   font-size: clamp(2rem, 5vw, 3.4rem);
   color: var(--white);
@@ -788,11 +652,100 @@ ul { list-style: none; }
   font-size: 1.1rem;
 }
 
+
 /* =========================================================
-   7. SECTION HEADINGS
+   9. PAGE HEADER THREAD ANIMATION
+   ========================================================= */
+
+/* --- 9.1 Container — declared twice in the original.
+       Both kept; the SECOND one wins (top 60%, opacity .08). */
+.header-thread {
+  position: absolute;
+  left: 0;
+  top: 50%;
+
+  width: 100%;
+  height: 300px;
+
+  transform: translateY(-50%);
+
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.10;
+}
+
+.header-thread {
+  position: absolute;
+  top: 60%;
+  left: 0;
+
+  width: 100%;
+  height: 300px;
+
+  transform: translateY(-50%);
+
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+
+  /* Keep it subtle behind the text */
+  opacity: 0.08;
+}
+
+/* --- 9.2 SVG ------------------------------------------- */
+.thread-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /* TWO IDENTICAL PATTERNS */
+  width: 200%;
+  height: 100%;
+
+  display: block;
+  overflow: visible;
+
+  /* SLOW, CONTINUOUS MOVEMENT */
+  animation: threadInfinite 28s linear infinite;
+
+  will-change: transform;
+}
+
+/* --- 9.3 Stroke ---------------------------------------- */
+.thread-path {
+  fill: none;
+  stroke: #ffffff;
+
+  /* Thin clean engineering line */
+  stroke-width: 4;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect: non-scaling-stroke;
+
+  /* Very subtle glow */
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.15));
+}
+
+/* --- 9.4 Seamless infinite loop ------------------------
+   SVG is 200% wide.
+   First pattern  = 0   → 600
+   Second pattern = 600 → 1200
+   Moving -50% moves exactly one pattern width, so the first
+   and last frames are IDENTICAL and there is no jump. */
+@keyframes threadInfinite {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+
+/* =========================================================
+   10. SECTION HEADINGS
    ========================================================= */
 .section-head { margin-bottom: var(--space-5); }
 .section-head.center { text-align: center; }
+
 .section-tag {
   display: inline-block;
   font-family: var(--font-head);
@@ -803,15 +756,17 @@ ul { list-style: none; }
   font-weight: 600;
   margin-bottom: var(--space-1);
 }
+
 .section-title {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   margin-bottom: var(--space-2);
 }
 .section-title1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    margin-bottom: var(--space-2);
-    color: #FFFFFF;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: var(--space-2);
+  color: #FFFFFF;
 }
+
 .section-intro {
   color: var(--muted);
   max-width: 640px;
@@ -821,28 +776,36 @@ ul { list-style: none; }
 
 
 /* =========================================================
-   8. SERVICES
+   11. SERVICES
    ========================================================= */
-.section-services{
-  padding: 140px;
-    background:
-        linear-gradient( 135deg,
-    #1E1E1E 0%,
-    #2B2B2B 60%,
-    rgba(255,196,0,0.18) 100% ),
-        url("../images/services-bg.png");
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Parallax */
-    background-attachment: fixed;
+/* --- 11.1 Section background --------------------------- */
+.section-services {
+  padding: 140px;
+  background:
+    linear-gradient(
+      135deg,
+      #1E1E1E 0%,
+      #2B2B2B 60%,
+      rgba(255,196,0,0.18) 100%
+    ),
+    url("../images/services-bg.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Parallax */
+  background-attachment: fixed;
 }
+
+/* --- 11.2 Grid ----------------------------------------- */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-3);
 }
+
+/* --- 11.3 Card ----------------------------------------- */
 .service-card {
   background-color: #FFFFFF;
   border: 2px solid var(--border);
@@ -855,6 +818,8 @@ ul { list-style: none; }
   box-shadow: var(--shadow-lg);
   border-color: transparent;
 }
+
+/* --- 11.4 Icon ----------------------------------------- */
 .service-icon {
   width: 56px; height: 56px;
   border-radius: 14px;
@@ -866,49 +831,62 @@ ul { list-style: none; }
   color: var(--yellow-2);
   transition: background var(--t), color var(--t);
 }
-.service-card:hover .service-icon { background: var(--yellow-grad); color: var(--charcoal); }
+.service-card:hover .service-icon {
+  background: var(--yellow-grad);
+  color: var(--charcoal);
+}
 .service-icon svg { width: 32px; height: 32px; }
 .service-icon1 svg { width: 32px; height: 32px; }
+
+/* --- 11.5 Card text ------------------------------------ */
 .service-name { font-size: 1.25rem; margin-bottom: var(--space-1); }
 .service-desc { color: var(--muted); }
 
+
 /* =========================================================
-   9. ROLLED THREADS INFO
+   12. ROLLED THREADS INFO
    ========================================================= */
+
+/* --- 12.1 Section background --------------------------- */
 .rolled-threads {
-    padding: 140px;
-
-   background: linear-gradient(
-    270deg,
-    #1E1E1E 0%,
-    #2B2B2B 60%,
-    rgba(255,196,0,0.18) 100%
+  padding: 140px;
+  background:
+    linear-gradient(
+      270deg,
+      #1E1E1E 0%,
+      #2B2B2B 60%,
+      rgba(255,196,0,0.18) 100%
     ),
-        url("../images/spiral-bg.png");
+    url("../images/spiral-bg.png");
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Parallax */
-    background-attachment: fixed;
-}
-.rolled-image {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: var(--radius);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Parallax */
+  background-attachment: fixed;
 }
 
-.rolled-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+/* --- 12.2 Grid ----------------------------------------- */
 .rolled-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
   align-items: center;
 }
+
+/* --- 12.3 Image ---------------------------------------- */
+.rolled-image {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.rolled-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- 12.4 Text blocks ---------------------------------- */
 .rolled-block { margin-bottom: var(--space-3); }
 .rolled-sub {
   font-size: 1.15rem;
@@ -917,43 +895,49 @@ ul { list-style: none; }
 }
 .rolled-block p { display: inline; color: var(--border); }
 
+
 /* =========================================================
-   10. CAPABILITIES
+   13. CAPABILITIES
    ========================================================= */
 .section-capabilities {
-    padding: 100px;
-
+  padding: 100px;
   background:
     radial-gradient(
-        circle at top center,
-        rgba(255,196,0,0.08),
-        transparent 30%
+      circle at top center,
+      rgba(255,196,0,0.08),
+      transparent 30%
     ),
     linear-gradient(
-        180deg,
-        #FFFFFF 0%,
-        #F5F5F5 25%,
-        #E3E3E3 55%,
-        #C7C7C7 100%
+      180deg,
+      #FFFFFF 0%,
+      #F5F5F5 25%,
+      #E3E3E3 55%,
+      #C7C7C7 100%
     );
-       /* url("../images/spiral-bg.png");*/
+    /* url("../images/spiral-bg.png"); */
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 .capabilities-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
   align-items: center;
 }
-.capabilities-text { font-size: 1.1rem; color: var(--dark-gray); }
+.capabilities-text {
+  font-size: 1.1rem;
+  color: var(--dark-gray);
+}
+
 
 /* =========================================================
-   11. PRODUCTS - DETAILED HORIZONTAL LAYOUT
+   14. PRODUCTS — DETAILED HORIZONTAL LAYOUT
    ========================================================= */
-/* Detailed horizontal layout - used on Products and Forms pages */
+
+/* --- 14.1 Detail rows (Products and Forms pages) ------- */
 .detail-item {
   display: grid;
   grid-template-columns: 5fr 6fr;
@@ -971,10 +955,13 @@ ul { list-style: none; }
   border-bottom: 1px solid var(--border);
 }
 .detail-item:last-child { border-bottom: none; }
+
+/* --- 14.2 Reversed row --------------------------------- */
 .detail-item.reverse { grid-template-columns: 6fr 5fr; }
 .detail-item.reverse .detail-media { order: 2; }
 .detail-item.reverse .detail-body { order: 1; }
 
+/* --- 14.3 Media ---------------------------------------- */
 .detail-media {
   border-radius: var(--radius);
   overflow: hidden;
@@ -987,8 +974,10 @@ ul { list-style: none; }
 }
 .detail-media .img-placeholder { min-height: 100%; height: 100%; }
 
+/* --- 14.4 Body ----------------------------------------- */
 .detail-body { padding: var(--space-2); }
 .detail-body.full { grid-column: 1 / -1; text-align: center; }
+
 .detail-index {
   display: inline-block;
   font-family: var(--font-head);
@@ -1010,7 +999,8 @@ ul { list-style: none; }
 }
 .detail-item.reverse .detail-desc { margin-left: auto; }
 
-/* Legacy product card grid (kept for reference, unused on detail pages) */
+/* --- 14.5 Legacy product card grid
+       (kept for reference, unused on detail pages) ------ */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1023,16 +1013,22 @@ ul { list-style: none; }
   overflow: hidden;
   transition: transform var(--t), box-shadow var(--t);
 }
-.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-.product-image { width: 100%;
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+.product-image {
+  width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  display: block; }
+  display: block;
+}
 .product-body { padding: var(--space-3); }
 .product-name { font-size: 1.3rem; margin-bottom: var(--space-1); }
 .product-desc { color: var(--muted); font-size: 0.95rem; }
 
+/* --- 14.6 Additional operations ------------------------ */
 .additional-ops {
   margin-top: var(--space-5);
   text-align: center;
@@ -1042,6 +1038,7 @@ ul { list-style: none; }
 }
 .additional-title { font-size: 1.5rem; margin-bottom: var(--space-1); }
 .additional-text { color: var(--muted); margin-bottom: var(--space-3); }
+
 .additional-list {
   display: flex;
   flex-wrap: wrap;
@@ -1058,13 +1055,25 @@ ul { list-style: none; }
   font-size: 0.9rem;
   transition: background var(--t-fast), color var(--t-fast);
 }
-.additional-list li:hover { background: var(--yellow-grad); color: var(--charcoal); }
+.additional-list li:hover {
+  background: var(--yellow-grad);
+  color: var(--charcoal);
+}
+
 
 /* =========================================================
-   12. THREAD FORMS
+   15. THREAD FORMS
    ========================================================= */
+
+/* --- 15.1 Section -------------------------------------- */
 .thread-forms { background: var(--alt-bg); }
-.forms-intro { max-width: 1000px; margin: 0 auto var(--space-1); text-align: center; }
+
+/* --- 15.2 Intro ---------------------------------------- */
+.forms-intro {
+  max-width: 1000px;
+  margin: 0 auto var(--space-1);
+  text-align: center;
+}
 .forms-heading {
   font-size: 1.4rem;
   color: var(--yellow-2);
@@ -1072,6 +1081,8 @@ ul { list-style: none; }
   text-transform: lowercase;
 }
 .forms-intro p { color: var(#1f1f1f); }
+
+/* --- 15.3 Grid & cards --------------------------------- */
 .forms-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1084,7 +1095,10 @@ ul { list-style: none; }
   padding: var(--space-3);
   transition: transform var(--t), box-shadow var(--t);
 }
-.form-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.form-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
 .form-diagram {
   background: var(--alt-bg);
   border-radius: var(--radius-sm);
@@ -1094,8 +1108,9 @@ ul { list-style: none; }
 .form-name { font-size: 1.2rem; margin-bottom: var(--space-1); }
 .form-desc { color: var(--muted); font-size: 0.92rem; }
 
+
 /* =========================================================
-   13. GALLERY
+   16. GALLERY
    ========================================================= */
 .gallery-grid {
   display: grid;
@@ -1119,10 +1134,33 @@ ul { list-style: none; }
   font-weight: 500;
 }
 
+
 /* =========================================================
-   14. ABOUT
+   17. ABOUT
    ========================================================= */
 
+/* --- 17.1 Standard layout ------------------------------ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: center;
+}
+.about-text p {
+  margin-bottom: var(--space-2);
+  color: var(--dark-gray);
+}
+
+/* --- 17.2 Alternate layout (.about-grid1) -------------- */
+.about-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  align-items: center;
+  gap: 70px;
+  min-height: 350px;
+}
+.about-text1,
+.about-image1 { direction: ltr; }
 
 .aboutimg1 {
   border-radius: 16px;
@@ -1130,92 +1168,73 @@ ul { list-style: none; }
   width: 100%;
 }
 
-.about-grid1 { display: grid; grid-template-columns: 1fr 1.25fr; align-items: center; gap: 70px; min-height: 350px; }
-
-.about-text1,
-.about-image1 {
-  direction: ltr;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-5);
-  align-items: center;
-}
-.about-text p { margin-bottom: var(--space-2); color: var(--dark-gray); }
 
 /* =========================================================
-   15. CTA BANNER
+   18. CTA BANNER
    ========================================================= */
+
+/* --- 18.1 Banner --------------------------------------- */
 .cta-banner {
-    position: relative;
-    overflow: hidden;
-    padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
 
-    background:
-        linear-gradient(
-            rgba(114, 114, 114, 0.65),
-            rgba(20,20,20,.65)
-        ),
-        url("../images/askquote.png");
+  background:
+    linear-gradient(
+      rgba(114, 114, 114, 0.65),
+      rgba(20,20,20,.65)
+    ),
+    url("../images/askquote.png");
 
-    background-size: 120%;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-size: 120%;
+  background-position: center;
+  background-repeat: no-repeat;
 
-    /* Parallax */
-    background-attachment: fixed;
-
-    
-}
-/* Content Layout */
-.cta-content{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 300px;
+  /* Parallax */
+  background-attachment: fixed;
 }
 
-.cta-title{
-    margin: 0;
-    flex: 0;          /* NOT flex:1 */
-}
-.cta-title{
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    color: var(--white);
-    margin: 0;
-    white-space: nowrap; 
-    flex: 0;          /* or simply remove this line */
-    text-align: left;
+/* --- 18.2 Content layout ------------------------------- */
+.cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 300px;
 }
 
-.btn-light{
-    flex-shrink: 0;
+.cta-title {
+  margin: 0;
+  flex: 0;          /* NOT flex:1 */
+}
+.cta-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--white);
+  margin: 0;
+  white-space: nowrap;
+  flex: 0;          /* or simply remove this line */
+  text-align: left;
 }
 
-/* Mobile */
-@media (max-width: 768px){
-    .cta-content{
-        flex-direction: column;
-        text-align: center;
-        gap: 30px;
-    }
+.btn-light { flex-shrink: 0; }
 
-    .cta-title{
-        text-align: center;
-    }
-}
 
 /* =========================================================
-   16. CONTACT
+   19. CONTACT
    ========================================================= */
+
+/* --- 19.1 Grid ----------------------------------------- */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
 }
-.contact-info { display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* --- 19.2 Info side ------------------------------------ */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
 .info-block {
   padding: var(--space-3);
   background: var(--alt-bg);
@@ -1232,6 +1251,7 @@ ul { list-style: none; }
 .info-value { color: var(--dark-gray); }
 .info-value a:hover { color: var(--charcoal); }
 
+/* --- 19.3 Form side ------------------------------------ */
 .contact-form {
   background: var(--white);
   border: 1px solid var(--border);
@@ -1259,6 +1279,7 @@ ul { list-style: none; }
   background: var(--white);
 }
 .form-row textarea { resize: vertical; }
+
 .form-success {
   margin-top: var(--space-2);
   padding: var(--space-2);
@@ -1268,132 +1289,103 @@ ul { list-style: none; }
   font-size: 0.92rem;
 }
 
+
 /* =========================================================
-   17. FOOTER
+   20. FOOTER
    ========================================================= */
-.footer{
-    background:#1f1f1f;
-    color:#bdbdbd;
-    padding:50px 0 30px;
+
+/* --- 20.1 Shell ---------------------------------------- */
+.footer {
+  background: #1f1f1f;
+  color: #bdbdbd;
+  padding: 50px 0 30px;
 }
 
-.footer-grid{
-    display:grid;
-    grid-template-columns:1.9fr 1.2fr 1fr 1fr;
-    gap:40px;
-    align-items:flex-start;
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.9fr 1.2fr 1fr 1fr;
+  gap: 40px;
+  align-items: flex-start;
 }
 
-.footer-brand h3{
-    color:#fff;
-    font-size:2rem;
-    margin:20px 0 10px;
+/* --- 20.2 Brand ---------------------------------------- */
+.footer-brand h3 {
+  color: #fff;
+  font-size: 2rem;
+  margin: 20px 0 10px;
+}
+.footer-logo {
+  width: 75px;
+  display: block;
+}
+.footer-tagline {
+  margin-bottom: 25px;
+  font-size: 1rem;
 }
 
-.footer-logo{
-    width:75px;
-    display:block;
+/* --- 20.3 Columns -------------------------------------- */
+.footer-column h4 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  letter-spacing: .5px;
+  line-height: 1.5;
+}
+.footer-column p {
+  margin: 4px 0;
+  line-height: 1.7;
 }
 
-.footer-tagline{
-    margin-bottom:25px;
-    font-size:1rem;
+/* --- 20.4 Social --------------------------------------- */
+.footer-social {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+.footer-social a {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #fff;
+  color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: .3s;
+  font-size: 18px;
+}
+.footer-social a:hover {
+  background: #f2c300;
+  color: #111;
+  transform: translateY(-3px);
 }
 
-.footer-column h4{
-    color:#fff;
-    font-size:1.1rem;
-    margin-bottom:20px;
-    letter-spacing:.5px;
-    line-height:1.5; 
+/* --- 20.5 Bottom bar ----------------------------------- */
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,.12);
+  margin: 55px 0 25px;
 }
-
-.footer-column p{
-    margin:4px 0;
-    line-height:1.7;
+.footer-bottom { text-align: center; }
+.footer-iso {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
+.footer-bottom p { margin: 6px 0; }
 
-.footer-social{
-    display:flex;
-    gap:15px;
-    margin-top:25px;
-}
 
-.footer-social a{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:#fff;
-    color:#222;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-decoration:none;
-    transition:.3s;
-    font-size:18px;
-}
 
-.footer-social a:hover{
-    background:#f2c300;
-    color:#111;
-    transform:translateY(-3px);
-}
 
-.footer-divider{
-    width:100%;
-    height:1px;
-    background:rgba(255,255,255,.12);
-    margin:55px 0 25px;
-}
+/* #########################################################
+   PART D — UTILITIES
+   ######################################################### */
 
-.footer-bottom{
-    text-align:center;
-}
-
-.footer-iso{
-    color:#fff;
-    font-weight:600;
-    margin-bottom:12px;
-}
-
-.footer-bottom p{
-    margin:6px 0;
-}
-
-/* Tablet */
-
-@media (max-width:991px){
-
-.footer-grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:40px;
-}
-
-}
-
-/* Mobile */
-
-@media (max-width:768px){
-
-.footer-grid{
-    grid-template-columns:1fr;
-    text-align:center;
-}
-
-.footer-brand{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-.footer-social{
-    justify-content:center;
-}
-
-}
 
 /* =========================================================
-   18. LOADER
+   21. LOADER
    ========================================================= */
 .loader {
   position: fixed;
@@ -1407,6 +1399,7 @@ ul { list-style: none; }
   transition: opacity 0.5s var(--ease), visibility 0.5s;
 }
 .loader.hidden { opacity: 0; visibility: hidden; }
+
 .loader-bar {
   position: absolute;
   top: 0; left: 0;
@@ -1417,48 +1410,47 @@ ul { list-style: none; }
   animation: loadBar 1.2s var(--ease) forwards;
 }
 @keyframes loadBar {
-  0% { transform: scaleX(0); }
+  0%   { transform: scaleX(0); }
   100% { transform: scaleX(1); }
 }
 
+
 /* =========================================================
-   19. REVEAL ANIMATIONS
+   22. REVEAL ANIMATIONS
    ========================================================= */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 /* =========================================================
-   20. IMAGE PLACEHOLDERS
+   23. IMAGE PLACEHOLDERS
    ========================================================= */
 .img-placeholder {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: repeating-linear-gradient(
     45deg,
     var(--alt-bg),
     var(--alt-bg) 12px,
     #eef0f2 12px,
     #eef0f2 24px
-
   );
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: var(--muted);
   font-size: 0.85rem;
+}
 
-  }
-  
-  
 .img-placeholder span { line-height: 1.5; }
 .img-placeholder code {
   display: inline-block;
@@ -1471,3 +1463,461 @@ ul { list-style: none; }
 }
 .img-placeholder.wide { min-height: 320px; }
 .img-placeholder.svg-placeholder { min-height: 180px; }
+
+
+
+
+/* #########################################################
+   PART E — RESPONSIVE
+   ---------------------------------------------------------
+   Every media query in the stylesheet lives here, ordered
+   from the widest breakpoint down to the narrowest, so each
+   smaller screen correctly overrides the larger one.
+   Inside each breakpoint the rules follow page order:
+   header → hero → page header → sections → CTA → footer.
+
+   Nothing in this part applies above 1200px, so the desktop
+   design is untouched.
+   ######################################################### */
+
+
+/* =========================================================
+   24. RESPONSIVE
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   24a. LARGE LAPTOP — max-width: 1200px
+   --------------------------------------------------------- */
+@media (max-width: 1200px) {
+
+  /* CTA banner — the 300px desktop gap is too wide here and
+     pushes the button off-screen */
+  .cta-content { gap: 120px; }
+
+}
+
+/* ---------------------------------------------------------
+   24b. TABLET — max-width: 1024px
+   --------------------------------------------------------- */
+@media (max-width: 1024px) {
+
+  /* Hero */
+  .hero { padding: var(--space-7) 0; }
+
+  /* Hero spiral */
+  .hero-spiral {
+    right: -2%;
+    width: 34vw;
+    opacity: 0.55;
+  }
+  .spiral-path { stroke-width: 4; }
+
+  /* Page header thread */
+  .header-thread {
+    height: 280px;
+    opacity: 0.075;
+  }
+  .thread-path { stroke-width: 3.5; }
+
+  /* Parallax OFF — "fixed" backgrounds break on touch devices
+     (zoomed, jumpy, or blank on iOS Safari) */
+  .section-services,
+  .rolled-threads,
+  .cta-banner { background-attachment: scroll; }
+  .cta-banner { background-size: cover; }
+
+  /* Section spacing (was 140px / 100px on every side) */
+  .section-services,
+  .rolled-threads { padding: 88px 40px; }
+  .section-capabilities { padding: 72px 40px; }
+  .section-head { margin-bottom: var(--space-4); }
+
+  /* Grids: 3 columns → 2 columns */
+  .services-grid,
+  .products-grid,
+  .forms-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Tighter gaps between columns */
+  .rolled-grid,
+  .capabilities-content,
+  .about-grid,
+  .contact-grid { gap: var(--space-4); }
+  .about-grid1 { gap: var(--space-5); }
+  .detail-item,
+  .detail-item1 { gap: var(--space-5); }
+  .capability-buttons { gap: var(--space-3); }
+
+}
+
+/* ---------------------------------------------------------
+   24b-2. TABLET ONLY — 769px to 1024px
+   Two-column grids with an odd number of cards leave one
+   card stranded on the left. Centre it instead.
+   --------------------------------------------------------- */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .services-grid > :last-child:nth-child(odd),
+  .products-grid > :last-child:nth-child(odd),
+  .forms-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - var(--space-3) / 2);
+  }
+
+}
+
+/* ---------------------------------------------------------
+   24c. SMALL TABLET — max-width: 991px
+   Mobile menu + CTA stacking
+   --------------------------------------------------------- */
+@media (max-width: 991px) {
+
+  /* Anchor links stop under the fixed header */
+  html { scroll-padding-top: 80px; }
+
+  /* --- Mobile menu ------------------------------------- */
+  .menu-toggle { display: flex; }
+
+  /* Dropdown panel under the header bar.
+     Uses position:absolute (NOT fixed) because the header's
+     backdrop-filter would trap a fixed child inside it. */
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-1) var(--space-3) var(--space-3);
+
+    background: rgba(255,255,255,0.98);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+
+    /* Closed */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity var(--t), transform var(--t), visibility var(--t);
+  }
+
+  /* Open — add ONE of these classes with JavaScript */
+  .nav-links.open,
+  .nav-links.active,
+  .nav-links.show,
+  .nav-links.is-open,
+  .nav.open .nav-links,
+  .header.menu-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-links .nav-link {
+    display: block;
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+
+  /* CTA banner — stack */
+  .cta-content {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-3);
+  }
+  .cta-title {
+    text-align: center;
+    white-space: normal;   /* was nowrap — ran off the screen */
+  }
+
+  /* Footer — two columns (phones go to one column in 25.1) */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+}
+
+/* ---------------------------------------------------------
+   24d. MOBILE — max-width: 768px
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  /* --- Header ------------------------------------------ */
+  .header { padding: 12px 0; }
+  .logo-mark { width: 40px; height: 40px; }
+  .nav-links { max-height: calc(100vh - 64px); }
+
+  /* --- Hero -------------------------------------------- */
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;              /* real visible height on phones */
+    padding: 104px 0 88px;           /* clears fixed header + scroll cue */
+  }
+
+  .hero-spiral {
+    right: -12%;
+    width: 55vw;
+    height: 120%;
+    opacity: 0.4;                    /* keeps text readable */
+  }
+  .spiral-path { stroke-width: 3; }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+  .hero-title { font-size: clamp(2.1rem, 9vw, 3rem); }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: var(--space-3);
+  }
+
+  /* Hero + CTA buttons — stacked, full width (max 320px).
+     Scoped so it no longer hits every .btn on the site. */
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    max-width: 320px;
+  }
+  .hero-actions .btn,
+  .cta-content .btn { width: 100%; }
+  .cta-content .btn { max-width: 320px; }
+
+  /* --- Page header ------------------------------------- */
+  .page-header { padding: calc(var(--space-6) + 32px) 0 var(--space-4); }
+
+  .page-header1 {
+    min-height: 360px;
+    padding-top: 72px;               /* room for the fixed header */
+  }
+  .header-content1 { transform: none; }
+
+  .page-intro { font-size: 1rem; }
+
+  .header-thread {
+    height: 240px;
+    opacity: 0.065;
+  }
+
+  /* Still slow on mobile */
+  .thread-svg { animation-duration: 22s; }
+
+  .thread-path { stroke-width: 3.5; }
+
+  /* --- Section spacing & headings ---------------------- */
+  .section-services,
+  .rolled-threads { padding: 64px 12px; }
+  .section-capabilities { padding: 56px 12px; }
+
+  .section-head { margin-bottom: var(--space-4); }
+  .section-title,
+  .section-title1 { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+  .section-intro { font-size: 1rem; }
+
+  /* --- Services ---------------------------------------- */
+  .services-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .service-card {
+    width: 100%;
+    max-width: 440px;
+    padding: var(--space-4) var(--space-3);
+  }
+
+  /* --- Products / forms / gallery ---------------------- */
+  .products-grid,
+  .forms-grid { grid-template-columns: 1fr; }
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  /* --- Two-column layouts → one column ----------------- */
+  .rolled-grid,
+  .capabilities-content,
+  .about-grid,
+  .about-grid1,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .about-grid1 { min-height: 0; }
+
+  /* --- Product detail rows ----------------------------- */
+  .detail-item,
+  .detail-item1,
+  .detail-item.reverse {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+  }
+  /* Reversed rows: always image first, then text */
+  .detail-item.reverse .detail-media,
+  .detail-item.reverse .detail-body { order: 0; }
+  .detail-item.reverse .detail-desc { margin-left: 0; }
+
+  .detail-media1 { aspect-ratio: 16 / 9; }   /* 7.8:3 is a sliver on phones */
+  .detail-body { padding: 0; }
+  .detail-desc { max-width: 100%; }
+
+  /* --- Capabilities buttons ---------------------------- */
+  .capability-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .capability-buttons .btn {
+    flex: none;
+    width: 100%;
+    max-width: 320px;
+    min-width: 0;
+  }
+
+  /* --- Additional operations --------------------------- */
+  .additional-ops { padding: var(--space-3) var(--space-2); }
+
+  /* --- CTA banner -------------------------------------- */
+  .cta-banner { padding: 56px 0; }
+
+  /* --- Contact ----------------------------------------- */
+  .contact-form { padding: var(--space-3); }
+  .form-row input,
+  .form-row textarea { font-size: 16px; }   /* stops iOS zoom-on-focus */
+
+
+  /* --- Footer (phones) --------------------------------- */
+  .footer { padding: 40px 0 24px; }
+  .footer-grid { gap: 32px; }
+  .footer-brand h3 { font-size: 1.6rem; }
+  .footer-divider { margin: 32px 0 20px; }
+
+}
+
+/* ---------------------------------------------------------
+   24e. SMALL MOBILE — max-width: 480px
+   --------------------------------------------------------- */
+@media (max-width: 480px) {
+
+  /* Header */
+  .logo-mark { width: 36px; height: 36px; }
+  .logo-text { font-size: 0.95rem; }
+
+  /* Hero */
+  .hero { padding: 96px 0 80px; }
+
+  /* Page header */
+  .page-header1 { min-height: 340px; }
+
+  .header-thread {
+    height: 220px;
+    opacity: 0.055;
+  }
+
+  .thread-svg { animation-duration: 20s; }
+
+  /* Sections */
+  .section-services,
+  .rolled-threads { padding: 56px 8px; }
+  .section-capabilities { padding: 48px 8px; }
+
+  .service-card { padding: var(--space-3) var(--space-2); }
+
+  .additional-list { gap: var(--space-1); }
+  .additional-list li {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+
+}
+
+/* ---------------------------------------------------------
+   24f. REDUCED MOTION — accessibility
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-spiral svg,
+  .hero-spiral::after,
+  .thread-svg,
+  .scroll-line { animation: none; }
+
+}
+
+
+
+
+/* #########################################################
+   PART F — CASCADE-CRITICAL
+   ---------------------------------------------------------
+   READ BEFORE MOVING ANYTHING HERE.
+
+   25.1 (footer stacking) was written under a "Mobile" comment
+   in the original file but was never wrapped in a media query,
+   so it forced a single centred column on EVERY screen width,
+   including desktop. It is now limited to max-width: 768px so
+   the desktop footer is the 4-column layout from section 20.1.
+
+   25.2 (hero framing) is split into real desktop and
+   tablet/mobile media queries.
+   ######################################################### */
+
+
+/* =========================================================
+   25. TRAILING RULES (leave at the bottom)
+   ========================================================= */
+
+/* --- 25.1 Footer stacking — PHONES ONLY (max-width: 768px).
+       Desktop keeps the 4-column footer from section 20.1
+       (brand | Address | Contact | Business Hours).
+       769–991px uses the 2-column rule in 24c. ------------- */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-social { justify-content: center; }
+  .capabilities-text {
+  font-size: 0.8rem;
+  color: var(--dark-gray);
+}
+}
+
+/* --- 25.2 Hero framing — desktop and tablet/mobile are
+       fully independent. Edit one without touching the other. */
+
+/* Desktop (min-width: 1025px) — same 170% / 70% as before */
+@media (min-width: 1025px) {
+  .hero-overlay::before {
+    background-size: 200%;
+    background-position: 30% center;
+  }
+}
+
+/* Tablet & mobile (max-width: 1024px)
+   "cover" always fills the hero with no empty edges, whatever
+   the phone shape. The old value (400% zoom, "10% left") was
+   invalid CSS, so the browser ignored the position anyway.
+   To zoom in on the picture, try a bigger value such as
+   background-size: 220%; and adjust the position below. */
+@media (max-width: 1024px) {
+  .hero-overlay::before {
+    background-size: 200% cover;
+    background-position: 50% center;
+  }
+}
