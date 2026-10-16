@@ -8,8 +8,8 @@ og_description: A diverse variety of Thread Forms suitable for all applications.
 {%- assign forms = site.data.forms -%}
 
     <!-- PAGE HEADER START -->
-{% include thread-header.html tag=forms.tag title=forms.title intro=forms.intro nut=true %}
-<script src="js/thread-nut.js?v={{ site.time | date: '%s' }}" defer></script>
+{% include thread-header.html tag=forms.tag title=forms.title intro=forms.intro rolling=true %}
+<script src="js/thread-roll.js?v={{ site.time | date: '%s' }}" defer></script>
     <!-- PAGE HEADER END -->
 
     <!-- THREAD FORMS INTRO START -->
