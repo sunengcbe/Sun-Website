@@ -19,7 +19,7 @@
   var W = 0, H = 0, R = 46, BASE_PITCH = 180, pitchSet = false;
 
   function resize() {
-    var dpr = Math.min(window.innerWidth < 768 ? 1.5 : 2, window.devicePixelRatio || 1);
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
     W = box.clientWidth; H = box.clientHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -28,12 +28,10 @@
     if (!pitchSet) { pitch = tPitch = BASE_PITCH; pitchSet = true; }
   }
 
-  /* ---------- Drawing ----------
-     Segments are grouped by brightness so each frame needs only a few dozen
-     strokes (no per-segment shadow blur), which keeps phones smooth. */
-  var ZL = 8, FL = 6;                          /* depth and fade levels */
+  /* ---------- Drawing ---------- */
   function strand(pitch, phase, front) {
-    var step = 2, prev = null, buckets = {};
+    var step = 2, prev = null;
+    ctx.lineCap = "round";
     for (var y = -step; y <= H + step; y += step) {
       var th = (y / pitch) * TAU + phase;
       var p = [W / 2 + R * Math.sin(th), y, Math.cos(th)];
@@ -41,43 +39,27 @@
         var z = (prev[2] + p[2]) / 2;
         if ((z >= 0) === front) {
           var fade = Math.sin(Math.PI * Math.max(0, Math.min(1, y / H)));
-          var zi = Math.min(ZL - 1, Math.floor(Math.abs(z) * ZL));
-          var fi = Math.min(FL - 1, Math.floor(fade * FL));
-          var key = zi * FL + fi;
-          (buckets[key] || (buckets[key] = [])).push(prev[0], prev[1], p[0], p[1]);
+          var a = (front ? 0.35 + 0.65 * z : 0.12 + 0.18 * (1 + z)) * fade;
+          var g = front ? Math.round(196 + 59 * z) : 196;
+          var b = front ? Math.round(140 * z * z) : 0;
+          ctx.beginPath();
+          ctx.moveTo(prev[0], prev[1]);
+          ctx.lineTo(p[0], p[1]);
+          ctx.strokeStyle = "rgba(255," + g + "," + b + "," + a.toFixed(3) + ")";
+          ctx.lineWidth = front ? 2.8 + 2 * z : 2.4;
+          ctx.stroke();
         }
       }
       prev = p;
-    }
-    ctx.lineCap = "round";
-    for (var k in buckets) {
-      var zq = (Math.floor(k / FL) + 0.5) / ZL, fq = (k % FL + 0.5) / FL;
-      var zz = front ? zq : -zq;
-      var a = (front ? 0.35 + 0.65 * zz : 0.12 + 0.18 * (1 + zz)) * fq;
-      var g = front ? Math.round(196 + 59 * zz) : 196;
-      var bl = front ? Math.round(140 * zz * zz) : 0;
-      var w = front ? 2.8 + 2 * zz : 2.4;
-      var seg = buckets[k];
-      ctx.beginPath();
-      for (var i = 0; i < seg.length; i += 4) { ctx.moveTo(seg[i], seg[i + 1]); ctx.lineTo(seg[i + 2], seg[i + 3]); }
-      if (front) {                              /* soft gold glow */
-        ctx.globalCompositeOperation = "lighter";
-        ctx.strokeStyle = "rgba(255,170,0," + (a * 0.09).toFixed(3) + ")";
-        ctx.lineWidth = w * 5;
-        ctx.stroke();
-        ctx.lineWidth = w * 2.6;
-        ctx.stroke();
-        ctx.globalCompositeOperation = "source-over";
-      }
-      ctx.strokeStyle = "rgba(255," + g + "," + bl + "," + a.toFixed(3) + ")";
-      ctx.lineWidth = w;
-      ctx.stroke();
     }
   }
 
   function draw(pitch, phase) {
     ctx.clearRect(0, 0, W, H);
+    ctx.shadowBlur = 0;
     strand(pitch, phase, false);               /* back side, dim */
+    ctx.shadowColor = "rgba(255,196,0,0.45)";
+    ctx.shadowBlur = 10;
     strand(pitch, phase, true);                /* front side, bright */
   }
 
