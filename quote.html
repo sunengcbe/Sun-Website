@@ -1,0 +1,163 @@
+---
+layout: default
+nav: quote
+title: Get a Quote | Sun Engineering Works
+description: Request a quote for rolled threads from Sun Engineering Works — thread form, size, pitch, material, hardness and quantity in four quick steps.
+og_description: Request a quote for rolled threads in four quick steps.
+---
+{%- assign quote = site.data.quote -%}
+{%- assign company = site.data.company -%}
+{%- assign r = quote.ranges -%}
+
+    <!-- PAGE HEADER START -->
+    <section class="page-header">
+      <div class="container">
+        <span class="section-tag reveal">{{ quote.tag }}</span>
+        <h1 class="page-title reveal">{{ quote.title }}</h1>
+        <p class="page-intro reveal">{{ quote.intro }}</p>
+      </div>
+    </section>
+    <!-- PAGE HEADER END -->
+
+    <!-- QUOTE WIZARD START -->
+    <section class="section">
+      <div class="container">
+        <form class="contact-form quote-form" id="quoteForm" novalidate
+              action="https://formsubmit.co/{{ quote.send_to | default: company.emails.first }}"
+              method="POST" enctype="multipart/form-data"
+              data-ajax="https://formsubmit.co/ajax/{{ quote.send_to | default: company.emails.first }}"
+              data-whatsapp="{{ company.whatsapp }}"
+              data-dia-min="{{ r.diameter_min_mm }}" data-dia-max="{{ r.diameter_max_mm }}"
+              data-pitch-min="{{ r.pitch_min_mm }}" data-pitch-max="{{ r.pitch_max_mm }}"
+              data-tpi-min="{{ r.tpi_min }}" data-tpi-max="{{ r.tpi_max }}"
+              data-hrc-max="{{ r.hardness_max_hrc }}"
+              data-out="{{ quote.out_of_range_message | escape }}">
+          <input type="hidden" name="_subject" value="{{ quote.email_subject }}" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_next" value="" />
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+          <input type="hidden" name="Range check" value="" />
+
+          <div class="qw-progress" aria-hidden="true">
+            <span class="qw-step-label" id="qwCount">Step 1 of 4</span>
+            <div class="qw-bar"><div class="qw-bar-fill" id="qwBar"></div></div>
+          </div>
+
+          <!-- SECTION 1: THREAD DETAILS -->
+          <fieldset class="qw-section" data-step="1">
+            <legend class="qw-legend">Thread details</legend>
+
+            <div class="qw-profile" aria-hidden="true">
+              <div class="qw-profile-top">
+                <span class="qw-profile-name" id="qwFormName">Choose a thread form</span>
+                <span class="qw-profile-angle">Flank angle <strong id="qwAngle">60°</strong></span>
+              </div>
+              <svg viewBox="0 0 680 150" preserveAspectRatio="none"><path id="qwPath" d="" /></svg>
+            </div>
+
+            <span class="qw-label">1. Thread form</span>
+            <div class="qw-chips" id="qwForms" role="radiogroup" aria-label="Thread form">
+              {%- assign forms = "Metric,Unified,Whitworth,Acme,Trapezoidal" | split: "," %}
+              {%- for f in forms %}
+              <label class="qw-chip"><input type="radio" name="Thread form" value="{{ f }}" /><span>{{ f }}</span></label>
+              {%- endfor %}
+            </div>
+            <p class="qw-error" data-for="Thread form"></p>
+
+            <div class="form-row">
+              <label class="qw-label" for="qwThread">2. Thread</label>
+              <input id="qwThread" type="text" name="Thread" placeholder="M20 x 2.5" />
+            </div>
+
+            <div class="qw-label-row">
+              <label class="qw-label" for="qwDia">3. Diameter (<span class="qw-unit">mm</span>)</label>
+              <div class="qw-units" role="radiogroup" aria-label="Units">
+                <label class="qw-chip qw-chip-sm"><input type="radio" name="Units" value="mm" checked /><span>mm</span></label>
+                <label class="qw-chip qw-chip-sm"><input type="radio" name="Units" value="inch" /><span>inch</span></label>
+              </div>
+            </div>
+            <div class="form-row">
+              <input id="qwDia" type="number" name="Diameter" step="0.01" min="0" placeholder="20" inputmode="decimal" />
+              <p class="qw-note" id="qwDiaNote"></p>
+            </div>
+
+            <div class="form-row">
+              <label class="qw-label" for="qwPitch" id="qwPitchLabel">4. Pitch (mm)</label>
+              <input id="qwPitch" type="number" name="Pitch" step="0.01" min="0" placeholder="2.5" inputmode="decimal" />
+              <p class="qw-note" id="qwPitchNote"></p>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 2: MATERIAL -->
+          <fieldset class="qw-section" data-step="2">
+            <legend class="qw-legend">Material</legend>
+            <div class="form-row">
+              <label class="qw-label" for="qwMat">5. Material</label>
+              <input id="qwMat" type="text" name="Material" placeholder="EN8, SS304, brass" />
+              <p class="qw-error" data-for="Material"></p>
+            </div>
+            <div class="form-row">
+              <label class="qw-label" for="qwHrc">6. Hardness (HRC)</label>
+              <div class="qw-inline">
+                <input id="qwHrc" type="number" name="Hardness HRC" step="1" min="0" placeholder="28" inputmode="numeric" />
+                <label class="qw-check"><input type="checkbox" id="qwHrcUnknown" name="Hardness unknown" value="Yes" /> Don't know</label>
+              </div>
+              <p class="qw-note" id="qwHrcNote"></p>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 3: ORDER -->
+          <fieldset class="qw-section" data-step="3">
+            <legend class="qw-legend">Order</legend>
+            <div class="form-row">
+              <label class="qw-label" for="qwQty">7. Quantity (pieces)</label>
+              <input id="qwQty" type="number" name="Quantity" step="1" min="1" placeholder="500" inputmode="numeric" />
+              <p class="qw-error" data-for="Quantity"></p>
+            </div>
+            <div class="form-row">
+              <label class="qw-label" for="qwFile">8. Photo or drawing (optional, up to 10 MB)</label>
+              <input id="qwFile" type="file" name="attachment" accept="image/*,.pdf,.heic,.heif" />
+              <p class="qw-error" data-for="attachment"></p>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 4: YOUR DETAILS -->
+          <fieldset class="qw-section" data-step="4">
+            <legend class="qw-legend">Your details</legend>
+            <div class="form-row">
+              <label class="qw-label" for="qwCo">9. Company name</label>
+              <input id="qwCo" type="text" name="Company" placeholder="ABC Industries" autocomplete="organization" />
+            </div>
+            <div class="form-row">
+              <label class="qw-label" for="qwName">10. Your name</label>
+              <input id="qwName" type="text" name="name" placeholder="Ravi Kumar" autocomplete="name" />
+            </div>
+            <div class="form-row">
+              <label class="qw-label" for="qwPhone">11. Phone</label>
+              <input id="qwPhone" type="tel" name="Phone" placeholder="98765 43210" autocomplete="tel" />
+            </div>
+            <div class="form-row">
+              <label class="qw-label" for="qwEmail">12. Email</label>
+              <input id="qwEmail" type="email" name="email" placeholder="ravi@abcindustries.com" autocomplete="email" />
+            </div>
+            <p class="qw-error" data-for="contact"></p>
+            <p class="qw-note" id="qwSummaryNote"></p>
+            <div class="qw-send">
+              <button type="submit" class="btn btn-primary" id="qwEmailBtn"><i class="fas fa-envelope"></i> Send through email</button>
+              <button type="button" class="btn qw-wa" id="qwWaBtn"><i class="fab fa-whatsapp"></i> Send on WhatsApp</button>
+            </div>
+          </fieldset>
+
+          <p class="form-success" id="qwSuccess" hidden>{{ quote.success_message }}</p>
+          <p class="form-error" id="qwError" hidden>Sorry, your request could not be sent. Please try again, or send it on WhatsApp.</p>
+
+          <div class="qw-nav">
+            <button type="button" class="btn qw-back" id="qwBack"><i class="fas fa-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-primary" id="qwNext">Next <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- QUOTE WIZARD END -->
+
+<script src="js/quote.js?v={{ site.time | date: '%s' }}"></script>

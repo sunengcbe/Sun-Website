@@ -1949,3 +1949,80 @@ ul { list-style: none; }
     background-position: 50% center;
   }
 }
+
+/* =========================================================
+   GET A QUOTE — wizard (quote.html, js/quote.js)
+   ========================================================= */
+.quote-form { max-width: 760px; margin: 0 auto; }
+.qw-progress { margin-bottom: var(--space-3); }
+.qw-step-label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: var(--space-1); }
+.qw-bar { height: 5px; background: var(--alt-bg); border-radius: 3px; overflow: hidden; }
+.qw-bar-fill { height: 100%; width: 25%; background: var(--yellow-1); transition: width var(--t); }
+.qw-progress { display: none; }
+.quote-form.qw-js .qw-progress { display: block; }
+
+.qw-section { border: 0; margin: 0; padding: 0; min-width: 0; }
+.quote-form:not(.qw-js) .qw-section + .qw-section { margin-top: var(--space-5); }
+.qw-section[hidden] { display: none; }
+.qw-legend { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; color: var(--charcoal); margin-bottom: var(--space-2); padding: 0; }
+.qw-label { display: block; font-size: 0.9rem; font-weight: 500; color: var(--dark-gray); margin: var(--space-2) 0 var(--space-1); }
+.qw-label-row { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-1); flex-wrap: wrap; }
+
+.qw-profile { background: var(--charcoal); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-2) var(--space-1); margin-bottom: var(--space-2); }
+.qw-profile-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-1); flex-wrap: wrap; }
+.qw-profile-name { font-family: var(--font-head); font-size: 1.15rem; font-weight: 600; color: var(--white); }
+.qw-profile-angle { font-size: 0.85rem; color: #B4B2A9; }
+.qw-profile-angle strong { font-family: var(--font-head); font-size: 1.3rem; color: var(--yellow-1); }
+.qw-profile svg { display: block; width: 100%; height: 110px; }
+.qw-profile path { fill: none; stroke: var(--yellow-1); stroke-width: 3; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+.qw-chips, .qw-units { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.qw-chip { position: relative; cursor: pointer; }
+.qw-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.qw-chip span {
+  display: inline-block; padding: 9px 18px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--white);
+  font-family: var(--font-head); font-weight: 500; font-size: 0.9rem; color: var(--text);
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.qw-chip:hover span { border-color: var(--yellow-2); }
+.qw-chip input:checked + span { background: var(--yellow-1); border-color: var(--yellow-1); color: var(--charcoal); font-weight: 600; }
+.qw-chip input:focus-visible + span { outline: 2px solid var(--charcoal); outline-offset: 2px; }
+.qw-chip-sm span { padding: 5px 12px; font-size: 0.8rem; }
+
+.qw-inline { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.qw-inline input[type=number] { max-width: 160px; }
+.qw-check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--dark-gray); cursor: pointer; }
+.qw-check input { width: auto; }
+.quote-form input[type=file] { background: transparent; border-style: dashed; padding: 12px; }
+.quote-form input:disabled { opacity: 0.5; }
+
+.qw-note { font-size: 0.85rem; color: var(--muted); margin-top: 6px; min-height: 1.2em; }
+.qw-ok { color: #1d6b3a; }
+.qw-warn { color: #8a5a00; }
+.qw-bad, .qw-error { color: #a12626; }
+.qw-error { font-size: 0.85rem; margin-top: 6px; min-height: 1.2em; }
+
+.qw-send { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
+.qw-wa { background: #25D366; color: #0b3d1e; }
+.qw-wa:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.qw-nav { display: flex; justify-content: space-between; margin-top: var(--space-3); }
+.quote-form:not(.qw-js) .qw-nav { display: none; }
+.qw-back { background: var(--white); color: var(--charcoal); border: 1px solid var(--border); }
+.qw-back:hover { border-color: var(--charcoal); }
+.quote-form button[disabled] { opacity: 0.7; cursor: wait; }
+
+/* Contact page shortcut to the quote page */
+.quote-shortcut {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap;
+  background: var(--charcoal); color: var(--white); border-radius: var(--radius); padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.quote-shortcut h3 { font-family: var(--font-head); font-size: 1.2rem; margin: 0 0 4px; color: var(--white); }
+.quote-shortcut p { margin: 0; color: #D3D1C7; font-size: 0.95rem; }
+
+@media (max-width: 640px) {
+  .qw-send .btn { width: 100%; }
+  .quote-shortcut { padding: var(--space-3); }
+  .quote-shortcut .btn { width: 100%; }
+}
