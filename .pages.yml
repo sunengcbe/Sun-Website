@@ -186,4 +186,7 @@ content:
       - { name: tag, label: Small label, type: string }
       - { name: title, label: Title, type: string }
       - { name: form_button, label: Form button text, type: string }
+      - { name: send_to, label: Send form messages to (email), type: string, description: "After changing this, send one test message and click the activation link FormSubmit emails you." }
+      - { name: email_subject, label: Subject line of form emails, type: string }
       - { name: success_message, label: Message shown after sending, type: text }
+      - { name: error_message, label: Message shown if sending fails, type: text }

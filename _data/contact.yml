@@ -1,4 +1,7 @@
 tag: Connect
 title: Leave a Message !
 form_button: Send Message
+send_to: sunengcbe@gmail.com
+email_subject: New enquiry from the website
 success_message: Thanks ! Your form has been submitted successfully, we will get back to you shortly. We appreciate your interest and look forward to connecting with you soon.
+error_message: Sorry, your message could not be sent. Please try again, or call or email us directly.
