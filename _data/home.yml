@@ -1,0 +1,41 @@
+hero:
+  eyebrow: Cold Formed
+  title_start: Threads that
+  title_highlight: CONNECT
+  title_end: the World
+  subtitle: Crafted for demanding applications and solutions that Perform
+  primary_button: Explore More
+  secondary_button: Get in touch
+
+services:
+  tag: What We Do
+  title: Services We Offer
+  items:
+    - name: Thread Manufacturing
+      description: Cold-forming threads for superior strength and surface finish.
+      icon: wave
+    - name: Custom Threading
+      description: Tailored threading through Centreless Grinding and Machining.
+      icon: thread
+    - name: Thread Repair
+      description: Reworking components that do not meet specifications.
+      icon: repair
+
+rolled_threads:
+  tag: Knowledge
+  title: What Makes Rolled Threads Better?
+  image: /images/betterrolled.png
+  blocks:
+    - heading: Cut threads
+      text: are machined by removing material, disrupting the grain structure, which is ideal for large, custom, or brittle parts but produces weaker threads.
+    - heading: Rolled Threads
+      text: are created by cold-forming (pressing) material, making them stronger, more fatigue-resistant, and smoother due to continuous grain flow.
+
+capabilities:
+  tag: Processes, and solutions
+  title: Know our Capabilities
+  paragraphs:
+    - Sun Engineering Works is capable of thread rolling a wide variety of products in many different materials,
+    - including Low carbon steel, Stainless steel, Alloy steel, Aluminum and Brass.
+
+cta_title: Ask for a Quote!

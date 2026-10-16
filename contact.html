@@ -1,100 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact | Sun Engineering Works</title>
-  <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-  <!-- SEO META TAGS START -->
-  <meta name="description" content="Contact Sun Engineering Works — Jayaprakash Nagar, 3rd Street extn., Sanganoor Road, Ganapathy, Coimbatore - 641006. Phone: 9944933525, 9952717445." />
-  <meta name="author" content="Sun Engineering Works" />
-  <meta name="robots" content="index, follow" />
-  <!-- SEO META TAGS END -->
-
-  <!-- OPEN GRAPH TAGS START -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Contact | Sun Engineering Works" />
-  <meta property="og:description" content="Get in touch with Sun Engineering Works for thread rolling services." />
-  <!-- OPEN GRAPH TAGS END -->
-
-  <!-- FONTS START -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <!-- FONTS END -->
-
-  <!-- STYLESHEETS START -->
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
-  <!-- STYLESHEETS END -->
-
-  <!-- SCHEMA MARKUP START -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Sun Engineering Works",
-    "telephone": ["9944933525", "9952717445"],
-    "email": "suengcbe@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Jayaprakash Nagar, 3rd Street extn., Sanganoor Road, Ganapathy",
-      "addressLocality": "Coimbatore",
-      "postalCode": "641006",
-      "addressRegion": "Tamil Nadu",
-      "addressCountry": "IN"
-    }
-  }
-  </script>
-  <!-- SCHEMA MARKUP END -->
-</head>
-<body>
-
-  <!-- PAGE LOADER START -->
-  <div id="loader" class="loader">
-    <div class="loader-bar"></div>
-  </div>
-  <!-- PAGE LOADER END -->
-
-  <!-- HEADER / NAVIGATION START -->
-  <header id="header" class="header">
-    <nav class="nav container">
-      <!-- LOGO START -->
-      <a href="index.html" class="logo" aria-label="Sun Engineering Works home">
-      <img src="images/logorb.png" alt="Sun Engineering Works Logo" class="logo-mark">
-      <span class="logo-text">Sun Engineering Works</span>
-      </a>
-      <!-- LOGO END -->
-
-      <!-- NAV LINKS START -->
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="about.html" class="nav-link">About</a></li>
-        <li><a href="products.html" class="nav-link">Products</a></li>
-        <li><a href="forms.html" class="nav-link">Forms</a></li>
-        <li><a href="contact.html" class="nav-link active">Contact</a></li>
-      </ul>
-      <!-- NAV LINKS END -->
-
-      <!-- MOBILE MENU TOGGLE START -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <!-- MOBILE MENU TOGGLE END -->
-    </nav>
-  </header>
-  <!-- HEADER / NAVIGATION END -->
-
-  <!-- MAIN CONTENT START -->
-  <main>
+---
+layout: default
+nav: contact
+title: Contact | Sun Engineering Works
+description: Contact Sun Engineering Works — Jayaprakash Nagar, 3rd Street extn., Sanganoor Road, Ganapathy, Coimbatore - 641006. Phone 9944933525, 9952717445.
+og_description: Get in touch with Sun Engineering Works for thread rolling services.
+---
+{%- assign contact = site.data.contact -%}
+{%- assign company = site.data.company -%}
 
     <!-- PAGE HEADER START -->
     <section class="page-header">
       <div class="container">
-        <span class="section-tag reveal">Connect</span>
-        <h1 class="page-title reveal">Leave a Message !</h1>
+        <span class="section-tag reveal">{{ contact.tag }}</span>
+        <h1 class="page-title reveal">{{ contact.title }}</h1>
       </div>
     </section>
     <!-- PAGE HEADER END -->
@@ -108,23 +26,23 @@
             <div class="info-block">
               <h3 class="info-label">Contact</h3>
               <p class="info-value">
-                <a href="tel:9944933525">9944933525</a>,
-                <a href="tel:9952717445">9952717445</a><br />
-                <a href="mailto:suengcbe@gmail.com">suengcbe@gmail.com</a>
+                {%- for phone in company.phones %}
+                <a href="tel:{{ phone | remove: ' ' }}">{{ phone }}</a>{% unless forloop.last %},{% endunless %}
+                {%- endfor %}<br />
+                <a href="mailto:{{ company.emails.first }}">{{ company.emails.first }}</a>
               </p>
             </div>
             <div class="info-block">
               <h3 class="info-label">Address</h3>
               <p class="info-value">
-                <a href="https://maps.app.goo.gl/ucJUfG3QHzWwEgbS9" target="_blank" rel="noopener">
-                  Jayaprakash Nagar, 3rd Street extn., Sanganoor Road, Ganapathy, Coimbatore - 641006.<br />
-                  TAMIL NADU INDIA
+                <a href="{{ company.map_link }}" target="_blank" rel="noopener">
+                  {{ company.address_lines | join: " " }}
                 </a>
               </p>
             </div>
             <div class="info-block">
               <h3 class="info-label">Business Hours</h3>
-              <p class="info-value">Mon - Sat : 9:00 am to 8:00pm<br />Sunday Closed.</p>
+              <p class="info-value">{{ company.hours | join: "<br />" }}</p>
             </div>
           </div>
           <!-- CONTACT INFO END -->
@@ -143,91 +61,11 @@
             <div class="form-row">
               <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Send Message</button>
-            <p class="form-success" id="formSuccess" hidden>Thanks ! Your form has been submitted successfully, we will get back to you shortly. We appreciate your interest and look forward to connecting with you soon.</p>
+            <button type="submit" class="btn btn-primary btn-block">{{ contact.form_button }}</button>
+            <p class="form-success" id="formSuccess" hidden>{{ contact.success_message }}</p>
           </form>
           <!-- CONTACT FORM END -->
         </div>
       </div>
     </section>
     <!-- CONTACT SECTION END -->
-
-  </main>
-  <!-- MAIN CONTENT END -->
-
-  
-  <!-- FOOTER START -->
-  <footer class="footer">
-  <div class="container">
-
-    <div class="footer-grid">
-
-      <!-- Brand -->
-      <div class="footer-brand">
-        <img src="images/logorb.png" alt="Sun Engineering Works Logo" class="footer-logo">
-
-        <h3>Sun Engineering Works</h3>
-
-        <p class="footer-tagline">
-          Precision Threaded Components
-        </p>
-
-        <div class="footer-social">
-          <a href="tel:+919876543210"><i class="fas fa-phone"></i></a>
-          <a href="https://wa.me/919876543210" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="mailto:info@sunengineeringworks.com"><i class="fas fa-envelope"></i></a>
-          <a href="https://maps.google.com" target="_blank"><i class="fas fa-map-marker-alt"></i></a>
-        </div>
-      </div>
-
-      <!-- Address -->
-      <div class="footer-column">
-        <h4>Address</Address></h4>
-
-        <p>Jayaprakash Nagar,</p>
-        <p>Sanganoor Road, Ganapathy</p>
-        <p>Coimbatore - 641006.</p>
-        <p>Tamil Nadu. India.</p>
-      </div>
-
-      <!-- Contact -->
-      <div class="footer-column">
-        <h4>Contact</h4>
-
-        <p>+91 99449 33525</p>
-        <p>sunengcbe@gmail.com</p>
-        <p>sunengineeringworksacc@gmail.com</p>
-      </div>
-
-      <!-- Hours -->
-      <div class="footer-column">
-        <h4>Business Hours</h4>
-
-        <p>Monday - Friday :</p>
-        <p>9:00 AM - 8:00 PM [IST]</p>
-        <p></p>
-        <p>Sunday Closed.</p>
-      </div>
-
-    </div>
-
-    <div class="footer-divider"></div>
-
-    <div class="footer-bottom">
-      <p class="footer-iso">
-       <!--  ISO 9001:2015 Certified -->
-      </p>
-
-      <p>
-        © 2026 Sun Engineering Works. All Rights Reserved.
-      </p>
-    </div>
-
-  </div>
-</footer>
-  <!-- FOOTER END -->
-  <!-- SCRIPTS START -->
-  <script src="js/main.js"></script>
-  <!-- SCRIPTS END -->
-</body>
-</html>

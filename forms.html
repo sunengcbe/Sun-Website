@@ -1,428 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thread Forms | Sun Engineering Works</title>
-  <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+---
+layout: default
+nav: forms
+title: Thread Forms | Sun Engineering Works
+description: "Sun Engineering Works offers a diverse variety of Thread Forms: Metric, Unified, Whitworth, Acme, and Trapezoidal — suitable for all applications."
+og_description: A diverse variety of Thread Forms suitable for all applications.
+---
+{%- assign forms = site.data.forms -%}
 
-  <!-- SEO META TAGS START -->
-  <meta name="description" content="Sun Engineering Works offers a diverse variety of Thread Forms: Metric, Unified, Whitworth, Acme, and Trapezoidal — suitable for all applications." />
-  <meta name="author" content="Sun Engineering Works" />
-  <meta name="robots" content="index, follow" />
-  <!-- SEO META TAGS END -->
-
-  <!-- OPEN GRAPH TAGS START -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Thread Forms | Sun Engineering Works" />
-  <meta property="og:description" content="A diverse variety of Thread Forms suitable for all applications." />
-  <!-- OPEN GRAPH TAGS END -->
-
-  <!-- FONTS START -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <!-- FONTS END -->
-
-  <!-- STYLESHEETS START -->
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
-  <!-- STYLESHEETS END -->
-</head>
-<body>
-
-  <!-- PAGE LOADER START -->
-  <div id="loader" class="loader">
-    <div class="loader-bar"></div>
-  </div>
-  <!-- PAGE LOADER END -->
-
- <!-- HEADER / NAVIGATION START -->
-  <header id="header" class="header">
-    <nav class="nav container">
-      <!-- LOGO START -->
-      <a href="index.html" class="logo" aria-label="Sun Engineering Works home">
-      <img src="images/logorb.png" alt="Sun Engineering Works Logo" class="logo-mark">
-      <span class="logo-text">Sun Engineering Works</span>
-      </a>
-      <!-- LOGO END -->
-
-      <!-- NAV LINKS START -->
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="about.html" class="nav-link">About</a></li>
-        <li><a href="products.html" class="nav-link">Products</a></li>
-        <li><a href="forms.html" class="nav-link active">Forms</a></li>
-        <li><a href="contact.html" class="nav-link">Contact</a></li>
-      </ul>
-      <!-- NAV LINKS END -->
-
-      <!-- MOBILE MENU TOGGLE START -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <!-- MOBILE MENU TOGGLE END -->
-    </nav>
-  </header>
-  <!-- HEADER / NAVIGATION END -->
-
-  <!-- MAIN CONTENT START -->
-  <main>
- <section class="page-header1">
-
-    <!-- =========================================
-         SEAMLESS ANIMATED THREAD PROFILE
-    ========================================== -->
-    <div class="header-thread" aria-hidden="true">
-
-        <svg
-            class="thread-svg"
-            viewBox="0 0 1200 240"
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <defs>
-
-                <!-- EXACT ONE REPEATING PATTERN -->
-                <path
-                    id="threadPattern"
-                    d="
-                        M 0 180
-
-                        L 35 180
-
-                        L 105 65
-                        C 112 52, 122 45, 138 45
-                        L 162 45
-                        C 178 45, 188 52, 195 65
-
-                        L 265 180
-
-                        L 335 180
-
-                        L 405 65
-                        C 412 52, 422 45, 438 45
-                        L 462 45
-                        C 478 45, 488 52, 495 65
-
-                        L 565 180
-
-                        L 600 180
-                    "
-                />
-
-            </defs>
-            <!-- PATTERN 1 -->
-            <use
-                href="#threadPattern"
-                class="thread-path"
-                x="0"
-                y="0"
-            />
-
-            <!-- PATTERN 2 - EXACT COPY -->
-            <use
-                href="#threadPattern"
-                class="thread-path"
-                x="600"
-                y="0"
-            />
-
-        </svg>
-
-    </div>
-
-
-    <!-- =========================================
-         HEADER CONTENT
-    ========================================== -->
-    <div class="container header-content1">
-
-        <span class="section-tag reveal">
-            Forms
-        </span>
-
-        <h1 class="page-title reveal">
-            Our Thread Forms
-        </h1>
-
-        <p class="page-intro reveal">
-            At Sun Engineering Works, we offer a diverse variety of Thread Forms
-            suitable for all applications with an ability to roll hardened and
-            stainless steels.
-        </p>
-
-    </div>
-
-</section>
+    <!-- PAGE HEADER START -->
+{% include thread-header.html tag=forms.tag title=forms.title intro=forms.intro %}
     <!-- PAGE HEADER END -->
 
     <!-- THREAD FORMS INTRO START -->
-
     <section class="section">
       <div class="container">
         <div class="forms-intro reveal">
-          <p>
-            We specialize in thread rolling from
-            <strong>2 TPI to pitches up to 6 inches</strong>,
-            meeting a wide range of industrial requirements.
-          </p>
-
-          <p>
-            Our capabilities cover both <strong>fine and coarse thread profiles</strong>,
-            available in <strong>right- and left-handed threads</strong>.
-          </p>
-
-          <p>
-            With an extensive range of rolling dies, we produce
-            <strong>multiple thread forms</strong> for both
-            <strong>in-feed</strong> and <strong>thru-feed applications</strong>.
-          </p>
-
+          {%- for line in forms.highlights %}
+          {{ line | markdownify }}
+          {%- endfor %}
         </div>
       </div>
     </section>
-
-
     <!-- THREAD FORMS INTRO END -->
 
     <!-- THREAD FORMS DETAILED LIST START -->
     <section class="section alt">
       <div class="container">
+        {%- for form in forms.items %}
+        {%- assign odd = forloop.index0 | modulo: 2 %}
 
-        <!-- FORM ITEM: METRIC START -->
-        <article class="detail-item1 reveal">
+        <article class="detail-item1{% if odd == 1 %} reverse{% endif %} reveal">
           <div class="detail-media1">
             <img
-              src="images/metric1.png"
-              alt="Metric thread diagram"
+              src="{{ form.image | remove_first: '/' }}"
+              alt="{{ form.name }} thread diagram"
               class="detail-image"
             />
           </div>
 
           <div class="detail-body">
-            <span class="detail-index">01</span>
-            <h2 class="detail-title">Metric</h2>
+            <span class="detail-index">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+            <h2 class="detail-title">{{ form.name }}</h2>
             <p class="detail-desc">
-              We follow ISO metric screw thread standards to manufacture the common
-              "V" form 60-degree thread profile. Our capabilities include producing
-              a wide range of standard coarse and fine pitches.
+              {{ form.description }}
             </p>
           </div>
         </article>
-        <!-- FORM ITEM: METRIC END -->
-
-        <!-- FORM ITEM: UNIFIED START -->
-        <article class="detail-item1 reverse reveal">
-          <div class="detail-media1">
-            <img
-              src="images/unifed.png"
-              alt="Unified thread diagram"
-              class="detail-image"
-            />
-          </div>
-
-          <div class="detail-body">
-            <span class="detail-index">02</span>
-            <h2 class="detail-title">Unified</h2>
-            <p class="detail-desc">
-              Unified threaded bars and studs are available in both coarse thread
-              (UNC) and fine thread (UNF) series, offering versatility to meet a wide
-              range of application requirements.
-            </p>
-          </div>
-        </article>
-        <!-- FORM ITEM: UNIFIED END -->
-
-        <!-- FORM ITEM: WHITWORTH START -->
-        <article class="detail-item1 reveal">
-          <div class="detail-media1">
-            <img
-              src="images/whitworth.png"
-              alt="Whitworth thread diagram"
-              class="detail-image"
-            />
-          </div>
-
-          <div class="detail-body">
-            <span class="detail-index">03</span>
-            <h2 class="detail-title">Whitworth</h2>
-            <p class="detail-desc">
-              Whitworth threads are widely used in specialty applications such as
-              camera tripods and stage lighting equipment, where reliable fit and
-              compatibility are essential. We offer both coarse (BSW) and fine (BSF)
-              pitch options.
-            </p>
-          </div>
-        </article>
-        <!-- FORM ITEM: WHITWORTH END -->
-
-        <!-- FORM ITEM: ACME START -->
-        <article class="detail-item1 reverse reveal">
-          <div class="detail-media1 ">
-            <img
-              src="images/acme.png"
-              alt="Acme thread diagram"
-              class="detail-image"
-            />
-          </div>
-
-          <div class="detail-body">
-            <span class="detail-index">04</span>
-            <h2 class="detail-title">Acme</h2>
-            <p class="detail-desc">
-              Acme threads are designed to generate smooth traversing motion in
-              machine and tools. A wide variety of thread rolling dies are available,
-              and we can also arrange customized dies based on specific requirements.
-            </p>
-          </div>
-        </article>
-        <!-- FORM ITEM: ACME END -->
-
-        <!-- FORM ITEM: TRAPEZOIDAL START -->
-        <article class="detail-item1 reveal">
-          <div class="detail-media1 ">
-            <img
-              src="images/trapezodial.png"
-              alt="Trapezoidal thread diagram"
-              class="detail-image"
-            />
-          </div>
-
-          <div class="detail-body">
-            <span class="detail-index">05</span>
-            <h2 class="detail-title">Trapezodial</h2>
-            <p class="detail-desc">
-              Trapezoidal threads feature a 15-degree flank angle, slightly higher
-              than the 14.5-degree flank angle of the Acme form. Trapezoidal dies can
-              be arranged and customized based on specific application requirements.
-            </p>
-          </div>
-        </article>
-        <!-- FORM ITEM: TRAPEZOIDAL END -->
+        {%- endfor %}
 
       </div>
     </section>
     <!-- THREAD FORMS DETAILED LIST END -->
 
+    <!-- DIE CAPABILITIES START -->
+    <section id="about" class="section about">
+      <div class="container about-grid1">
 
-<section id="about" class="section about">
-  <div class="container about-grid1">
+        <div class="about-text1 reveal">
+          <h2 class="detail-title">{{ forms.die_capabilities.title }}</h2>
+          {{ forms.die_capabilities.text | markdownify }}
+        </div>
 
-    <!-- Text on Left -->
-    <div class="about-text1 reveal">
-      <h2 class="detail-title">Die Capabilities</h2>
-      <p>
-        We offer flexibility to roll a <strong>wide range of thread profiles</strong>
-        using our selection of thread rolling dies. For sizes or profiles beyond our
-        existing range, we can <strong>source and procure the required dies</strong>
-        from trusted suppliers. This ensures a smooth, efficient, and reliable
-        manufacturing process tailored to your requirements.
-      </p>
-    </div>
+        <div class="about-image1 reveal">
+          <div class="img-placeholder">
+            <img src="{{ forms.die_capabilities.image | remove_first: '/' }}"
+                 alt="{{ forms.die_capabilities.title }}"
+                 class="aboutimg1">
+          </div>
+        </div>
 
-    <!-- Image on Right -->
-    <div class="about-image1 reveal">
-      <div class="img-placeholder">
-        <img src="images/extraforms.png"
-             alt="Rolled Threads"
-             class="aboutimg1">
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-    <!-- CTA BANNER START -->
-    <section class="cta-banner">
-      <div class="container cta-content reveal">
-        <h2 class="cta-title">Ask for a Quote !</h2>
-        <a href="contact.html" class="btn btn-light">Start A Conversation</a>
       </div>
     </section>
-    <!-- CTA BANNER END -->
+    <!-- DIE CAPABILITIES END -->
 
-  </main>
-  <!-- MAIN CONTENT END -->
-
-  
-  <!-- FOOTER START -->
-  <footer class="footer">
-  <div class="container">
-
-    <div class="footer-grid">
-
-      <!-- Brand -->
-      <div class="footer-brand">
-        <img src="images/logorb.png" alt="Sun Engineering Works Logo" class="footer-logo">
-
-        <h3>Sun Engineering Works</h3>
-
-        <p class="footer-tagline">
-          Precision Threaded Components
-        </p>
-
-        <div class="footer-social">
-          <a href="tel:+919876543210"><i class="fas fa-phone"></i></a>
-          <a href="https://wa.me/919876543210" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="mailto:info@sunengineeringworks.com"><i class="fas fa-envelope"></i></a>
-          <a href="https://maps.google.com" target="_blank"><i class="fas fa-map-marker-alt"></i></a>
-        </div>
-      </div>
-
-      <!-- Address -->
-      <div class="footer-column">
-        <h4>Address</Address></h4>
-
-        <p>Jayaprakash Nagar,</p>
-        <p>Sanganoor Road, Ganapathy</p>
-        <p>Coimbatore - 641006.</p>
-        <p>Tamil Nadu. India.</p>
-      </div>
-
-      <!-- Contact -->
-      <div class="footer-column">
-        <h4>Contact</h4>
-
-        <p>+91 99449 33525</p>
-        <p>sunengcbe@gmail.com</p>
-        <p>sunengineeringworksacc@gmail.com</p>
-      </div>
-
-      <!-- Hours -->
-      <div class="footer-column">
-        <h4>Business Hours</h4>
-
-        <p>Monday - Friday :</p>
-        <p>9:00 AM - 8:00 PM [IST]</p>
-        <p></p>
-        <p>Sunday Closed.</p>
-      </div>
-
-    </div>
-
-    <div class="footer-divider"></div>
-
-    <div class="footer-bottom">
-      <p class="footer-iso">
-       <!--  ISO 9001:2015 Certified -->
-      </p>
-
-      <p>
-        © 2026 Sun Engineering Works. All Rights Reserved.
-      </p>
-    </div>
-
-  </div>
-</footer>
-  <!-- FOOTER END -->
-
-  <!-- SCRIPTS START -->
-  <script src="js/main.js"></script>
-  <!-- SCRIPTS END -->
-
-
-</body>
-</html>
+{% include cta.html title=forms.cta_title %}
