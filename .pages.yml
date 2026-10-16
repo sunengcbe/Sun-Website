@@ -1,0 +1,189 @@
+# Pages CMS configuration — https://pagescms.org
+# Each entry below becomes a section in the editor.
+
+media:
+  input: images
+  output: /images
+
+content:
+  - name: company
+    label: Company Info (phone, email, address, hours)
+    type: file
+    path: _data/company.yml
+    format: yaml
+    fields:
+      - { name: name, label: Company name, type: string, required: true }
+      - { name: tagline, label: Footer tagline, type: string }
+      - { name: logo, label: Logo, type: image }
+      - { name: phones, label: Phone numbers, type: string, list: true, description: "The first number is used for the footer and call button." }
+      - { name: emails, label: Email addresses, type: string, list: true, description: "The first email is used on the Contact page and email button." }
+      - { name: whatsapp, label: WhatsApp number, type: string, description: "Country code + number, digits only, e.g. 919944933525" }
+      - { name: address_lines, label: Address lines, type: string, list: true }
+      - { name: map_link, label: Google Maps link, type: string }
+      - { name: hours, label: Business hours lines, type: string, list: true }
+      - { name: cta_button, label: Quote banner button text, type: string }
+
+  - name: home
+    label: Home Page
+    type: file
+    path: _data/home.yml
+    format: yaml
+    fields:
+      - name: hero
+        label: Top banner
+        type: object
+        fields:
+          - { name: eyebrow, label: Small text above title, type: string }
+          - { name: title_start, label: Title (before highlight), type: string }
+          - { name: title_highlight, label: Title (yellow highlighted word), type: string }
+          - { name: title_end, label: Title (after highlight), type: string }
+          - { name: subtitle, label: Subtitle, type: text }
+          - { name: primary_button, label: Yellow button text, type: string }
+          - { name: secondary_button, label: Outline button text, type: string }
+      - name: services
+        label: Services
+        type: object
+        fields:
+          - { name: tag, label: Small label, type: string }
+          - { name: title, label: Title, type: string }
+          - name: items
+            label: Service cards
+            type: object
+            list: true
+            fields:
+              - { name: name, label: Name, type: string }
+              - { name: description, label: Description, type: text }
+              - name: icon
+                label: Icon
+                type: select
+                options:
+                  values:
+                    - { value: wave, label: Wave }
+                    - { value: thread, label: Thread }
+                    - { value: repair, label: Repair (pencil) }
+      - name: rolled_threads
+        label: Rolled threads section
+        type: object
+        fields:
+          - { name: tag, label: Small label, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: image, label: Image, type: image }
+          - name: blocks
+            label: Text blocks
+            type: object
+            list: true
+            fields:
+              - { name: heading, label: Heading, type: string }
+              - { name: text, label: Text, type: text }
+      - name: capabilities
+        label: Capabilities section
+        type: object
+        fields:
+          - { name: tag, label: Small label, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: paragraphs, label: Paragraphs, type: text, list: true }
+      - { name: cta_title, label: Quote banner title, type: string }
+
+  - name: about
+    label: About Page
+    type: file
+    path: _data/about.yml
+    format: yaml
+    fields:
+      - { name: tag, label: Small label, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: image, label: Image, type: image }
+      - { name: paragraphs, label: Paragraphs, type: text, list: true }
+      - name: gallery_preview
+        label: Gallery preview
+        type: object
+        fields:
+          - { name: tag, label: Small label, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: intro, label: Intro text, type: text }
+          - { name: count, label: Number of photos to show, type: number }
+          - { name: button, label: Button text, type: string }
+      - { name: cta_title, label: Quote banner title, type: string }
+
+  - name: products
+    label: Products Page
+    type: file
+    path: _data/products.yml
+    format: yaml
+    fields:
+      - { name: tag, label: Small label, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: intro, label: Intro text, type: text }
+      - name: items
+        label: Products
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Product name, type: string, required: true }
+          - { name: image, label: Image, type: image }
+          - { name: description, label: Description, type: text }
+      - name: additional_operations
+        label: Additional operations
+        type: object
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: items, label: Operations, type: string, list: true }
+          - { name: button, label: Button text, type: string }
+      - { name: cta_title, label: Quote banner title, type: string }
+
+  - name: forms
+    label: Thread Forms Page
+    type: file
+    path: _data/forms.yml
+    format: yaml
+    fields:
+      - { name: tag, label: Small label, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: intro, label: Intro text, type: text }
+      - { name: highlights, label: Highlight paragraphs, type: text, list: true, description: "Wrap words in **double stars** to make them bold." }
+      - name: items
+        label: Thread forms
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string, required: true }
+          - { name: image, label: Diagram image, type: image }
+          - { name: description, label: Description, type: text }
+      - name: die_capabilities
+        label: Die capabilities section
+        type: object
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text, description: "Wrap words in **double stars** to make them bold." }
+          - { name: image, label: Image, type: image }
+      - { name: cta_title, label: Quote banner title, type: string }
+
+  - name: gallery
+    label: Gallery Page
+    type: file
+    path: _data/gallery.yml
+    format: yaml
+    fields:
+      - { name: tag, label: Small label, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: intro, label: Intro text, type: text }
+      - name: items
+        label: Photos
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Photo, type: image }
+          - { name: caption, label: Caption, type: string }
+      - { name: cta_title, label: Quote banner title, type: string }
+
+  - name: contact
+    label: Contact Page
+    type: file
+    path: _data/contact.yml
+    format: yaml
+    fields:
+      - { name: tag, label: Small label, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: form_button, label: Form button text, type: string }
+      - { name: success_message, label: Message shown after sending, type: text }

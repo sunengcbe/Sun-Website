@@ -1,372 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Products | Sun Engineering Works</title>
-  <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-  <!-- SEO META TAGS START -->
-  <meta name="description" content="Sun Engineering Works offers engineered components designed for strength and durability: Threaded Bars, Studs, Bolts, Knurled Components, and Custom Made Components." />
-  <meta name="author" content="Sun Engineering Works" />
-  <meta name="robots" content="index, follow" />
-  <!-- SEO META TAGS END -->
-
-  <!-- OPEN GRAPH TAGS START -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Products | Sun Engineering Works" />
-  <meta property="og:description" content="Engineered components designed for strength and durability across demanding applications." />
-  <!-- OPEN GRAPH TAGS END -->
-
-  <!-- FONTS START -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <!-- FONTS END -->
-
-  <!-- STYLESHEETS START -->
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
-  <!-- STYLESHEETS END -->
-</head>
-<body>
-
-  <!-- PAGE LOADER START -->
-  <div id="loader" class="loader">
-    <div class="loader-bar"></div>
-  </div>
-  <!-- PAGE LOADER END -->
-
-  <!-- HEADER / NAVIGATION START -->
-  <header id="header" class="header">
-    
-    <nav class="nav container">
-      <!-- LOGO START -->
-      <a href="index.html" class="logo" aria-label="Sun Engineering Works home">
-      <img src="images/logorb.png" alt="Sun Engineering Works Logo" class="logo-mark">
-      <span class="logo-text">Sun Engineering Works</span>
-      </a>
-      <!-- LOGO END -->
-
-      <!-- NAV LINKS START -->
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="about.html" class="nav-link">About</a></li>
-        <li><a href="products.html" class="nav-link active">Products</a></li>
-        <li><a href="forms.html" class="nav-link">Forms</a></li>
-        <li><a href="contact.html" class="nav-link">Contact</a></li>
-      </ul>
-      <!-- NAV LINKS END -->
-
-      <!-- MOBILE MENU TOGGLE START -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <!-- MOBILE MENU TOGGLE END -->
-    </nav>
-  </header>
-  <!-- HEADER / NAVIGATION END -->
-
-  <!-- MAIN CONTENT START -->
-  <main>
+---
+layout: default
+nav: products
+title: Products | Sun Engineering Works
+description: "Sun Engineering Works offers engineered components designed for strength and durability: Threaded Bars, Studs, Bolts, Knurled Components, and Custom Made Components."
+og_description: Engineered components designed for strength and durability across demanding applications.
+---
+{%- assign products = site.data.products -%}
 
     <!-- PAGE HEADER START -->
-    <section class="page-header1">
-
-    <!-- =========================================
-         SEAMLESS ANIMATED THREAD PROFILE
-    ========================================== -->
-    <div class="header-thread" aria-hidden="true">
-
-        <svg
-            class="thread-svg"
-            viewBox="0 0 1200 240"
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <defs>
-
-                <!-- EXACT ONE REPEATING PATTERN -->
-                <path
-                    id="threadPattern"
-                    d="
-                        M 0 180
-
-                        L 35 180
-
-                        L 105 65
-                        C 112 52, 122 45, 138 45
-                        L 162 45
-                        C 178 45, 188 52, 195 65
-
-                        L 265 180
-
-                        L 335 180
-
-                        L 405 65
-                        C 412 52, 422 45, 438 45
-                        L 462 45
-                        C 478 45, 488 52, 495 65
-
-                        L 565 180
-
-                        L 600 180
-                    "
-                />
-
-            </defs>
-            <!-- PATTERN 1 -->
-            <use
-                href="#threadPattern"
-                class="thread-path"
-                x="0"
-                y="0"
-            />
-
-            <!-- PATTERN 2 - EXACT COPY -->
-            <use
-                href="#threadPattern"
-                class="thread-path"
-                x="600"
-                y="0"
-            />
-
-        </svg>
-
-    </div>
-
-
-    <!-- =========================================
-         HEADER CONTENT
-    ========================================== -->
-    <div class="container header-content1">
-
-        <span class="section-tag reveal">
-            Outcome
-        </span>
-
-        <h1 class="page-title reveal">
-            Our Products
-        </h1>
-
-        <p class="page-intro reveal">
-            We manufacture a comprehensive range of engineered threaded and knurled components designed to meet diverse industrial requirements.
-        </p>
-
-    </div>
-
-</section>
+{% include thread-header.html tag=products.tag title=products.title intro=products.intro %}
     <!-- PAGE HEADER END -->
 
     <!-- PRODUCTS DETAILED LIST START -->
     <section class="section">
       <div class="container">
+        {%- for product in products.items %}
 
-        <!-- PRODUCT ITEM: THREADED BARS START -->
-        <article class="detail-item reveal">
+        <article class="detail-item{% assign odd = forloop.index0 | modulo: 2 %}{% if odd == 1 %} reverse{% endif %} reveal">
           <div class="detail-media">
             <img
-              src="images/threadedrods.png"
-              alt="Threaded Bars"
+              src="{{ product.image | remove_first: '/' }}"
+              alt="{{ product.name }}"
               class="product-image"
             />
           </div>
 
           <div class="detail-body">
-            <span class="detail-index">01</span>
-            <h2 class="detail-title">Threaded Bars</h2>
+            <span class="detail-index">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+            <h2 class="detail-title">{{ product.name }}</h2>
             <p class="detail-desc">
-              We provide fully threaded bars and rods focused on strength, smooth finish,
-              and consistent form. Available to your specifications with cutting and
-              chamfering options.
+              {{ product.description }}
             </p>
           </div>
         </article>
-        <!-- PRODUCT ITEM: THREADED BARS END -->
-
-        <!-- PRODUCT ITEM: STUDS START -->
-        <article class="detail-item reverse reveal">
-          <div class="detail-media">
-            <img
-              src="images/studs.png"
-              alt="Studs"
-              class="product-image"
-            />
-          </div>
-
-          <div class="detail-body">
-            <span class="detail-index">02</span>
-            <h2 class="detail-title">Studs</h2>
-            <p class="detail-desc">
-              Specialized in the production of threaded studs for both custom and
-              standard specifications and sizes. We offer custom-made double ended
-              studs, single ended studs, and fully threaded studs in Unified, Metric,
-              and other thread forms and capable of rolling with a hardness of
-              approximately RC 42.
-            </p>
-          </div>
-        </article>
-        <!-- PRODUCT ITEM: STUDS END -->
-
-        <!-- PRODUCT ITEM: BOLTS START -->
-    <article class="detail-item reveal">
-        <div class="detail-media">
-          <img
-            src="images/bolts.png"
-            alt="Bolts"
-            class="product-image"
-          />
-        </div>
-
-        <div class="detail-body">
-          <span class="detail-index">03</span>
-          <h2 class="detail-title">Bolts</h2>
-          <p class="detail-desc">
-            We manufacture high-quality threaded bolts, offering a versatile range
-            tailored to both custom and standard specifications in a variety of sizes.
-          </p>
-        </div>
-      </article>
-        <!-- PRODUCT ITEM: BOLTS END -->
-
-        <!-- PRODUCT ITEM: KNURLED COMPONENTS START -->
-        <article class="detail-item reverse reveal">
-          <div class="detail-media">
-            <img
-              src="images/kunrlednew.png"
-              alt="Knurled Components"
-              class="product-image"
-            />
-          </div>
-
-          <div class="detail-body">
-            <span class="detail-index">04</span>
-            <h2 class="detail-title">Knurled Components</h2>
-            <p class="detail-desc">
-              We specialize in manufacturing knurled components designed for enhanced
-              grip and reliable performance. Profiles include Diamond, Straight, and
-              Square, based on requirements.
-            </p>
-          </div>
-        </article>
-        <!-- PRODUCT ITEM: KNURLED COMPONENTS END -->
-        <!-- PRODUCT ITEM: CUSTOM MADE COMPONENTS END -->
+        {%- endfor %}
 
       </div>
     </section>
     <!-- PRODUCTS DETAILED LIST END -->
 
     <!-- ADDITIONAL OPERATIONS START -->
+    {%- assign ops_number = products.items.size | plus: 1 %}
     <section class="section alt">
       <div class="container">
         <div class="additional-ops reveal">
-          <span class="detail-index">05</span>
-          <h3 class="detail-title">Additional Operations</h3>
-          <p class="additional-text">Count on us to handle your production processes through a trusted network of specialized vendors.</p>
+          <span class="detail-index">{% if ops_number < 10 %}0{% endif %}{{ ops_number }}</span>
+          <h3 class="detail-title">{{ products.additional_operations.title }}</h3>
+          <p class="additional-text">{{ products.additional_operations.text }}</p>
           <ul class="additional-list">
-            <li>CNC Machining</li>
-            <li>Centreless Grinding</li>
-            <li>Metallurgical Testing</li>
-            <li>Heat Treating</li>
-            <li>Plating</li>
+            {%- for op in products.additional_operations.items %}
+            <li>{{ op }}</li>
+            {%- endfor %}
           </ul>
         </div>
         <!-- GALLERY NAV BUTTON START -->
         <div class="section-head center reveal" style="margin-top: var(--space-4);">
-          <a href="gallery.html" class="btn btn-primary">View Gallery</a>
+          <a href="gallery.html" class="btn btn-primary">{{ products.additional_operations.button }}</a>
         </div>
         <!-- GALLERY NAV BUTTON END -->
       </div>
     </section>
     <!-- ADDITIONAL OPERATIONS END -->
 
-    <!-- CTA BANNER START -->
-    <section class="cta-banner">
-      <div class="container cta-content reveal">
-        <h2 class="cta-title">Ask for a Quote !</h2>
-        <a href="contact.html" class="btn btn-light">Start A Conversation</a>
-      </div>
-    </section>
-    <!-- CTA BANNER END -->
-
-  </main>
-  <!-- MAIN CONTENT END -->
-
-  
-  <!-- FOOTER START -->
-  <footer class="footer">
-  <div class="container">
-
-    <div class="footer-grid">
-
-      <!-- Brand -->
-      <div class="footer-brand">
-        <img src="images/logorb.png" alt="Sun Engineering Works Logo" class="footer-logo">
-
-        <h3>Sun Engineering Works</h3>
-
-        <p class="footer-tagline">
-          Precision Threaded Components
-        </p>
-
-        <div class="footer-social">
-          <a href="tel:+919876543210"><i class="fas fa-phone"></i></a>
-          <a href="https://wa.me/919876543210" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="mailto:info@sunengineeringworks.com"><i class="fas fa-envelope"></i></a>
-          <a href="https://maps.google.com" target="_blank"><i class="fas fa-map-marker-alt"></i></a>
-        </div>
-      </div>
-
-      <!-- Address -->
-      <div class="footer-column">
-        <h4>Address</Address></h4>
-
-        <p>Jayaprakash Nagar,</p>
-        <p>Sanganoor Road, Ganapathy</p>
-        <p>Coimbatore - 641006.</p>
-        <p>Tamil Nadu. India.</p>
-      </div>
-
-      <!-- Contact -->
-      <div class="footer-column">
-        <h4>Contact</h4>
-
-        <p>+91 99449 33525</p>
-        <p>sunengcbe@gmail.com</p>
-        <p>sunengineeringworksacc@gmail.com</p>
-      </div>
-
-      <!-- Hours -->
-      <div class="footer-column">
-        <h4>Business Hours</h4>
-
-        <p>Monday - Friday :</p>
-        <p>9:00 AM - 8:00 PM [IST]</p>
-        <p></p>
-        <p>Sunday Closed.</p>
-      </div>
-
-    </div>
-
-    <div class="footer-divider"></div>
-
-    <div class="footer-bottom">
-      <p class="footer-iso">
-       <!--  ISO 9001:2015 Certified -->
-      </p>
-
-      <p>
-        © 2026 Sun Engineering Works. All Rights Reserved.
-      </p>
-    </div>
-
-  </div>
-</footer>
-  <!-- FOOTER END -->
-
-  <!-- SCRIPTS START -->
-  <script src="js/main.js"></script>
-  <!-- SCRIPTS END -->
-</body>
-</html>
+{% include cta.html title=products.cta_title %}

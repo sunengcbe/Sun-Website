@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+{%- assign company = site.data.company -%}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <!-- SEO META TAGS START -->
+  <meta name="description" content="{{ page.description }}" />
+  {%- if page.keywords %}
+  <meta name="keywords" content="{{ page.keywords }}" />
+  {%- endif %}
+  <meta name="author" content="{{ company.name }}" />
+  <meta name="robots" content="index, follow" />
+  <!-- SEO META TAGS END -->
+
+  <!-- OPEN GRAPH TAGS START -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ page.title }}" />
+  <meta property="og:description" content="{{ page.og_description | default: page.description }}" />
+  {%- if page.nav == "home" %}
+  <meta property="og:url" content="{{ site.url }}" />
+  <meta property="og:image" content="images/placeholder-og.jpg" />
+  {%- endif %}
+  <!-- OPEN GRAPH TAGS END -->
+  {%- if page.nav == "home" %}
+
+  <!-- TWITTER CARD START -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ page.title }}" />
+  <meta name="twitter:description" content="{{ site.data.home.hero.subtitle }}." />
+  <!-- TWITTER CARD END -->
+  {%- endif %}
+
+  <!-- FONTS START -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- FONTS END -->
+
+  <!-- STYLESHEETS START -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <!-- STYLESHEETS END -->
+  {%- if page.nav == "home" or page.nav == "contact" %}
+
+  <!-- SCHEMA MARKUP START -->
+  {%- assign phone_digits = "" | split: "" -%}
+  {%- for p in company.phones -%}
+    {%- assign d = p | remove: " " | remove: "+91" -%}
+    {%- assign phone_digits = phone_digits | push: d -%}
+  {%- endfor %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ company.name | jsonify }},
+    "description": "Thread rolling company manufacturing threaded bars, studs, bolts, and knurled components.",
+    "url": {{ site.url | jsonify }},
+    "telephone": {{ phone_digits | jsonify }},
+    "email": {{ company.emails.first | jsonify }},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jayaprakash Nagar, 3rd Street extn., Sanganoor Road, Ganapathy",
+      "addressLocality": "Coimbatore",
+      "postalCode": "641006",
+      "addressRegion": "Tamil Nadu",
+      "addressCountry": "IN"
+    }
+  }
+  </script>
+  <!-- SCHEMA MARKUP END -->
+  {%- endif %}
+</head>
+<body>
+
+  <!-- PAGE LOADER START -->
+  <div id="loader" class="loader">
+    <div class="loader-bar"></div>
+  </div>
+  <!-- PAGE LOADER END -->
+
+  <!-- HEADER / NAVIGATION START -->
+  <header id="header" class="header">
+    <nav class="nav container">
+      <!-- LOGO START -->
+      <a href="index.html" class="logo" aria-label="{{ company.name }} home">
+      <img src="{{ company.logo | remove_first: '/' }}" alt="{{ company.name }} Logo" class="logo-mark">
+      <span class="logo-text">{{ company.name }}</span>
+      </a>
+      <!-- LOGO END -->
+
+      <!-- NAV LINKS START -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link{% if page.nav == 'home' %} active{% endif %}">Home</a></li>
+        <li><a href="about.html" class="nav-link{% if page.nav == 'about' %} active{% endif %}">About</a></li>
+        <li><a href="products.html" class="nav-link{% if page.nav == 'products' %} active{% endif %}">Products</a></li>
+        <li><a href="forms.html" class="nav-link{% if page.nav == 'forms' %} active{% endif %}">Forms</a></li>
+        <li><a href="contact.html" class="nav-link{% if page.nav == 'contact' %} active{% endif %}">Contact</a></li>
+      </ul>
+      <!-- NAV LINKS END -->
+
+      <!-- MOBILE MENU TOGGLE START -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <!-- MOBILE MENU TOGGLE END -->
+    </nav>
+  </header>
+  <!-- HEADER / NAVIGATION END -->
+
+  <!-- MAIN CONTENT START -->
+  <main>
+{{ content }}
+  </main>
+  <!-- MAIN CONTENT END -->
+
+{% include footer.html %}
+
+  <!-- SCRIPTS START -->
+  <script src="js/main.js"></script>
+  <!-- SCRIPTS END -->
+</body>
+</html>

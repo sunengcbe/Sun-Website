@@ -26,43 +26,27 @@ project/
 
 ---
 
-## How to Edit Text
+## How to Edit Text and Images (no coding)
 
-All text content lives directly in `index.html`. Every section is wrapped in
-clearly labelled comment tags, for example:
+The site is built by GitHub Pages using Jekyll. All editable text and images live
+in the `_data/` folder, one file per page:
 
-```html
-<!-- HERO SECTION START -->
-...
-<!-- HERO SECTION END -->
-```
+| File | What it controls |
+|------|------------------|
+| `_data/company.yml` | Phone numbers, emails, WhatsApp, address, map link, business hours (used on every page) |
+| `_data/home.yml` | Home page |
+| `_data/about.yml` | About page |
+| `_data/products.yml` | Products list and additional operations |
+| `_data/forms.yml` | Thread forms list and die capabilities |
+| `_data/gallery.yml` | Gallery photos and captions |
+| `_data/contact.yml` | Contact page text |
 
-Open `index.html` in any text editor (Notepad, VS Code, etc.), find the comment
-for the section you want to change, and edit the text between the tags.
+**Easiest way:** open [Pages CMS](https://app.pagescms.org), sign in with GitHub and
+choose this repository. Every page appears as a form; edit, upload images, and click
+**Save**. GitHub Pages publishes the change in a minute or two.
 
----
-
-## How to Replace Images
-
-Images are currently shown as dashed placeholders. Each placeholder includes a
-comment telling you the original filename, e.g.:
-
-```html
-<!-- Replace with original image: assets/images/image04.jpg -->
-<div class="img-placeholder">...</div>
-```
-
-To replace:
-
-1. Put your image file inside the `images/` folder.
-2. Delete the `<div class="img-placeholder">…</div>` block.
-3. Replace it with:
-
-```html
-<img src="images/your-image.jpg" alt="Description of the image" loading="lazy" />
-```
-
-> Use `loading="lazy"` on images below the fold for faster page load.
+Page layout lives in `_layouts/default.html` (header, navigation) and `_includes/`
+(footer, quote banner, shared pieces). Editor settings are in `.pages.yml`.
 
 ---
 

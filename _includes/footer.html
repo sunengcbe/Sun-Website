@@ -1,0 +1,68 @@
+{%- assign company = site.data.company -%}
+{%- assign main_phone = company.phones.first | remove: " " -%}
+  <!-- FOOTER START -->
+  <footer class="footer">
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <img src="{{ company.logo | remove_first: '/' }}" alt="{{ company.name }} Logo" class="footer-logo">
+
+        <h3>{{ company.name }}</h3>
+
+        <p class="footer-tagline">
+          {{ company.tagline }}
+        </p>
+
+        <div class="footer-social">
+          <a href="tel:{{ main_phone }}" aria-label="Call"><i class="fas fa-phone"></i></a>
+          <a href="https://wa.me/{{ company.whatsapp }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="mailto:{{ company.emails.first }}" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="{{ company.map_link }}" target="_blank" rel="noopener" aria-label="Location"><i class="fas fa-map-marker-alt"></i></a>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="footer-column">
+        <h4>Address</h4>
+        {% for line in company.address_lines %}
+        <p>{{ line }}</p>
+        {%- endfor %}
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <p>{{ company.phones.first }}</p>
+        {%- for email in company.emails %}
+        <p>{{ email }}</p>
+        {%- endfor %}
+      </div>
+
+      <!-- Hours -->
+      <div class="footer-column">
+        <h4>Business Hours</h4>
+        {% for line in company.hours %}
+        <p>{{ line }}</p>
+        {%- endfor %}
+      </div>
+
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <p class="footer-iso">
+       <!--  ISO 9001:2015 Certified -->
+      </p>
+
+      <p>
+        © {{ site.time | date: "%Y" }} {{ company.name }}. All Rights Reserved.
+      </p>
+    </div>
+
+  </div>
+</footer>
+  <!-- FOOTER END -->

@@ -1,0 +1,8 @@
+# Jekyll settings for GitHub Pages.
+# Website text and images are edited in the _data folder (or through Pages CMS).
+title: Sun Engineering Works
+url: "https://www.sunengineeringworks.com"
+
+exclude:
+  - README.md
+  - .pages.yml
