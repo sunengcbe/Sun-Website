@@ -14,31 +14,7 @@ og_description: Crafted for demanding applications and solutions that Perform. T
     <div class="hero-overlay"></div>
 
     <div class="hero-spiral" aria-hidden="true">
-        <svg viewBox="0 0 300 900" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="spiralGradient"
-                                x1="0%" y1="0%"
-                                x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FFC400" stop-opacity="0"/>
-                    <stop offset="25%" stop-color="#FFC400" stop-opacity="0.8"/>
-                    <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-                    <stop offset="75%" stop-color="#FFC400" stop-opacity="0.8"/>
-                    <stop offset="100%" stop-color="#FFC400" stop-opacity="0"/>
-                </linearGradient>
-            </defs>
-
-            <path
-                class="spiral-path"
-                d="
-                M150 0
-                C40 50 40 130 150 180
-                C260 230 260 310 150 360
-                C40 410 40 490 150 540
-                C260 590 260 670 150 720
-                C40 770 40 850 150 900
-                "
-            />
-        </svg>
+        <canvas class="helix-canvas"></canvas>
     </div>
 
     <div class="container hero-content">
@@ -63,6 +39,7 @@ og_description: Crafted for demanding applications and solutions that Perform. T
     </div>
 
 </section>
+<script src="js/hero-helix.js?v={{ site.time | date: '%s' }}" defer></script>
     <!-- HERO SECTION END -->
 
     <!-- SERVICES SECTION START -->
