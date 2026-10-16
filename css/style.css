@@ -351,8 +351,10 @@ ul { list-style: none; }
 /* --- 5.3 Links ----------------------------------------- */
 .nav-links {
   display: flex;
+  align-items: center;          /* keeps text links and the Contact button on one line */
   gap: var(--space-3);
 }
+.nav-links li { display: flex; align-items: center; }
 .nav-link {
   font-family: var(--font-head);
   font-weight: 500;
@@ -386,7 +388,6 @@ ul { list-style: none; }
 .nav-link.nav-cta::after { display: none; }
 .nav-link.nav-cta:hover { background: var(--yellow-2); box-shadow: 0 4px 14px rgba(255,179,0,0.35); transform: translateY(-1px); }
 .nav-link.nav-cta.active { background: var(--charcoal); color: var(--yellow-1); }
-.nav-links li:has(.nav-cta) { display: flex; align-items: center; }
 
 /* --- 5.4 Hamburger (mobile toggle) --------------------- */
 .menu-toggle {
@@ -1662,6 +1663,8 @@ ul { list-style: none; }
     pointer-events: auto;
   }
 
+  .nav-links { align-items: stretch; }
+  .nav-links li { display: block; }
   .nav-links .nav-link {
     display: block;
     padding: 14px 0;
