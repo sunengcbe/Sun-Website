@@ -229,8 +229,12 @@
     $("qwSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  var quoteOpened = Date.now();
   form.addEventListener("submit", function (e) {
     if (!validStep(4)) { e.preventDefault(); return; }
+    /* Spam guard: hidden field filled, or sent within 5 seconds of opening the page */
+    var honey = form.querySelector('input[name="_honey"]');
+    if ((honey && honey.value) || Date.now() - quoteOpened < 5000) { e.preventDefault(); done(); return; }
     checkRanges();
     $("qwError").hidden = true;
 
