@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Gallery Photo Crop Tool | Sun Engineering Works</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --yellow: #FFC400;
+      --charcoal: #1E1E1E;
+      --text: #222;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+      --bg: #F8F9FA;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    header {
+      background: var(--charcoal);
+      color: #fff;
+      padding: 18px 16px;
+    }
+    header h1 {
+      margin: 0 auto;
+      max-width: 1100px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    header h1 span { color: var(--yellow); }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: 28px;
+    }
+    @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+
+    h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+    .steps { margin: 0 0 18px; padding-left: 20px; color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
+    .steps b { color: var(--text); font-weight: 600; }
+
+    /* Drop zone / editor */
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #2a2a2a;
+      touch-action: none;
+      user-select: none;
+    }
+    .stage canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+    .stage.dragging canvas { cursor: grabbing; }
+    .band {
+      position: absolute;
+      left: 0; right: 0;
+      height: 12.5%;
+      background: rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+    }
+    .band.top { top: 0; border-bottom: 2px dashed var(--yellow); }
+    .band.bottom { bottom: 0; border-top: 2px dashed var(--yellow); }
+    .stage .empty {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px;
+      color: #ddd; text-align: center; padding: 16px;
+      border: 2px dashed #555; border-radius: var(--radius);
+    }
+    .stage.has-image .empty { display: none; }
+    .stage:not(.has-image) .band { display: none; }
+    .stage.drop-over .empty { border-color: var(--yellow); color: #fff; }
+    .legend { font-size: 0.85rem; color: var(--muted); margin: 10px 0 0; }
+    .legend i {
+      display: inline-block; width: 22px; border-top: 2px dashed var(--yellow);
+      vertical-align: middle; margin-right: 6px;
+    }
+
+    .controls {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+      margin-top: 16px;
+    }
+    .controls label { font-size: 0.9rem; font-weight: 500; }
+    .controls input[type=range] { flex: 1; min-width: 140px; accent-color: var(--yellow); }
+
+    .btn {
+      font: inherit; font-weight: 600; font-size: 0.92rem;
+      border: 0; border-radius: 999px; padding: 11px 20px; cursor: pointer;
+      background: var(--yellow); color: var(--charcoal);
+    }
+    .btn.secondary { background: #fff; border: 1px solid var(--border); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn:focus-visible { outline: 3px solid var(--charcoal); outline-offset: 2px; }
+
+    /* Previews: mirror the website's gallery styling */
+    aside .card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; margin-bottom: 18px;
+    }
+    .preview-item {
+      position: relative; border-radius: var(--radius); overflow: hidden; background: #fff;
+    }
+    .preview-item canvas { display: block; width: 100%; transition: opacity 0.4s; }
+    .preview-item:hover canvas { opacity: 0.6; }
+    .preview-item .cap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 24px 16px 14px;
+      background: linear-gradient(transparent, rgba(30,30,30,0.85));
+      color: #fff; font-family: "Space Grotesk", sans-serif; font-weight: 500;
+    }
+    .preview-item.wide canvas { aspect-ratio: 4 / 3; }
+    .preview-item.short canvas { aspect-ratio: 16 / 9; }
+    .hint { font-size: 0.82rem; color: var(--muted); margin: 8px 0 0; }
+    .field { display: block; margin-bottom: 14px; }
+    .field span { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; }
+    .field input {
+      width: 100%; font: inherit; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: 10px;
+    }
+    .done { font-size: 0.9rem; color: #1d6b3a; margin: 12px 0 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Gallery Photo <span>Crop Tool</span></h1>
+  </header>
+
+  <main>
+    <section>
+      <ol class="steps">
+        <li><b>Choose a photo</b> (or drop it on the box).</li>
+        <li><b>Drag</b> to move it and use the <b>zoom</b> slider (or mouse wheel / pinch) until it looks right.</li>
+        <li><b>Download</b>, then upload the downloaded file in Pages CMS → Gallery Page.</li>
+      </ol>
+
+      <div class="stage" id="stage">
+        <canvas id="editor" width="1600" height="1200" aria-label="Crop area: drag to move the photo"></canvas>
+        <div class="band top"></div>
+        <div class="band bottom"></div>
+        <div class="empty">
+          <div>Drop a photo here</div>
+          <button class="btn" type="button" id="pickBtn">Choose photo</button>
+        </div>
+      </div>
+      <p class="legend"><i></i>Between the yellow lines is what the shorter preview on the About and Products pages shows.</p>
+
+      <div class="controls">
+        <label for="zoom">Zoom</label>
+        <input type="range" id="zoom" min="1" max="4" step="0.01" value="1" disabled />
+        <button class="btn secondary" type="button" id="resetBtn" disabled>Reset</button>
+        <button class="btn secondary" type="button" id="changeBtn" disabled>Change photo</button>
+        <button class="btn" type="button" id="downloadBtn" disabled>Download cropped photo</button>
+      </div>
+      <p class="done" id="doneMsg" hidden></p>
+      <input type="file" id="fileInput" accept="image/*" hidden />
+    </section>
+
+    <aside>
+      <div class="card">
+        <label class="field">
+          <span>Caption (for the preview only)</span>
+          <input type="text" id="caption" value="Your caption" />
+        </label>
+        <h2>Gallery page</h2>
+        <div class="preview-item wide">
+          <canvas id="previewFull" width="800" height="600"></canvas>
+          <div class="cap" id="capFull">Your caption</div>
+        </div>
+        <p class="hint">Hover over it to see the website's hover effect.</p>
+      </div>
+      <div class="card">
+        <h2>Preview section (About &amp; Products)</h2>
+        <div class="preview-item short">
+          <canvas id="previewShort" width="800" height="450"></canvas>
+          <div class="cap" id="capShort">Your caption</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+
+    /* Output size and shape. Must match .gallery-item > img (4:3) in css/style.css. */
+    var OUT_W = 1600, OUT_H = 1200;
+    /* Preview section shows a 16:9 band in the middle of the 4:3 photo. */
+    var BAND_H = OUT_W * 9 / 16, BAND_Y = (OUT_H - BAND_H) / 2;
+
+    var stage = document.getElementById("stage");
+    var editor = document.getElementById("editor");
+    var ctx = editor.getContext("2d");
+    var previewFull = document.getElementById("previewFull");
+    var previewShort = document.getElementById("previewShort");
+    var zoomInput = document.getElementById("zoom");
+    var fileInput = document.getElementById("fileInput");
+    var downloadBtn = document.getElementById("downloadBtn");
+    var resetBtn = document.getElementById("resetBtn");
+    var changeBtn = document.getElementById("changeBtn");
+    var doneMsg = document.getElementById("doneMsg");
+    var captionInput = document.getElementById("caption");
+
+    var img = null, fileName = "photo";
+    var baseScale = 1, zoom = 1, ox = 0, oy = 0;
+
+    function scale() { return baseScale * zoom; }
+
+    function clamp() {
+      var w = img.naturalWidth * scale(), h = img.naturalHeight * scale();
+      ox = Math.min(0, Math.max(OUT_W - w, ox));
+      oy = Math.min(0, Math.max(OUT_H - h, oy));
+    }
+
+    function draw() {
+      ctx.fillStyle = "#2a2a2a";
+      ctx.fillRect(0, 0, OUT_W, OUT_H);
+      if (!img) return;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, ox, oy, img.naturalWidth * scale(), img.naturalHeight * scale());
+
+      var pf = previewFull.getContext("2d");
+      pf.imageSmoothingQuality = "high";
+      pf.drawImage(editor, 0, 0, previewFull.width, previewFull.height);
+      var ps = previewShort.getContext("2d");
+      ps.imageSmoothingQuality = "high";
+      ps.drawImage(editor, 0, BAND_Y, OUT_W, BAND_H, 0, 0, previewShort.width, previewShort.height);
+    }
+
+    function setZoom(newZoom, cx, cy) {
+      newZoom = Math.min(4, Math.max(1, newZoom));
+      if (cx === undefined) { cx = OUT_W / 2; cy = OUT_H / 2; }
+      var ratio = newZoom / zoom;
+      ox = cx - (cx - ox) * ratio;
+      oy = cy - (cy - oy) * ratio;
+      zoom = newZoom;
+      zoomInput.value = zoom;
+      clamp();
+      draw();
+    }
+
+    function reset() {
+      zoom = 1;
+      zoomInput.value = 1;
+      ox = (OUT_W - img.naturalWidth * scale()) / 2;
+      oy = (OUT_H - img.naturalHeight * scale()) / 2;
+      draw();
+    }
+
+    function loadFile(file) {
+      if (!file || !/^image\//.test(file.type)) return;
+      var url = URL.createObjectURL(file);
+      var next = new Image();
+      next.onload = function () {
+        img = next;
+        fileName = file.name.replace(/\.[^.]+$/, "") || "photo";
+        baseScale = Math.max(OUT_W / img.naturalWidth, OUT_H / img.naturalHeight);
+        stage.classList.add("has-image");
+        [zoomInput, downloadBtn, resetBtn, changeBtn].forEach(function (el) { el.disabled = false; });
+        doneMsg.hidden = true;
+        reset();
+      };
+      next.onerror = function () { alert("Sorry, that photo could not be opened. Try a JPG or PNG."); };
+      next.src = url;
+    }
+
+    /* Convert a pointer position to canvas coordinates */
+    function toCanvas(clientX, clientY) {
+      var r = editor.getBoundingClientRect();
+      return { x: (clientX - r.left) * OUT_W / r.width, y: (clientY - r.top) * OUT_H / r.height };
+    }
+
+    /* Drag (one finger / mouse) and pinch (two fingers) */
+    var pointers = {}, lastDist = 0;
+    editor.addEventListener("pointerdown", function (e) {
+      if (!img) return;
+      editor.setPointerCapture(e.pointerId);
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      stage.classList.add("dragging");
+      var ids = Object.keys(pointers);
+      if (ids.length === 2) {
+        var a = pointers[ids[0]], b = pointers[ids[1]];
+        lastDist = Math.hypot(a.x - b.x, a.y - b.y);
+      }
+    });
+    editor.addEventListener("pointermove", function (e) {
+      if (!img || !pointers[e.pointerId]) return;
+      var prev = pointers[e.pointerId];
+      var ids = Object.keys(pointers);
+      if (ids.length === 1) {
+        var r = editor.getBoundingClientRect();
+        ox += (e.clientX - prev.x) * OUT_W / r.width;
+        oy += (e.clientY - prev.y) * OUT_H / r.height;
+        pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+        clamp();
+        draw();
+      } else if (ids.length === 2) {
+        pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+        var a = pointers[ids[0]], b = pointers[ids[1]];
+        var dist = Math.hypot(a.x - b.x, a.y - b.y);
+        var mid = toCanvas((a.x + b.x) / 2, (a.y + b.y) / 2);
+        if (lastDist) setZoom(zoom * dist / lastDist, mid.x, mid.y);
+        lastDist = dist;
+      }
+    });
+    function endPointer(e) {
+      delete pointers[e.pointerId];
+      lastDist = 0;
+      if (!Object.keys(pointers).length) stage.classList.remove("dragging");
+    }
+    editor.addEventListener("pointerup", endPointer);
+    editor.addEventListener("pointercancel", endPointer);
+
+    editor.addEventListener("wheel", function (e) {
+      if (!img) return;
+      e.preventDefault();
+      var p = toCanvas(e.clientX, e.clientY);
+      setZoom(zoom * (e.deltaY < 0 ? 1.08 : 1 / 1.08), p.x, p.y);
+    }, { passive: false });
+
+    zoomInput.addEventListener("input", function () { setZoom(parseFloat(zoomInput.value)); });
+    resetBtn.addEventListener("click", reset);
+
+    document.getElementById("pickBtn").addEventListener("click", function () { fileInput.click(); });
+    changeBtn.addEventListener("click", function () { fileInput.click(); });
+    fileInput.addEventListener("change", function () { loadFile(fileInput.files[0]); fileInput.value = ""; });
+
+    ["dragenter", "dragover"].forEach(function (t) {
+      stage.addEventListener(t, function (e) { e.preventDefault(); stage.classList.add("drop-over"); });
+    });
+    ["dragleave", "drop"].forEach(function (t) {
+      stage.addEventListener(t, function (e) { e.preventDefault(); stage.classList.remove("drop-over"); });
+    });
+    stage.addEventListener("drop", function (e) { loadFile(e.dataTransfer.files[0]); });
+
+    captionInput.addEventListener("input", function () {
+      var text = captionInput.value || " ";
+      document.getElementById("capFull").textContent = text;
+      document.getElementById("capShort").textContent = text;
+    });
+
+    downloadBtn.addEventListener("click", function () {
+      if (!img) return;
+      editor.toBlob(function (blob) {
+        var a = document.createElement("a");
+        var name = fileName + "-cropped.jpg";
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+        doneMsg.textContent = "Saved as " + name + ". Now upload it in Pages CMS → Gallery Page → Photos.";
+        doneMsg.hidden = false;
+      }, "image/jpeg", 0.85);
+    });
+
+    draw();
+  })();
+  </script>
+</body>
+</html>
