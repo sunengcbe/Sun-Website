@@ -78,7 +78,7 @@ og_description: Crafted for demanding applications and solutions that Perform. T
           {%- endfor %}
         </div>
         <div class="rolled-image reveal">
-            <img src="{{ home.rolled_threads.image | remove_first: '/' }}"
+            <img loading="lazy" decoding="async" src="{{ home.rolled_threads.image | remove_first: '/' }}"
                 alt="{{ home.rolled_threads.title }}"
                 class="rolled-img">
         </div>

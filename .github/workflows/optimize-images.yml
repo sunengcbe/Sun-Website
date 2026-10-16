@@ -1,15 +1,14 @@
-# Converts iPhone HEIC/HEIF photos uploaded to images/ into JPG,
-# updates the website files that use them, and republishes the site.
-name: Convert HEIC photos to JPG
+# Keeps photos small so the site stays fast on phones.
+# After any image upload (Pages CMS or GitHub): converts iPhone HEIC to JPG,
+# turns big PNG photos into JPG, shrinks oversized pictures, updates the
+# website files that use renamed pictures, and republishes the site.
+name: Optimize images
 
 on:
   push:
     branches: [main]
     paths:
-      - "images/**/*.heic"
-      - "images/**/*.HEIC"
-      - "images/**/*.heif"
-      - "images/**/*.HEIF"
+      - "images/**"
   workflow_dispatch:
 
 permissions:
@@ -17,11 +16,11 @@ permissions:
   pages: write
 
 concurrency:
-  group: convert-heic
+  group: optimize-images
   cancel-in-progress: false
 
 jobs:
-  convert:
+  optimize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,21 +32,21 @@ jobs:
       - name: Install image tools
         run: pip install pillow pillow-heif
 
-      - name: Convert HEIC to JPG
-        run: python .github/scripts/convert_heic.py
+      - name: Optimize images
+        run: python .github/scripts/optimize_images.py
 
-      - name: Commit converted photos
+      - name: Commit smaller images
         id: commit
         run: |
-          git add -A images _data *.html
+          git add -A images _data _includes _layouts css *.html
           if git diff --cached --quiet; then
-            echo "Nothing to convert."
+            echo "Images are already optimized."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Convert HEIC photos to JPG"
+          git commit -m "Optimize images"
           git pull --rebase origin main
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
