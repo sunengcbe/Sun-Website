@@ -152,7 +152,7 @@
   <main>
     <section>
       <ol class="steps">
-        <li><b>Choose a photo</b> (or drop it on the box).</li>
+        <li><b>Choose a photo</b> (or drop it on the box). JPG, PNG and iPhone HEIC photos all work.</li>
         <li><b>Drag</b> to move it and use the <b>zoom</b> slider (or mouse wheel / pinch) until it looks right.</li>
         <li><b>Download</b>, then upload the downloaded file in Pages CMS → Gallery Page.</li>
       </ol>
@@ -176,7 +176,7 @@
         <button class="btn" type="button" id="downloadBtn" disabled>Download cropped photo</button>
       </div>
       <p class="done" id="doneMsg" hidden></p>
-      <input type="file" id="fileInput" accept="image/*" hidden />
+      <input type="file" id="fileInput" accept="image/*,.heic,.heif" hidden />
     </section>
 
     <aside>
@@ -270,21 +270,59 @@
       draw();
     }
 
-    function loadFile(file) {
-      if (!file || !/^image\//.test(file.type)) return;
-      var url = URL.createObjectURL(file);
+    function isHeic(file) {
+      return /heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name);
+    }
+
+    /* Load the HEIC converter only when an iPhone photo is chosen */
+    var heicLib = null;
+    function loadHeicLib() {
+      if (!heicLib) {
+        heicLib = new Promise(function (resolve, reject) {
+          var s = document.createElement("script");
+          s.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+          s.onload = function () { resolve(window.heic2any); };
+          s.onerror = function () { heicLib = null; reject(new Error("load failed")); };
+          document.head.appendChild(s);
+        });
+      }
+      return heicLib;
+    }
+
+    function showImage(blob, name) {
+      var url = URL.createObjectURL(blob);
       var next = new Image();
       next.onload = function () {
         img = next;
-        fileName = file.name.replace(/\.[^.]+$/, "") || "photo";
+        fileName = name.replace(/\.[^.]+$/, "") || "photo";
         baseScale = Math.max(OUT_W / img.naturalWidth, OUT_H / img.naturalHeight);
         stage.classList.add("has-image");
         [zoomInput, downloadBtn, resetBtn, changeBtn].forEach(function (el) { el.disabled = false; });
         doneMsg.hidden = true;
         reset();
       };
-      next.onerror = function () { alert("Sorry, that photo could not be opened. Try a JPG or PNG."); };
+      next.onerror = function () {
+        alert("Sorry, that photo could not be opened. Try a JPG, PNG or HEIC photo.");
+      };
       next.src = url;
+    }
+
+    function loadFile(file) {
+      if (!file) return;
+      if (isHeic(file)) {
+        doneMsg.textContent = "Opening iPhone (HEIC) photo…";
+        doneMsg.hidden = false;
+        loadHeicLib()
+          .then(function (heic2any) { return heic2any({ blob: file, toType: "image/jpeg", quality: 0.92 }); })
+          .then(function (jpg) { showImage(Array.isArray(jpg) ? jpg[0] : jpg, file.name); })
+          .catch(function () {
+            doneMsg.hidden = true;
+            alert("Sorry, that HEIC photo could not be opened. Check your internet connection and try again.");
+          });
+        return;
+      }
+      if (!/^image\//.test(file.type)) return;
+      showImage(file, file.name);
     }
 
     /* Convert a pointer position to canvas coordinates */

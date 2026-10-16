@@ -4,6 +4,9 @@
 media:
   input: images
   output: /images
+  # HEIC/HEIF (iPhone photos) are allowed; GitHub converts them to JPG automatically
+  # (.github/workflows/convert-heic.yml) because most browsers can't show HEIC.
+  extensions: [jpg, jpeg, png, gif, svg, webp, avif, heic, heif]
 
 content:
   - name: company

@@ -1,0 +1,60 @@
+# Converts iPhone HEIC/HEIF photos uploaded to images/ into JPG,
+# updates the website files that use them, and republishes the site.
+name: Convert HEIC photos to JPG
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "images/**/*.heic"
+      - "images/**/*.HEIC"
+      - "images/**/*.heif"
+      - "images/**/*.HEIF"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: convert-heic
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image tools
+        run: pip install pillow pillow-heif
+
+      - name: Convert HEIC to JPG
+        run: python .github/scripts/convert_heic.py
+
+      - name: Commit converted photos
+        id: commit
+        run: |
+          git add -A images _data *.html
+          if git diff --cached --quiet; then
+            echo "Nothing to convert."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Convert HEIC photos to JPG"
+          git pull --rebase origin main
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Pushes made by this workflow don't start a new site build on their own.
+      - name: Republish the website
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Could not request a rebuild; the next edit will publish it."
