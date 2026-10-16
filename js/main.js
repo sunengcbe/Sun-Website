@@ -102,20 +102,57 @@
     revealEls.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  /* ===== 6. CONTACT FORM SUBMISSION (DEMO) ===== */
+  /* ===== 6. CONTACT FORM SUBMISSION (sent by email via FormSubmit) ===== */
   var contactForm = document.getElementById("contactForm");
   var formSuccess = document.getElementById("formSuccess");
+  var formError = document.getElementById("formError");
 
   if (contactForm) {
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      /* Demo only — shows success message */
-      contactForm.reset();
-      if (formSuccess) {
-        formSuccess.hidden = false;
-        formSuccess.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (formSuccess) formSuccess.hidden = true;
+      if (formError) formError.hidden = true;
+
+      if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        return;
       }
+
+      var button = contactForm.querySelector("button[type=submit]");
+      var buttonText = button ? button.textContent : "";
+      if (button) { button.disabled = true; button.textContent = "Sending..."; }
+
+      fetch(contactForm.action, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: new FormData(contactForm)
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            /* First message before activation: FormSubmit holds it and emails an activation link. */
+            if (data.message && /activat/i.test(data.message)) return;
+            if (!res.ok || data.success === false || data.success === "false") {
+              throw new Error(data.message || "Send failed");
+            }
+          });
+        })
+        .then(function () {
+          contactForm.reset();
+          showMessage(formSuccess);
+        })
+        .catch(function () {
+          showMessage(formError);
+        })
+        .then(function () {
+          if (button) { button.disabled = false; button.textContent = buttonText; }
+        });
     });
+  }
+
+  function showMessage(el) {
+    if (!el) return;
+    el.hidden = false;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 })();
 

@@ -48,7 +48,12 @@ og_description: Get in touch with Sun Engineering Works for thread rolling servi
           <!-- CONTACT INFO END -->
 
           <!-- CONTACT FORM START -->
-          <form class="contact-form reveal" id="contactForm" novalidate>
+          <form class="contact-form reveal" id="contactForm" novalidate
+                action="https://formsubmit.co/ajax/{{ contact.send_to | default: company.emails.first }}"
+                method="POST">
+            <input type="hidden" name="_subject" value="{{ contact.email_subject }}" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
             <div class="form-row">
               <input type="text" name="name" placeholder="Your Name" required />
             </div>
@@ -63,6 +68,7 @@ og_description: Get in touch with Sun Engineering Works for thread rolling servi
             </div>
             <button type="submit" class="btn btn-primary btn-block">{{ contact.form_button }}</button>
             <p class="form-success" id="formSuccess" hidden>{{ contact.success_message }}</p>
+            <p class="form-error" id="formError" hidden>{{ contact.error_message }}</p>
           </form>
           <!-- CONTACT FORM END -->
         </div>
