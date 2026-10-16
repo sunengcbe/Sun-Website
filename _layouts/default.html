@@ -42,8 +42,8 @@
   <!-- FONTS END -->
 
   <!-- STYLESHEETS START -->
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/style.css?v={{ site.time | date: '%s' }}" />
+  <link rel="stylesheet" href="css/responsive.css?v={{ site.time | date: '%s' }}" />
   <!-- STYLESHEETS END -->
   {%- if page.nav == "home" or page.nav == "contact" %}
 
@@ -121,7 +121,7 @@
 {% include footer.html %}
 
   <!-- SCRIPTS START -->
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v={{ site.time | date: '%s' }}"></script>
   <!-- SCRIPTS END -->
 </body>
 </html>
