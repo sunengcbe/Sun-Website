@@ -2102,3 +2102,11 @@ ul { list-style: none; }
   .page-header1.has-nut.has-roll { padding-top: 61px; }
   .page-header1.has-nut.has-roll.roll-sideways { padding-top: calc(61px + 40px); padding-bottom: 40px; }
 }
+
+/* =========================================================
+   HOME HERO — gold 3D helix (js/hero-helix.js)
+   Replaces the flat SVG wave; sits in the same .hero-spiral box.
+   ========================================================= */
+.hero-spiral { opacity: 0.9; }
+.helix-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+@media (max-width: 768px) { .hero-spiral { opacity: 0.5; } }
