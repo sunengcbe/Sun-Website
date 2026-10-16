@@ -2059,8 +2059,8 @@ ul { list-style: none; }
 .page-header1.has-nut {
   min-height: 0;
   align-items: flex-start;
-  padding-top: 124px;      /* text sits where it did before */
-  padding-bottom: 116px;   /* 8px gap + nut (80px) + 28px below */
+  padding-top: calc(81px + 40px);   /* menu bar + 40px */
+  padding-bottom: 128px;            /* 8px gap + nut (80px) + 40px, so text+bar sit centred */
 }
 .page-header1.has-nut .header-content1 { transform: none; }
 .nut-canvas {
@@ -2073,5 +2073,32 @@ ul { list-style: none; }
   pointer-events: none;
 }
 @media (max-width: 768px) {
-  .page-header1.has-nut { padding-top: 112px; padding-bottom: 92px; }
+  .page-header1.has-nut { padding-top: calc(61px + 40px); padding-bottom: 106px; }  /* 8 + nut (58) + 40 */
+  .page-header1.has-nut:not(.has-roll) .header-content1 { text-align: center; }
+  .page-header1.has-nut:not(.has-roll) .page-intro { margin-left: auto; margin-right: auto; }
+}
+
+/* Rolling-machine header (Thread Forms)
+   Upright machine (wide screens): text left-aligned, vertically centred
+   in the area below the fixed menu bar (81px).
+   Narrow screens / phones: no machine; text centred with equal space
+   above and below. */
+.page-header1.has-nut.has-roll {
+  min-height: 402px;
+  padding-top: 81px;
+  padding-bottom: 0;
+  align-items: center;
+}
+.page-header1.has-nut.has-roll.roll-sideways {
+  min-height: 0;
+  align-items: flex-start;
+  padding-top: calc(81px + 40px);
+  padding-bottom: 40px;           /* no machine on narrow screens: text only */
+}
+.page-header1.roll-sideways .roll-canvas { display: none; }
+.page-header1.roll-sideways .header-content1 { text-align: center; }
+.page-header1.roll-sideways .page-intro { margin-left: auto; margin-right: auto; }
+@media (max-width: 768px) {
+  .page-header1.has-nut.has-roll { padding-top: 61px; }
+  .page-header1.has-nut.has-roll.roll-sideways { padding-top: calc(61px + 40px); padding-bottom: 40px; }
 }
