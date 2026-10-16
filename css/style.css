@@ -2101,3 +2101,71 @@ ul { list-style: none; }
 .hero-spiral { opacity: 0.9; }
 .helix-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 @media (max-width: 768px) { .hero-spiral { opacity: 0.5; } }
+
+/* =========================================================
+   404 PAGE (404.html)
+   A broken 60° thread profile, big "404", and links back.
+   ========================================================= */
+.nf {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: calc(81px + 48px) 0 64px;
+  background: linear-gradient(110deg, #1c1c1c 0%, #202020 50%, #302d20 100%);
+  color: var(--white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.nf::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 25%, rgba(255,196,0,0.14), transparent 55%);
+  pointer-events: none;
+}
+.nf-inner { position: relative; z-index: 1; }
+.nf-thread { width: min(520px, 90%); height: auto; margin: 0 auto 8px; display: block; overflow: visible; }
+.nf-profile {
+  fill: none;
+  stroke: var(--yellow-1);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(255,196,0,0.35));
+  stroke-dasharray: 700;
+  stroke-dashoffset: 700;
+  animation: nfDraw 1.6s ease-out forwards;
+}
+.nf-gap {
+  stroke: rgba(255,255,255,0.35);
+  stroke-width: 2;
+  stroke-dasharray: 4 8;
+  animation: nfBlink 1.6s ease-in-out infinite;
+}
+@keyframes nfDraw { to { stroke-dashoffset: 0; } }
+@keyframes nfBlink { 0%,100% { opacity: 0.25; } 50% { opacity: 0.9; } }
+.nf-code {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(5rem, 18vw, 9rem);
+  line-height: 1;
+  margin: 0 0 8px;
+  background: var(--yellow-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nf-title { color: var(--white); font-size: clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom: 12px; }
+.nf-text { color: rgba(255,255,255,0.8); max-width: 520px; margin: 0 auto 28px; font-size: 1.05rem; }
+.nf-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+@media (max-width: 540px) {
+  .nf { padding-top: calc(61px + 40px); }
+  .nf-actions { flex-direction: column; align-items: stretch; }
+  .nf-actions .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nf-profile { animation: none; stroke-dashoffset: 0; }
+  .nf-gap { animation: none; }
+}

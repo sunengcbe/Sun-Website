@@ -2,6 +2,11 @@
 <html lang="en">
 {%- assign company = site.data.company -%}
 <head>
+  {%- if page.root_base %}
+  <!-- Error pages can appear at any address, so load files from the site root -->
+  <base href="/" />
+  <meta name="robots" content="noindex" />
+  {%- endif %}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Security: only allow the sources this site really uses -->
