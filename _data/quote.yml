@@ -15,6 +15,8 @@ ranges:
   hardness_max_hrc: 35
 
 out_of_range_message: Outside our usual range — you can still send it, we'll check and reply.
+# Button on the yellow "Ask for a Quote" banners at the bottom of pages (they open this page)
+cta_button: Get a Quote
 success_message: Thanks! Your quote request has been sent. We'll get back to you shortly.
 
 contact_shortcut:

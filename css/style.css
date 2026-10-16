@@ -374,6 +374,20 @@ ul { list-style: none; }
 .nav-link:hover::after,
 .nav-link.active::after { width: 100%; }
 
+/* Contact stands out as a button */
+.nav-link.nav-cta {
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: var(--yellow-1);
+  color: var(--charcoal);
+  font-weight: 600;
+  transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+}
+.nav-link.nav-cta::after { display: none; }
+.nav-link.nav-cta:hover { background: var(--yellow-2); box-shadow: 0 4px 14px rgba(255,179,0,0.35); transform: translateY(-1px); }
+.nav-link.nav-cta.active { background: var(--charcoal); color: var(--yellow-1); }
+.nav-links li:has(.nav-cta) { display: flex; align-items: center; }
+
 /* --- 5.4 Hamburger (mobile toggle) --------------------- */
 .menu-toggle {
   display: none;
@@ -1652,6 +1666,12 @@ ul { list-style: none; }
     display: block;
     padding: 14px 0;
     font-size: 1rem;
+  }
+  .nav-links .nav-link.nav-cta {
+    display: inline-block;
+    margin-top: var(--space-1);
+    padding: 12px 28px;
+    text-align: center;
   }
 
   /* CTA banner — stack */

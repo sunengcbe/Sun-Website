@@ -217,6 +217,7 @@ content:
           - { name: hardness_max_hrc, label: Maximum hardness (HRC), type: number }
       - { name: out_of_range_message, label: Message for values outside the range, type: text }
       - { name: success_message, label: Message after sending, type: text }
+      - { name: cta_button, label: Button text on 'Ask for a Quote' banners, type: string, description: "Banners whose title mentions 'quote' open this page; others go to Contact." }
       - name: contact_shortcut
         label: Shortcut box on the Contact page
         type: object
