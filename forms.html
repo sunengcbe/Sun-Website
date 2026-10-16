@@ -32,7 +32,7 @@ og_description: A diverse variety of Thread Forms suitable for all applications.
 
         <article class="detail-item1{% if odd == 1 %} reverse{% endif %} reveal">
           <div class="detail-media1">
-            <img
+            <img loading="lazy" decoding="async"
               src="{{ form.image | remove_first: '/' }}"
               alt="{{ form.name }} thread diagram"
               class="detail-image"
@@ -64,7 +64,7 @@ og_description: A diverse variety of Thread Forms suitable for all applications.
 
         <div class="about-image1 reveal">
           <div class="img-placeholder">
-            <img src="{{ forms.die_capabilities.image | remove_first: '/' }}"
+            <img loading="lazy" decoding="async" src="{{ forms.die_capabilities.image | remove_first: '/' }}"
                  alt="{{ forms.die_capabilities.title }}"
                  class="aboutimg1">
           </div>

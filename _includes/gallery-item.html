@@ -1,6 +1,6 @@
           <figure class="gallery-item reveal">
             {%- if include.item.image and include.item.image != "" %}
-            <img src="{{ include.item.image | remove_first: '/' }}" alt="{{ include.item.caption }}" loading="lazy" />
+            <img src="{{ include.item.image | remove_first: '/' }}" alt="{{ include.item.caption }}" loading="lazy" decoding="async" />
             {%- else %}
             <div class="img-placeholder" role="img" aria-label="{{ include.item.caption }} placeholder">
               <span>Replace with original image<br /><code>{{ include.item.caption }}</code></span>

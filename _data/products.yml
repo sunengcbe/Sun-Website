@@ -4,16 +4,16 @@ intro: We manufacture a comprehensive range of engineered threaded and knurled c
 
 items:
   - name: Threaded Bars
-    image: /images/threadedrods.png
+    image: /images/threadedrods.jpg
     description: We provide fully threaded bars and rods focused on strength, smooth finish, and consistent form. Available to your specifications with cutting and chamfering options.
   - name: Studs
-    image: /images/studs.png
+    image: /images/studs.jpg
     description: Specialized in the production of threaded studs for both custom and standard specifications and sizes. We offer custom-made double ended studs, single ended studs, and fully threaded studs in Unified, Metric, and other thread forms and capable of rolling with a hardness of approximately RC 42.
   - name: Bolts
-    image: /images/bolts.png
+    image: /images/bolts.jpg
     description: We manufacture high-quality threaded bolts, offering a versatile range tailored to both custom and standard specifications in a variety of sizes.
   - name: Knurled Components
-    image: /images/kunrlednew.png
+    image: /images/kunrlednew.jpg
     description: We specialize in manufacturing knurled components designed for enhanced grip and reliable performance. Profiles include Diamond, Straight, and Square, based on requirements.
 
 additional_operations:

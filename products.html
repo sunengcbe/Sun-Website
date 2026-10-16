@@ -19,7 +19,7 @@ og_description: Engineered components designed for strength and durability acros
 
         <article class="detail-item{% assign odd = forloop.index0 | modulo: 2 %}{% if odd == 1 %} reverse{% endif %} reveal">
           <div class="detail-media">
-            <img
+            <img loading="lazy" decoding="async"
               src="{{ product.image | remove_first: '/' }}"
               alt="{{ product.name }}"
               class="product-image"

@@ -34,7 +34,7 @@
 
   /* ---------- Layout ---------- */
   function resize() {
-    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var dpr = Math.min(window.innerWidth < 768 ? 1.5 : 2, window.devicePixelRatio || 1);
     W = header.clientWidth;
     H = header.clientHeight;
     canvas.width = Math.round(W * dpr);

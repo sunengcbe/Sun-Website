@@ -21,7 +21,7 @@ og_description: A well-known thread rolling company supplying quality products f
       <div class="container about-grid">
         <div class="about-image reveal">
           <div class="img-placeholder">
-            <img src="{{ about.image | remove_first: '/' }}"
+            <img loading="lazy" decoding="async" src="{{ about.image | remove_first: '/' }}"
                 alt="{{ about.title }}"
                 class="aboutimg">
           </div>
