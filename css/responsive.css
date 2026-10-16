@@ -108,3 +108,54 @@
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* =========================================================
+   PHONE LAYOUT POLISH (max 540px)
+   One place for the phone tidy-ups. Loaded last, so these win.
+   ========================================================= */
+@media (max-width: 540px) {
+  /* Comfortable side margins on every page (was 8px) */
+  .container { padding: 0 20px; }
+  .section-services,
+  .rolled-threads,
+  .section-capabilities { padding-left: 0; padding-right: 0; }
+
+  /* Home hero: text block centred in the screen, full-width buttons */
+  .hero { padding: 88px 0 72px; }
+  .hero-actions { max-width: none; }
+  .hero-subtitle { line-height: 1.55; }
+
+  /* Simple page headers (About, Gallery, Contact, Quote):
+     centred, equal space above and below, like Thread Forms */
+  .page-header { padding: calc(61px + 40px) 0 40px; text-align: center; }
+  .page-header .page-intro { margin-left: auto; margin-right: auto; }
+
+  /* Thread Forms: diagrams at their natural height (no empty bands) */
+  .detail-media1 { aspect-ratio: auto; }
+  .detail-media1 img { display: block; width: 100%; height: auto; }
+  .forms-intro p { margin-bottom: 10px; }
+
+  /* Home "Know our capabilities": 2 x 2 buttons instead of a tall stack */
+  .capability-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: none;
+  }
+  .capability-buttons .btn { max-width: none; padding: 14px 10px; }
+
+  /* CTA banner button: full width like the hero buttons */
+  .cta-content { gap: 20px; }
+  .cta-content .btn { max-width: none; }
+
+  /* Product / form rows: a little less air between rows */
+  .detail-item, .detail-item1 { padding: 24px 0; }
+}
+@media (max-width: 540px) {
+  .capability-buttons .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (max-width: 540px) {
+  /* Quote wizard: Back / Next share the full width */
+  .qw-nav { gap: 12px; }
+  .qw-nav .btn { flex: 1; }
+}
