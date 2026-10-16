@@ -52,7 +52,16 @@
     var reach = GAP + 2 * DR;                      /* centre of bar to outer die edge */
     var free = W - textRight;
 
-    if (free >= 2 * reach + 80) {
+    var upright = free >= 2 * reach + 80;
+    /* Sideways layout: centre the heading text above the machine */
+    if (header.classList.contains("roll-sideways") !== !upright) {
+      header.classList.toggle("roll-sideways", !upright);
+      hRect = header.getBoundingClientRect();
+      tRect = textEl ? textEl.getBoundingClientRect() : tRect;
+      textBottom = tRect.bottom - hRect.top;
+    }
+
+    if (upright) {
       /* Upright on the right */
       layout = {
         upright: true, RB: RB, D: D, P: P, DR: DR, GAP: GAP, len: dieLength, shaft: 24,
