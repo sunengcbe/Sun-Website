@@ -40,9 +40,13 @@
     P = 14 * S; RC = 15 * S; D = 4.5 * S; NR = 40 * S; NW = 52 * S;
   }
 
+  /* The nut's top sits data-gap px (default 8) below the intro text */
+  var gap = parseFloat(canvas.dataset.gap);
+  if (isNaN(gap)) gap = 8;
+  var textEl = header.querySelector(".page-intro") || header.querySelector(".page-title");
   function barCenterY() {
-    var pad = parseFloat(getComputedStyle(header).paddingBottom) || 110;
-    return H - pad / 2;
+    if (textEl) return textEl.getBoundingClientRect().bottom - header.getBoundingClientRect().top + gap + NR;
+    return H - 28 * S - NR;
   }
 
   /* ---------- Drawing ---------- */

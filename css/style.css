@@ -2056,8 +2056,13 @@ ul { list-style: none; }
    The bottom padding is the strip the bar and nut live in,
    so they never sit on top of the heading text.
    ========================================================= */
-.page-header1.has-nut { min-height: 460px; padding-bottom: 110px; }
-.page-header1.has-nut .header-content1 { transform: translateY(30px); }
+.page-header1.has-nut {
+  min-height: 0;
+  align-items: flex-start;
+  padding-top: 124px;      /* text sits where it did before */
+  padding-bottom: 116px;   /* 8px gap + nut (80px) + 28px below */
+}
+.page-header1.has-nut .header-content1 { transform: none; }
 .nut-canvas {
   position: absolute;
   inset: 0;
@@ -2068,6 +2073,5 @@ ul { list-style: none; }
   pointer-events: none;
 }
 @media (max-width: 768px) {
-  .page-header1.has-nut { min-height: 440px; padding-bottom: 96px; }
-  .page-header1.has-nut .header-content1 { transform: none; }
+  .page-header1.has-nut { padding-top: 112px; padding-bottom: 92px; }
 }
