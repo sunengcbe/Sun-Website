@@ -108,8 +108,17 @@
   var formError = document.getElementById("formError");
 
   if (contactForm) {
+    var contactOpened = Date.now();
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      /* Spam guard: bots fill the hidden field or submit within a second or two.
+         Pretend it worked so they don't retry, but send nothing. */
+      var honey = contactForm.querySelector('input[name="_honey"]');
+      if ((honey && honey.value) || Date.now() - contactOpened < 3000) {
+        contactForm.reset();
+        if (formSuccess) showMessage(formSuccess);
+        return;
+      }
       if (formSuccess) formSuccess.hidden = true;
       if (formError) formError.hidden = true;
 
