@@ -3,8 +3,7 @@
    - Two stainless steel dies and a black oxide bar, all
      spinning left; the bar feeds through and comes out threaded.
    - Wide screens: upright, in the free space right of the text.
-   - Narrow screens / phones: sideways, 8px under the text,
-     scaled to fit the header (same height as Thread Forms).
+   - Narrow screens / phones: no animation (header shows text only).
    - Mouse: lower in the header = faster, higher = slower.
    - "Reduce motion" setting: still picture.
    ========================================================= */
@@ -48,7 +47,7 @@
     var textBottom = tRect.bottom - hRect.top;
 
     /* Upright (desktop) sizes */
-    var RB = 15, D = 4.5, P = 14, DR = 40, GAP = RB + D + 3;
+    var RB = 15, D = 4.5, P = 14, DR = 40, GAP = RB + D - 0.5;   /* dies just touch the bar */
     var reach = GAP + 2 * DR;                      /* centre of bar to outer die edge */
     var free = W - textRight;
 
@@ -166,6 +165,7 @@
   function draw(rot, feed) {
     var L = layout;
     ctx.clearRect(0, 0, W, H);
+    if (!L.upright) return;   /* no animation when there's no room beside the text */
     ctx.save();
     var axisLen, centre;
     if (L.upright) {
