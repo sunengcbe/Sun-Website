@@ -1,0 +1,9 @@
+---
+layout: null
+sitemap: false
+---
+User-agent: *
+Allow: /
+Disallow: /crop-tool.html
+
+Sitemap: {{ site.url }}/sitemap.xml

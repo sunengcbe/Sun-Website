@@ -1,0 +1,18 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- assign pages = site.pages | where_exp: "p", "p.layout == 'default'" %}
+{%- for p in pages %}
+  {%- unless p.sitemap == false or p.root_base %}
+  {%- assign clean = p.url | replace: 'index.html', '' | replace: '.html', '' %}
+  <url>
+    <loc>{{ site.url }}{{ clean }}</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <priority>{% if clean == '/' %}1.0{% else %}0.8{% endif %}</priority>
+  </url>
+  {%- endunless %}
+{%- endfor %}
+</urlset>
