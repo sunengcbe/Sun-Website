@@ -1949,28 +1949,19 @@ ul { list-style: none; }
 }
 }
 
-/* --- 25.2 Hero framing — desktop and tablet/mobile are
-       fully independent. Edit one without touching the other. */
-
-/* Desktop (min-width: 1025px) — same 170% / 70% as before */
-@media (min-width: 1025px) {
-  .hero-overlay::before {
-    background-size: 200%;
-    background-position: 30% center;
-  }
+/* --- 25.2 Hero framing — the SAME close-up on every screen.
+       The photo is square. It is drawn at whichever is bigger:
+       twice the screen width, or 2.4x the screen height.
+       On desktops the width wins (2560px on a 1280px screen,
+       exactly as before); on phones and tablets the height wins,
+       so the bars stay large and diagonal, like on desktop. */
+.hero-overlay::before {
+  background-size: max(200vw, 240vh);
+  background-size: max(200vw, 240svh);
+  background-position: 30% center;
 }
-
-/* Tablet & mobile (max-width: 1024px)
-   "cover" always fills the hero with no empty edges, whatever
-   the phone shape. The old value (400% zoom, "10% left") was
-   invalid CSS, so the browser ignored the position anyway.
-   To zoom in on the picture, try a bigger value such as
-   background-size: 220%; and adjust the position below. */
 @media (max-width: 1024px) {
-  .hero-overlay::before {
-    background-size: 200% cover;
-    background-position: 50% center;
-  }
+  .hero-overlay::before { background-position: 50% center; }
 }
 
 /* =========================================================
