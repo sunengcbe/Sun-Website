@@ -2076,6 +2076,26 @@ ul { list-style: none; }
   .page-header1.has-nut { padding-top: 112px; padding-bottom: 92px; }
 }
 
-/* Rolling-machine header, sideways layout (phones/narrow): centred text */
+/* Rolling-machine header (Thread Forms)
+   Upright machine (wide screens): text left-aligned, vertically centred
+   in the area below the fixed menu bar (81px).
+   Sideways machine (phones/narrow): text centred; equal space above the
+   text and below the machine. */
+.page-header1.has-nut.has-roll {
+  min-height: 402px;
+  padding-top: 81px;
+  padding-bottom: 0;
+  align-items: center;
+}
+.page-header1.has-nut.has-roll.roll-sideways {
+  min-height: 0;
+  align-items: flex-start;
+  padding-top: calc(81px + 40px);
+  padding-bottom: 120px;          /* 8px gap + machine (72px) + 40px */
+}
 .page-header1.roll-sideways .header-content1 { text-align: center; }
 .page-header1.roll-sideways .page-intro { margin-left: auto; margin-right: auto; }
+@media (max-width: 768px) {
+  .page-header1.has-nut.has-roll { padding-top: 61px; }
+  .page-header1.has-nut.has-roll.roll-sideways { padding-top: calc(61px + 40px); padding-bottom: 120px; }
+}

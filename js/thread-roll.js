@@ -59,13 +59,20 @@
       hRect = header.getBoundingClientRect();
       tRect = textEl ? textEl.getBoundingClientRect() : tRect;
       textBottom = tRect.bottom - hRect.top;
+      H = header.clientHeight;
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     if (upright) {
       /* Upright on the right */
       layout = {
         upright: true, RB: RB, D: D, P: P, DR: DR, GAP: GAP, len: dieLength, shaft: 24,
-        cx: textRight + free / 2, mid: H * 0.55
+        cx: textRight + free / 2,
+        mid: (function () {           /* middle of the area below the menu bar */
+          var top = parseFloat(getComputedStyle(header).paddingTop) || 0;
+          return top + (H - top) / 2;
+        })()
       };
     } else {
       /* Sideways under the text, scaled to the space left in the header */
