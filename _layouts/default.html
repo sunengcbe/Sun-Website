@@ -8,6 +8,10 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; frame-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>{{ page.title }}</title>
+  <!-- Clean addresses: show /about instead of /about.html -->
+  {%- assign clean_path = page.url | replace: 'index.html', '' | replace: '.html', '' %}
+  <link rel="canonical" href="{{ site.url }}{{ clean_path }}" />
+  <script src="js/clean-url.js"></script>
   <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -96,7 +100,7 @@
   <header id="header" class="header">
     <nav class="nav container">
       <!-- LOGO START -->
-      <a href="index.html" class="logo" aria-label="{{ company.name }} home">
+      <a href="./" class="logo" aria-label="{{ company.name }} home">
       <img src="{{ company.logo | remove_first: '/' }}" alt="{{ company.name }} Logo" class="logo-mark">
       <span class="logo-text">{{ company.name }}</span>
       </a>
@@ -104,11 +108,11 @@
 
       <!-- NAV LINKS START -->
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="nav-link{% if page.nav == 'home' %} active{% endif %}">Home</a></li>
-        <li><a href="about.html" class="nav-link{% if page.nav == 'about' %} active{% endif %}">About</a></li>
-        <li><a href="products.html" class="nav-link{% if page.nav == 'products' %} active{% endif %}">Products</a></li>
-        <li><a href="forms.html" class="nav-link{% if page.nav == 'forms' %} active{% endif %}">Forms</a></li>
-        <li><a href="contact.html" class="nav-link nav-cta{% if page.nav == 'contact' or page.nav == 'quote' %} active{% endif %}">Contact</a></li>
+        <li><a href="./" class="nav-link{% if page.nav == 'home' %} active{% endif %}">Home</a></li>
+        <li><a href="about" class="nav-link{% if page.nav == 'about' %} active{% endif %}">About</a></li>
+        <li><a href="products" class="nav-link{% if page.nav == 'products' %} active{% endif %}">Products</a></li>
+        <li><a href="forms" class="nav-link{% if page.nav == 'forms' %} active{% endif %}">Forms</a></li>
+        <li><a href="contact" class="nav-link nav-cta{% if page.nav == 'contact' or page.nav == 'quote' %} active{% endif %}">Contact</a></li>
       </ul>
       <!-- NAV LINKS END -->
 
