@@ -4,9 +4,9 @@
         <h2 class="cta-title">{{ include.title }}</h2>
         {%- assign cta_title = include.title | downcase %}
         {%- if cta_title contains "quote" %}
-        <a href="quote.html" class="btn btn-light">{{ site.data.quote.cta_button | default: "Get a Quote" }}</a>
+        <a href="quote" class="btn btn-light">{{ site.data.quote.cta_button | default: "Get a Quote" }}</a>
         {%- else %}
-        <a href="contact.html" class="btn btn-light">{{ site.data.company.cta_button }}</a>
+        <a href="contact" class="btn btn-light">{{ site.data.company.cta_button }}</a>
         {%- endif %}
       </div>
     </section>
