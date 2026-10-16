@@ -1,9 +1,12 @@
-    <section class="page-header1{% if include.nut %} has-nut{% endif %}">
+    <section class="page-header1{% if include.nut %} has-nut{% endif %}{% if include.rolling %} has-nut has-roll{% endif %}">
 
     <!-- =========================================
          SEAMLESS ANIMATED THREAD PROFILE
     ========================================== -->
-    {%- if include.nut %}
+    {%- if include.rolling %}
+    <!-- Thread rolling machine: two stainless dies + black oxide bar (js/thread-roll.js) -->
+    <canvas class="nut-canvas roll-canvas" aria-hidden="true" data-gap="8" data-die-length="130"></canvas>
+    {%- elsif include.nut %}
     <!-- Threaded bar with a spinning nut (js/thread-nut.js) -->
     <canvas class="nut-canvas" aria-hidden="true"
             data-travel-seconds="70" data-gap="8"></canvas>
