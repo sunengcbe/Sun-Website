@@ -1144,6 +1144,13 @@ ul { list-style: none; }
   color: var(--white);
   font-family: var(--font-head);
   font-weight: 500;
+  transition: opacity var(--t);
+}
+/* On devices with a mouse: caption hidden until the photo is hovered.
+   (Phones/tablets have no hover, so captions stay visible there.) */
+@media (hover: hover) {
+  .gallery-item figcaption { opacity: 0; }
+  .gallery-item:hover figcaption { opacity: 1; }
 }
 
 

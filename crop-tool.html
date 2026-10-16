@@ -121,6 +121,11 @@
     }
     .preview-item canvas { display: block; width: 100%; transition: opacity 0.4s; }
     .preview-item:hover canvas { opacity: 0.6; }
+    .preview-item .cap { transition: opacity 0.4s; }
+    @media (hover: hover) {
+      .preview-item .cap { opacity: 0; }
+      .preview-item:hover .cap { opacity: 1; }
+    }
     .preview-item .cap {
       position: absolute; left: 0; right: 0; bottom: 0;
       padding: 24px 16px 14px;
@@ -185,7 +190,7 @@
           <canvas id="previewFull" width="800" height="600"></canvas>
           <div class="cap" id="capFull">Your caption</div>
         </div>
-        <p class="hint">Hover over it to see the website's hover effect.</p>
+        <p class="hint">Hover over the previews to see the caption and fade, as on the website.</p>
       </div>
       <div class="card">
         <h2>Preview section (About &amp; Products)</h2>
