@@ -53,13 +53,10 @@ og_description: Engineered components designed for strength and durability acros
             {%- endfor %}
           </ul>
         </div>
-        <!-- GALLERY NAV BUTTON START -->
-        <div class="section-head center reveal" style="margin-top: var(--space-4);">
-          <a href="gallery.html" class="btn btn-primary">{{ products.additional_operations.button }}</a>
-        </div>
-        <!-- GALLERY NAV BUTTON END -->
       </div>
     </section>
     <!-- ADDITIONAL OPERATIONS END -->
+
+{% include gallery-preview.html %}
 
 {% include cta.html title=products.cta_title %}

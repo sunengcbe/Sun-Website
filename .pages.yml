@@ -94,15 +94,6 @@ content:
       - { name: title, label: Title, type: string }
       - { name: image, label: Image, type: image }
       - { name: paragraphs, label: Paragraphs, type: text, list: true }
-      - name: gallery_preview
-        label: Gallery preview
-        type: object
-        fields:
-          - { name: tag, label: Small label, type: string }
-          - { name: title, label: Title, type: string }
-          - { name: intro, label: Intro text, type: text }
-          - { name: count, label: Number of photos to show, type: number }
-          - { name: button, label: Button text, type: string }
       - { name: cta_title, label: Quote banner title, type: string }
 
   - name: products
@@ -129,7 +120,6 @@ content:
           - { name: title, label: Title, type: string }
           - { name: text, label: Text, type: text }
           - { name: items, label: Operations, type: string, list: true }
-          - { name: button, label: Button text, type: string }
       - { name: cta_title, label: Quote banner title, type: string }
 
   - name: forms
@@ -173,8 +163,17 @@ content:
         type: object
         list: true
         fields:
-          - { name: image, label: Photo, type: image }
+          - { name: image, label: Photo, type: image, description: "Crop it first with the crop tool on your website (crop-tool.html) so it fits exactly." }
           - { name: caption, label: Caption, type: string }
+      - name: preview
+        label: Gallery preview (shown on About and Products pages)
+        type: object
+        fields:
+          - { name: tag, label: Small label, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: intro, label: Intro text, type: text }
+          - { name: count, label: Number of photos to show, type: number }
+          - { name: button, label: Button text, type: string }
       - { name: cta_title, label: Quote banner title, type: string }
 
   - name: contact

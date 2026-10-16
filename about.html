@@ -35,26 +35,6 @@ og_description: A well-known thread rolling company supplying quality products f
     </section>
     <!-- ABOUT SECTION END -->
 
-    <!-- GALLERY SECTION START -->
-    <section id="gallery" class="section gallery alt">
-      <div class="container">
-        <div class="section-head center reveal">
-          <span class="section-tag">{{ about.gallery_preview.tag }}</span>
-          <h2 class="section-title">{{ about.gallery_preview.title }}</h2>
-          <p class="section-intro">{{ about.gallery_preview.intro }}</p>
-        </div>
-        <div class="gallery-grid">
-          {%- for item in site.data.gallery.items limit: about.gallery_preview.count %}
-{% include gallery-item.html item=item %}
-          {%- endfor %}
-        </div>
-        <!-- GALLERY NAV BUTTON START -->
-        <div class="section-head center reveal" style="margin-top: var(--space-4);">
-          <a href="gallery.html" class="btn btn-primary">{{ about.gallery_preview.button }}</a>
-        </div>
-        <!-- GALLERY NAV BUTTON END -->
-      </div>
-    </section>
-    <!-- GALLERY SECTION END -->
+{% include gallery-preview.html alt=true %}
 
 {% include cta.html title=about.cta_title %}
