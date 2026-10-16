@@ -1,12 +1,9 @@
 tag: Showcase
 title: Gallery
 intro: Explore our gallery featuring our products, manufacturing processes.
-
-# Items without an image show a grey placeholder box.
 items:
-  - caption: Diamond Knurling 1 mm
-    image: ""
-  - caption: Straight Knurling 1.5 mm
-    image: ""
-
+  - image: /images/1.5Straight-1.jpg
+    caption: Straight Knurling 1.5 mm
+  - image: /images/1Diamond-1.jpg
+    caption: Diamond Knurling 1 mm
 cta_title: Ask for a Quote !
