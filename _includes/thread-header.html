@@ -1,8 +1,13 @@
-    <section class="page-header1">
+    <section class="page-header1{% if include.nut %} has-nut{% endif %}">
 
     <!-- =========================================
          SEAMLESS ANIMATED THREAD PROFILE
     ========================================== -->
+    {%- if include.nut %}
+    <!-- Threaded bar with a spinning nut (js/thread-nut.js) -->
+    <canvas class="nut-canvas" aria-hidden="true"
+            data-travel-seconds="70" data-gap="8"></canvas>
+    {%- else %}
     <div class="header-thread" aria-hidden="true">
 
         <svg
@@ -61,6 +66,7 @@
         </svg>
 
     </div>
+    {%- endif %}
 
 
     <!-- =========================================
