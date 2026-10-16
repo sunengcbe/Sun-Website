@@ -1,33 +1,48 @@
 tag: Forms
 title: Our Thread Forms
-intro: At Sun Engineering Works, we offer a diverse variety of Thread Forms suitable for all applications with an ability to roll hardened and stainless steels.
-
-# Wrap words in **double stars** to make them bold.
+intro: At Sun Engineering Works, we offer a diverse variety of Thread Forms
+  suitable for all applications with an ability to roll hardened and stainless
+  steels.
 highlights:
-  - We specialize in thread rolling from **2 TPI to pitches up to 6 inches**, meeting a wide range of industrial requirements.
-  - Our capabilities cover both **fine and coarse thread profiles**, available in **right- and left-handed threads**.
-  - With an extensive range of rolling dies, we produce **multiple thread forms** for both **in-feed** and **thru-feed applications**.
-
+  - We specialize in thread rolling **pitches up to 6 inches**, meeting a wide
+    range of industrial requirements.
+  - Our capabilities cover both **fine and coarse thread profiles**, available
+    in **right- and left-handed threads**.
+  - With an extensive range of rolling dies, we produce **multiple thread
+    forms** for both **in-feed** and **thru-feed applications**.
 items:
   - name: Metric
     image: /images/metric1.png
-    description: We follow ISO metric screw thread standards to manufacture the common "V" form 60-degree thread profile. Our capabilities include producing a wide range of standard coarse and fine pitches.
+    description: We follow ISO metric screw thread standards to manufacture the
+      common "V" form 60-degree thread profile. Our capabilities include
+      producing a wide range of standard coarse and fine pitches.
   - name: Unified
     image: /images/unifed.png
-    description: Unified threaded bars and studs are available in both coarse thread (UNC) and fine thread (UNF) series, offering versatility to meet a wide range of application requirements.
+    description: Unified threaded bars and studs are available in both coarse thread
+      (UNC) and fine thread (UNF) series, offering versatility to meet a wide
+      range of application requirements.
   - name: Whitworth
     image: /images/whitworth.png
-    description: Whitworth threads are widely used in specialty applications such as camera tripods and stage lighting equipment, where reliable fit and compatibility are essential. We offer both coarse (BSW) and fine (BSF) pitch options.
+    description: Whitworth threads are widely used in specialty applications such as
+      camera tripods and stage lighting equipment, where reliable fit and
+      compatibility are essential. We offer both coarse (BSW) and fine (BSF)
+      pitch options.
   - name: Acme
     image: /images/acme.png
-    description: Acme threads are designed to generate smooth traversing motion in machine and tools. A wide variety of thread rolling dies are available, and we can also arrange customized dies based on specific requirements.
+    description: Acme threads are designed to generate smooth traversing motion in
+      machine and tools. A wide variety of thread rolling dies are available,
+      and we can also arrange customized dies based on specific requirements.
   - name: Trapezoidal
     image: /images/trapezodial.png
-    description: Trapezoidal threads feature a 15-degree flank angle, slightly higher than the 14.5-degree flank angle of the Acme form. Trapezoidal dies can be arranged and customized based on specific application requirements.
-
+    description: Trapezoidal threads feature a 15-degree flank angle, slightly
+      higher than the 14.5-degree flank angle of the Acme form. Trapezoidal dies
+      can be arranged and customized based on specific application requirements.
 die_capabilities:
   title: Die Capabilities
-  text: We offer flexibility to roll a **wide range of thread profiles** using our selection of thread rolling dies. For sizes or profiles beyond our existing range, we can **source and procure the required dies** from trusted suppliers. This ensures a smooth, efficient, and reliable manufacturing process tailored to your requirements.
+  text: We offer flexibility to roll a **wide range of thread profiles** using our
+    selection of thread rolling dies. For sizes or profiles beyond our existing
+    range, we can **source and procure the required dies** from trusted
+    suppliers. This ensures a smooth, efficient, and reliable manufacturing
+    process tailored to your requirements.
   image: /images/extraforms.png
-
 cta_title: Ask for a Quote !
