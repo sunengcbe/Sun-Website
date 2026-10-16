@@ -20,6 +20,14 @@ og_description: Get in touch with Sun Engineering Works for thread rolling servi
     <!-- CONTACT SECTION START -->
     <section id="contact" class="section contact">
       <div class="container">
+        {%- assign shortcut = site.data.quote.contact_shortcut %}
+        <div class="quote-shortcut reveal">
+          <div>
+            <h3>{{ shortcut.title }}</h3>
+            <p>{{ shortcut.text }}</p>
+          </div>
+          <a href="quote.html" class="btn btn-primary">{{ shortcut.button }} <i class="fas fa-arrow-right"></i></a>
+        </div>
         <div class="contact-grid">
           <!-- CONTACT INFO START -->
           <div class="contact-info reveal">

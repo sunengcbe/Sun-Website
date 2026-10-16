@@ -1,0 +1,23 @@
+tag: Quote
+title: Get a Quote
+intro: Tell us about your thread in four quick steps. We'll check it and reply.
+send_to: sunengcbe@gmail.com
+email_subject: New quote request from the website
+
+# Rolling range. Values outside these can still be sent; the visitor is told you'll check and reply.
+ranges:
+  diameter_min_mm: 4
+  diameter_max_mm: 75
+  pitch_min_mm: 0.5
+  pitch_max_mm: 6
+  tpi_min: 4
+  tpi_max: 50
+  hardness_max_hrc: 35
+
+out_of_range_message: Outside our usual range — you can still send it, we'll check and reply.
+success_message: Thanks! Your quote request has been sent. We'll get back to you shortly.
+
+contact_shortcut:
+  title: Need a price for threaded parts?
+  text: Use our quote form to send your thread size, material and quantity in four quick steps.
+  button: Get a Quote

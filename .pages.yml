@@ -192,3 +192,35 @@ content:
       - { name: email_subject, label: Subject line of form emails, type: string }
       - { name: success_message, label: Message shown after sending, type: text }
       - { name: error_message, label: Message shown if sending fails, type: text }
+
+  - name: quote
+    label: Get a Quote Page
+    type: file
+    path: _data/quote.yml
+    format: yaml
+    fields:
+      - { name: tag, label: Small label, type: string }
+      - { name: title, label: Title, type: string }
+      - { name: intro, label: Intro text, type: text }
+      - { name: send_to, label: Send quote requests to (email), type: string, description: "After changing this, send one test request and click the activation link FormSubmit emails you." }
+      - { name: email_subject, label: Subject line of quote emails, type: string }
+      - name: ranges
+        label: Rolling range (values outside still get sent, marked for checking)
+        type: object
+        fields:
+          - { name: diameter_min_mm, label: Smallest diameter (mm), type: number }
+          - { name: diameter_max_mm, label: Largest diameter (mm), type: number }
+          - { name: pitch_min_mm, label: Finest pitch (mm), type: number }
+          - { name: pitch_max_mm, label: Coarsest pitch (mm), type: number }
+          - { name: tpi_min, label: Coarsest inch thread (TPI), type: number }
+          - { name: tpi_max, label: Finest inch thread (TPI), type: number }
+          - { name: hardness_max_hrc, label: Maximum hardness (HRC), type: number }
+      - { name: out_of_range_message, label: Message for values outside the range, type: text }
+      - { name: success_message, label: Message after sending, type: text }
+      - name: contact_shortcut
+        label: Shortcut box on the Contact page
+        type: object
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: button, label: Button text, type: string }
