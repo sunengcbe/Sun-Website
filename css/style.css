@@ -2245,7 +2245,7 @@ ul { list-style: none; }
 .pp-card img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 190px;
   object-fit: cover;
   transition: transform 0.6s ease;
 }
@@ -2283,7 +2283,7 @@ ul { list-style: none; }
 @media (max-width: 540px) {
   .products-preview { padding: var(--space-5) 0; }
   .pp-grid { gap: 12px; }
-  .pp-card img { aspect-ratio: 4 / 5; }
+  .pp-card img { height: 115px; }
   .pp-name { left: 12px; top: 12px; font-size: 0.95rem; }
   .pp-more { margin-top: -40px; }
   .pp-more .btn { width: auto; padding-left: 28px; padding-right: 28px; }
