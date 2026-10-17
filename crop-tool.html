@@ -156,7 +156,7 @@
   <main>
     <section>
       <ol class="steps">
-        <li><b>Choose a photo</b> (or drop it on the box). JPG, PNG and iPhone HEIC photos all work.</li>
+        <li><b>Choose a photo</b> (or drop it on the box). JPG, PNG and iPhone HEIC photos all work; HEIC is turned into JPG automatically.</li>
         <li><b>Drag</b> to move it and use the <b>zoom</b> slider (or mouse wheel / pinch) until it looks right.</li>
         <li><b>Download</b> (saved small, under 600 KB, so it uploads fast), then upload the downloaded file in Pages CMS → Gallery Page.</li>
       </ol>
@@ -180,7 +180,7 @@
         <button class="btn" type="button" id="downloadBtn" disabled>Download cropped photo</button>
       </div>
       <p class="done" id="doneMsg" hidden></p>
-      <input type="file" id="fileInput" accept="image/*,.heic,.heif" hidden />
+      <input type="file" id="fileInput" accept="image/*,image/heic,image/heif,.heic,.heif,.HEIC,.HEIF" hidden />
 
       <div class="shrink">
         <h2>Just make photos smaller</h2>
@@ -188,7 +188,7 @@
           Pick one or more photos (JPG, PNG or iPhone HEIC). Each one is saved as a small JPG
           (max 2000 px, usually under 1 MB) that uploads to Pages CMS in seconds.</p>
         <button class="btn" type="button" id="shrinkBtn">Choose photos to shrink</button>
-        <input type="file" id="shrinkInput" accept="image/*,.heic,.heif" multiple hidden />
+        <input type="file" id="shrinkInput" accept="image/*,image/heic,image/heif,.heic,.heif,.HEIC,.HEIF" multiple hidden />
         <ul class="shrink-list" id="shrinkList"></ul>
       </div>
     </section>
@@ -288,19 +288,56 @@
       return /heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name);
     }
 
-    /* Load the HEIC converter only when an iPhone photo is chosen */
-    var heicLib = null;
-    function loadHeicLib() {
-      if (!heicLib) {
-        heicLib = new Promise(function (resolve, reject) {
+    /* ---------- iPhone HEIC photos ----------
+       1. Safari (Mac/iPhone) can open HEIC by itself, so try that first.
+       2. Otherwise load the heic-to converter (current libheif, handles new
+          iPhone photos) only when needed; older heic2any as a last resort. */
+    function loadScript(urls, globalName) {
+      return new Promise(function (resolve, reject) {
+        (function tryNext(i) {
+          if (window[globalName]) return resolve(window[globalName]);
+          if (i >= urls.length) return reject(new Error("load failed"));
           var s = document.createElement("script");
-          s.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
-          s.onload = function () { resolve(window.heic2any); };
-          s.onerror = function () { heicLib = null; reject(new Error("load failed")); };
+          s.src = urls[i];
+          s.onload = function () { window[globalName] ? resolve(window[globalName]) : tryNext(i + 1); };
+          s.onerror = function () { s.remove(); tryNext(i + 1); };
           document.head.appendChild(s);
-        });
-      }
-      return heicLib;
+        })(0);
+      });
+    }
+    var heicToLib = null, heic2anyLib = null;
+    function getHeicTo() {
+      return heicToLib || (heicToLib = loadScript([
+        "https://cdn.jsdelivr.net/npm/heic-to@1.6.6/dist/iife/heic-to.js",
+        "https://unpkg.com/heic-to@1.6.6/dist/iife/heic-to.js"
+      ], "HeicTo").catch(function (e) { heicToLib = null; throw e; }));
+    }
+    function getHeic2any() {
+      return heic2anyLib || (heic2anyLib = loadScript([
+        "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"
+      ], "heic2any").catch(function (e) { heic2anyLib = null; throw e; }));
+    }
+    function browserCanOpen(file) {
+      return new Promise(function (resolve) {
+        var url = URL.createObjectURL(file), im = new Image(), done = false;
+        function finish(ok) { if (done) return; done = true; URL.revokeObjectURL(url); resolve(ok && im.naturalWidth > 0); }
+        im.onload = function () { finish(true); };
+        im.onerror = function () { finish(false); };
+        setTimeout(function () { finish(false); }, 4000);
+        im.src = url;
+      });
+    }
+    /* Returns a Promise of a picture the browser can show (JPG blob or the file itself) */
+    function heicToJpeg(file) {
+      return browserCanOpen(file).then(function (ok) {
+        if (ok) return file;
+        return getHeicTo()
+          .then(function (HeicTo) { return HeicTo({ blob: file, type: "image/jpeg", quality: 0.92 }); })
+          .catch(function () {
+            return getHeic2any().then(function (h) { return h({ blob: file, toType: "image/jpeg", quality: 0.92 }); })
+              .then(function (j) { return Array.isArray(j) ? j[0] : j; });
+          });
+      });
     }
 
     function showImage(blob, name) {
@@ -326,12 +363,11 @@
       if (isHeic(file)) {
         doneMsg.textContent = "Opening iPhone (HEIC) photo…";
         doneMsg.hidden = false;
-        loadHeicLib()
-          .then(function (heic2any) { return heic2any({ blob: file, toType: "image/jpeg", quality: 0.92 }); })
-          .then(function (jpg) { showImage(Array.isArray(jpg) ? jpg[0] : jpg, file.name); })
+        heicToJpeg(file)
+          .then(function (jpg) { showImage(jpg, file.name); })
           .catch(function () {
             doneMsg.hidden = true;
-            alert("Sorry, that HEIC photo could not be opened. Check your internet connection and try again.");
+            alert("Sorry, that iPhone (HEIC) photo could not be opened. Check your internet connection and try again, or set your iPhone camera to Most Compatible (Settings > Camera > Formats).");
           });
         return;
       }
@@ -460,10 +496,7 @@
         var f = files[i], row = document.createElement("li");
         row.textContent = f.name + " (" + sizeText(f.size) + ") … working";
         shrinkList.appendChild(row);
-        var getBlob = isHeic(f)
-          ? loadHeicLib().then(function (h) { return h({ blob: f, toType: "image/jpeg", quality: 0.92 }); })
-                         .then(function (j) { return Array.isArray(j) ? j[0] : j; })
-          : Promise.resolve(f);
+        var getBlob = isHeic(f) ? heicToJpeg(f) : Promise.resolve(f);
         getBlob.then(function (blob) {
           return new Promise(function (resolve, reject) {
             var im = new Image();
