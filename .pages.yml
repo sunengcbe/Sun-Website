@@ -17,7 +17,7 @@ content:
     fields:
       - { name: name, label: Company name, type: string, required: true }
       - { name: tagline, label: Footer tagline, type: string }
-      - { name: logo, label: Logo, type: image }
+      - { name: logo, label: Logo, type: image, description: "Big phone photos (over 3 MB) upload slowly or fail. Make them small first at www.sunengineeringworks.com/crop-tool.html (Just make photos smaller)." }
       - { name: phones, label: Phone numbers, type: string, list: true, description: "The first number is used for the footer and call button." }
       - { name: emails, label: Email addresses, type: string, list: true, description: "The first email is used on the Contact page and email button." }
       - { name: whatsapp, label: WhatsApp number, type: string, description: "Country code + number, digits only, e.g. 919944933525" }
@@ -70,7 +70,7 @@ content:
         fields:
           - { name: tag, label: Small label, type: string }
           - { name: title, label: Title, type: string }
-          - { name: image, label: Image, type: image }
+          - { name: image, label: Image, type: image, description: "Big phone photos (over 3 MB) upload slowly or fail. Make them small first at www.sunengineeringworks.com/crop-tool.html (Just make photos smaller)." }
           - name: blocks
             label: Text blocks
             type: object
@@ -95,7 +95,7 @@ content:
     fields:
       - { name: tag, label: Small label, type: string }
       - { name: title, label: Title, type: string }
-      - { name: image, label: Image, type: image }
+      - { name: image, label: Image, type: image, description: "Big phone photos (over 3 MB) upload slowly or fail. Make them small first at www.sunengineeringworks.com/crop-tool.html (Just make photos smaller)." }
       - { name: paragraphs, label: Paragraphs, type: text, list: true }
       - { name: cta_title, label: Quote banner title, type: string }
 
@@ -114,7 +114,7 @@ content:
         list: true
         fields:
           - { name: name, label: Product name, type: string, required: true }
-          - { name: image, label: Image, type: image }
+          - { name: image, label: Image, type: image, description: "Big phone photos (over 3 MB) upload slowly or fail. Make them small first at www.sunengineeringworks.com/crop-tool.html (Just make photos smaller)." }
           - { name: description, label: Description, type: text }
       - name: additional_operations
         label: Additional operations
@@ -141,7 +141,7 @@ content:
         list: true
         fields:
           - { name: name, label: Name, type: string, required: true }
-          - { name: image, label: Diagram image, type: image }
+          - { name: image, label: Diagram image, type: image, description: "Big phone photos (over 3 MB) upload slowly or fail. Make them small first at www.sunengineeringworks.com/crop-tool.html (Just make photos smaller)." }
           - { name: description, label: Description, type: text }
       - name: die_capabilities
         label: Die capabilities section
@@ -149,7 +149,7 @@ content:
         fields:
           - { name: title, label: Title, type: string }
           - { name: text, label: Text, type: text, description: "Wrap words in **double stars** to make them bold." }
-          - { name: image, label: Image, type: image }
+          - { name: image, label: Image, type: image, description: "Big phone photos (over 3 MB) upload slowly or fail. Make them small first at www.sunengineeringworks.com/crop-tool.html (Just make photos smaller)." }
       - { name: cta_title, label: Quote banner title, type: string }
 
   - name: gallery
@@ -166,7 +166,7 @@ content:
         type: object
         list: true
         fields:
-          - { name: image, label: Photo, type: image, description: "Crop it first with the crop tool on your website (crop-tool.html) so it fits exactly." }
+          - { name: image, label: Photo, type: image, description: "Crop it first at www.sunengineeringworks.com/crop-tool.html so it fits exactly and uploads fast (saved under 600 KB)." }
           - { name: caption, label: Caption, type: string }
       - name: preview
         label: Gallery preview (shown on About and Products pages)
