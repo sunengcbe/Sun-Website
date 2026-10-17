@@ -2288,3 +2288,14 @@ ul { list-style: none; }
   .pp-more { margin-top: -40px; }
   .pp-more .btn { width: auto; padding-left: 28px; padding-right: 28px; }
 }
+
+/* Products & gallery teasers: intro on one line on wide screens, and
+   equal space above the heading and below the button */
+.section.products-preview { padding: 48px 0 53px; }
+.products-preview .section-head { margin-bottom: 32px; }
+.products-preview .section-intro { max-width: none; }
+@media (min-width: 900px) { .products-preview .section-intro { white-space: nowrap; } }
+@media (max-width: 540px) {
+  .section.products-preview { padding: 43px 0 48px; }
+  .products-preview .section-head { margin-bottom: 20px; }
+}
