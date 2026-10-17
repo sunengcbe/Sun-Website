@@ -4,12 +4,12 @@ intro: Explore our gallery featuring our products, manufacturing processes.
 items:
   - image: /images/1.5Straight-1.jpg
     caption: Straight Knurling 1.5 mm
-  - image: /images/1Diamond-1.jpg
-    caption: Diamond Knurling 1 mm
   - image: /images/IMG_8186 2-cropped.jpg
     caption: Threaded Component
   - image: /images/IMG_8185 2-cropped.jpg
     caption: Threaded Component
+  - image: /images/1Diamond-1.jpg
+    caption: Diamond Knurling 1 mm
   - image: /images/IMG_8181 2-cropped.jpg
     caption: Threaded Component
 preview:
