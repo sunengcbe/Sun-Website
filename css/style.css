@@ -2089,11 +2089,16 @@ ul { list-style: none; }
   padding-bottom: 40px;           /* no machine on narrow screens: text only */
 }
 .page-header1.roll-sideways .roll-canvas { display: none; }
+/* Thread Forms on phones/narrow screens: show the bar + brass nut strip
+   (same as Products) under the centred text. Desktop keeps the machine. */
+.page-header1.has-roll .nut-mobile { display: none; }
+.page-header1.has-roll.roll-sideways .nut-mobile { display: block; }
+.page-header1.has-nut.has-roll.roll-sideways { padding-bottom: 128px; }
 .page-header1.roll-sideways .header-content1 { text-align: center; }
 .page-header1.roll-sideways .page-intro { margin-left: auto; margin-right: auto; }
 @media (max-width: 768px) {
   .page-header1.has-nut.has-roll { padding-top: 61px; }
-  .page-header1.has-nut.has-roll.roll-sideways { padding-top: calc(61px + 40px); padding-bottom: 40px; }
+  .page-header1.has-nut.has-roll.roll-sideways { padding-top: calc(61px + 40px); padding-bottom: 106px; }
 }
 
 /* =========================================================
