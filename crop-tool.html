@@ -142,6 +142,10 @@
       border: 1px solid var(--border); border-radius: 10px;
     }
     .done { font-size: 0.9rem; color: #1d6b3a; margin: 12px 0 0; }
+    .shrink { margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1); }
+    .shrink h2 { margin: 0 0 6px; font-size: 1.1rem; }
+    .shrink .hint { margin: 0 0 12px; }
+    .shrink-list { margin: 12px 0 0; padding-left: 18px; font-size: 0.9rem; line-height: 1.7; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -154,7 +158,7 @@
       <ol class="steps">
         <li><b>Choose a photo</b> (or drop it on the box). JPG, PNG and iPhone HEIC photos all work.</li>
         <li><b>Drag</b> to move it and use the <b>zoom</b> slider (or mouse wheel / pinch) until it looks right.</li>
-        <li><b>Download</b>, then upload the downloaded file in Pages CMS → Gallery Page.</li>
+        <li><b>Download</b> (saved small, under 600 KB, so it uploads fast), then upload the downloaded file in Pages CMS → Gallery Page.</li>
       </ol>
 
       <div class="stage" id="stage">
@@ -177,6 +181,16 @@
       </div>
       <p class="done" id="doneMsg" hidden></p>
       <input type="file" id="fileInput" accept="image/*,.heic,.heif" hidden />
+
+      <div class="shrink">
+        <h2>Just make photos smaller</h2>
+        <p class="hint">For Products, About, Thread Forms or any other picture that doesn't need cropping.
+          Pick one or more photos (JPG, PNG or iPhone HEIC). Each one is saved as a small JPG
+          (max 2000 px, usually under 1 MB) that uploads to Pages CMS in seconds.</p>
+        <button class="btn" type="button" id="shrinkBtn">Choose photos to shrink</button>
+        <input type="file" id="shrinkInput" accept="image/*,.heic,.heif" multiple hidden />
+        <ul class="shrink-list" id="shrinkList"></ul>
+      </div>
     </section>
 
     <aside>
@@ -400,20 +414,81 @@
       document.getElementById("capShort").textContent = text;
     });
 
+    /* Save a canvas as JPG, lowering quality until it is small enough
+       to upload quickly in Pages CMS (target: under maxKB). */
+    function smallJpeg(canvas, maxKB, cb) {
+      var q = 0.86;
+      (function tryQ() {
+        canvas.toBlob(function (blob) {
+          if (blob.size / 1024 > maxKB && q > 0.55) { q -= 0.07; tryQ(); }
+          else cb(blob);
+        }, "image/jpeg", q);
+      })();
+    }
+    function sizeText(bytes) { return bytes > 1048576 ? (bytes / 1048576).toFixed(1) + " MB" : Math.round(bytes / 1024) + " KB"; }
+    function saveBlob(blob, name) {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    }
+
     downloadBtn.addEventListener("click", function () {
       if (!img) return;
-      editor.toBlob(function (blob) {
-        var a = document.createElement("a");
+      smallJpeg(editor, 600, function (blob) {
         var name = fileName + "-cropped.jpg";
-        a.href = URL.createObjectURL(blob);
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
-        doneMsg.textContent = "Saved as " + name + ". Now upload it in Pages CMS → Gallery Page → Photos.";
+        saveBlob(blob, name);
+        doneMsg.textContent = "Saved as " + name + " (" + sizeText(blob.size) + "). Now upload it in Pages CMS → Gallery Page → Photos.";
         doneMsg.hidden = false;
-      }, "image/jpeg", 0.85);
+      });
+    });
+
+    /* ---------- Make photos smaller (no cropping) ----------
+       For Products, About, Thread Forms or any picture: pick one or more
+       photos; each is resized to at most 2000 px and saved as a small JPG. */
+    var shrinkInput = document.getElementById("shrinkInput");
+    var shrinkList = document.getElementById("shrinkList");
+    document.getElementById("shrinkBtn").addEventListener("click", function () { shrinkInput.click(); });
+    shrinkInput.addEventListener("change", function () {
+      var files = [].slice.call(shrinkInput.files);
+      shrinkInput.value = "";
+      (function next(i) {
+        if (i >= files.length) return;
+        var f = files[i], row = document.createElement("li");
+        row.textContent = f.name + " (" + sizeText(f.size) + ") … working";
+        shrinkList.appendChild(row);
+        var getBlob = isHeic(f)
+          ? loadHeicLib().then(function (h) { return h({ blob: f, toType: "image/jpeg", quality: 0.92 }); })
+                         .then(function (j) { return Array.isArray(j) ? j[0] : j; })
+          : Promise.resolve(f);
+        getBlob.then(function (blob) {
+          return new Promise(function (resolve, reject) {
+            var im = new Image();
+            im.onload = function () { resolve(im); };
+            im.onerror = reject;
+            im.src = URL.createObjectURL(blob);
+          });
+        }).then(function (im) {
+          var k = Math.min(1, 2000 / Math.max(im.naturalWidth, im.naturalHeight));
+          var c = document.createElement("canvas");
+          c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k);
+          var cx = c.getContext("2d");
+          cx.fillStyle = "#fff"; cx.fillRect(0, 0, c.width, c.height);
+          cx.drawImage(im, 0, 0, c.width, c.height);
+          smallJpeg(c, 900, function (out) {
+            var name = f.name.replace(/\.[^.]+$/, "") + "-small.jpg";
+            saveBlob(out, name);
+            row.textContent = "✓ " + name + ": " + sizeText(f.size) + " → " + sizeText(out.size);
+            setTimeout(function () { next(i + 1); }, 400);
+          });
+        }).catch(function () {
+          row.textContent = "✗ " + f.name + " could not be opened";
+          next(i + 1);
+        });
+      })(0);
     });
 
     draw();

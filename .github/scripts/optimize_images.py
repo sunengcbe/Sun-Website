@@ -108,10 +108,19 @@ for src in sorted(p for p in (root / "images").rglob("*") if p.is_file()):
             im.save(src, "PNG", optimize=True)
         print(f"{src}: {before} KB -> {kb(src)} KB")
 
+targets = (list((root / "_data").glob("*.yml")) + list(root.glob("*.html"))
+           + list((root / "_includes").glob("*.html")) + list((root / "_layouts").glob("*.html"))
+           + list((root / "css").glob("*.css")))
+
+# Repair links to pictures that were converted in an earlier run, e.g. a page
+# saved in Pages CMS still pointing at "photo.heic" after it became "photo.jpg".
+ref = re.compile(r"images/[^\n\"')]+?\.(?:heic|heif|png|jpeg)(?![\w.-])", re.IGNORECASE)
+for f in targets:
+    for m in set(ref.findall(f.read_text(encoding="utf-8"))):
+        if not (root / m).exists() and (root / m).with_suffix(".jpg").exists():
+            renames.setdefault(m, Path(m).with_suffix(".jpg").as_posix())
+
 if renames:
-    targets = (list((root / "_data").glob("*.yml")) + list(root.glob("*.html"))
-               + list((root / "_includes").glob("*.html")) + list((root / "_layouts").glob("*.html"))
-               + list((root / "css").glob("*.css")))
     for f in targets:
         text = f.read_text(encoding="utf-8")
         new = text
