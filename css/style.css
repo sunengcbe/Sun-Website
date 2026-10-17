@@ -2225,3 +2225,59 @@ ul { list-style: none; }
 /* Thread Forms: highlights block now sits between the forms list and Die Capabilities */
 .forms-intro-section { padding: 56px 0 8px; }
 @media (max-width: 540px) { .forms-intro-section { padding: 40px 0 0; } }
+
+/* =========================================================
+   PRODUCTS PREVIEW (Thread Forms page) — _includes/products-preview.html
+   ========================================================= */
+.products-preview { padding: var(--space-6) 0; }
+.pp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+.pp-card {
+  position: relative;
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--charcoal);
+  box-shadow: var(--shadow-sm);
+}
+.pp-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+}
+.pp-card::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+  pointer-events: none;
+}
+.pp-name {
+  position: absolute;
+  left: 16px; right: 16px; bottom: 14px;
+  z-index: 1;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--white);
+}
+.pp-name::after {
+  content: "";
+  display: block;
+  width: 28px; height: 3px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--yellow-1);
+  transition: width 0.3s ease;
+}
+@media (hover: hover) {
+  .pp-card:hover img { transform: scale(1.06); opacity: 0.85; }
+  .pp-card:hover .pp-name::after { width: 56px; }
+}
+@media (max-width: 1024px) { .pp-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) {
+  .products-preview { padding: var(--space-5) 0; }
+  .pp-grid { gap: 12px; }
+  .pp-name { left: 12px; bottom: 10px; font-size: 0.92rem; }
+}

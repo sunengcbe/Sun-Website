@@ -123,6 +123,14 @@ content:
           - { name: title, label: Title, type: string }
           - { name: text, label: Text, type: text }
           - { name: items, label: Operations, type: string, list: true }
+      - name: preview
+        label: Products preview (shown on the Thread Forms page)
+        type: object
+        fields:
+          - { name: tag, label: Small label, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: intro, label: Intro text, type: text }
+          - { name: button, label: Button text, type: string }
       - { name: cta_title, label: Quote banner title, type: string }
 
   - name: forms
