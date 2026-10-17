@@ -8,14 +8,14 @@
           <p class="section-intro">{{ pp.intro }}</p>
         </div>
         <div class="pp-grid">
-          {%- for product in site.data.products.items %}
+          {%- for product in site.data.products.items limit: 2 %}
           <a href="products" class="pp-card reveal">
             <img loading="lazy" decoding="async" src="{{ product.image | remove_first: '/' }}" alt="{{ product.name }}" />
             <span class="pp-name">{{ product.name }}</span>
           </a>
           {%- endfor %}
         </div>
-        <div class="section-head center reveal" style="margin-top: var(--space-4); margin-bottom: 0;">
+        <div class="pp-more reveal">
           <a href="products" class="btn btn-primary">{{ pp.button }}</a>
         </div>
       </div>
