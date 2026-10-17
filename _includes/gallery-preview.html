@@ -1,18 +1,21 @@
 {%- assign preview = site.data.gallery.preview -%}
-    <!-- GALLERY PREVIEW SECTION START -->
-    <section id="gallery" class="section gallery{% if include.alt %} alt{% endif %}">
+    <!-- GALLERY PREVIEW SECTION START (same teaser style as the products preview) -->
+    <section id="gallery" class="section products-preview gallery{% if include.alt %} alt{% endif %}">
       <div class="container">
         <div class="section-head center reveal">
           <span class="section-tag">{{ preview.tag }}</span>
           <h2 class="section-title">{{ preview.title }}</h2>
           <p class="section-intro">{{ preview.intro }}</p>
         </div>
-        <div class="gallery-grid preview">
+        <div class="pp-grid">
           {%- for item in site.data.gallery.items limit: preview.count %}
-{% include gallery-item.html item=item %}
+          <a href="gallery" class="pp-card reveal">
+            <img loading="lazy" decoding="async" src="{{ item.image | remove_first: '/' }}" alt="{{ item.caption }}" />
+            {%- if item.caption %}<span class="pp-name">{{ item.caption }}</span>{% endif %}
+          </a>
           {%- endfor %}
         </div>
-        <div class="section-head center reveal" style="margin-top: var(--space-4);">
+        <div class="pp-more reveal">
           <a href="gallery" class="btn btn-primary">{{ preview.button }}</a>
         </div>
       </div>
