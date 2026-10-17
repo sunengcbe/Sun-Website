@@ -34,6 +34,31 @@
   window.addEventListener("scroll", onScrollHeader, { passive: true });
   onScrollHeader();
 
+  /* Hide the menu bar while scrolling down, show it again when scrolling up.
+     Always shown near the top of the page, while the phone menu is open,
+     or when a link in it has keyboard focus. */
+  if (header) {
+    var lastY = window.scrollY, ticking = false;
+    function updateHeaderVisibility() {
+      ticking = false;
+      var y = Math.max(0, window.scrollY);
+      var menuOpen = document.getElementById("navLinks") &&
+                     document.getElementById("navLinks").classList.contains("open");
+      if (y < 120 || menuOpen || header.contains(document.activeElement)) {
+        header.classList.remove("header-hidden");
+      } else if (y > lastY + 6) {
+        header.classList.add("header-hidden");
+      } else if (y < lastY - 6) {
+        header.classList.remove("header-hidden");
+      }
+      if (Math.abs(y - lastY) > 6) lastY = y;
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(updateHeaderVisibility); }
+    }, { passive: true });
+    header.addEventListener("focusin", function () { header.classList.remove("header-hidden"); });
+  }
+
   /* ===== 3. MOBILE MENU TOGGLE ===== */
   var menuToggle = document.getElementById("menuToggle");
   var navLinks = document.getElementById("navLinks");
