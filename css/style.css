@@ -2225,3 +2225,66 @@ ul { list-style: none; }
 /* Thread Forms: highlights block now sits between the forms list and Die Capabilities */
 .forms-intro-section { padding: 56px 0 8px; }
 @media (max-width: 540px) { .forms-intro-section { padding: 40px 0 0; } }
+
+/* =========================================================
+   PRODUCTS PREVIEW (Thread Forms page) — _includes/products-preview.html
+   Two product photos that fade out towards the bottom (a teaser, not
+   fully revealed), with the "View All Products" button over the fade.
+   ========================================================= */
+.products-preview { padding: var(--space-6) 0; }
+.pp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+.pp-card {
+  position: relative;
+  display: block;
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+  background: var(--charcoal);
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, rgba(0,0,0,0.55) 62%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 30%, rgba(0,0,0,0.55) 62%, transparent 100%);
+}
+.pp-card img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.pp-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 55% 0;
+  background: linear-gradient(rgba(0,0,0,0.55), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+.pp-name {
+  position: absolute;
+  left: 20px; right: 20px; top: 18px;
+  z-index: 2;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--white);
+}
+.pp-name::after {
+  content: "";
+  display: block;
+  width: 28px; height: 3px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--yellow-1);
+  transition: width 0.3s ease;
+}
+.pp-more { position: relative; z-index: 2; text-align: center; margin-top: -72px; }
+@media (hover: hover) {
+  .pp-card:hover img { transform: scale(1.05); }
+  .pp-card:hover .pp-name::after { width: 56px; }
+}
+@media (max-width: 540px) {
+  .products-preview { padding: var(--space-5) 0; }
+  .pp-grid { gap: 12px; }
+  .pp-card img { height: 115px; }
+  .pp-name { left: 12px; top: 12px; font-size: 0.95rem; }
+  .pp-more { margin-top: -40px; }
+  .pp-more .btn { width: auto; padding-left: 28px; padding-right: 28px; }
+}
