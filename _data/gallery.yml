@@ -6,10 +6,13 @@ items:
     caption: Straight Knurling 1.5 mm
   - image: /images/1Diamond-1.jpg
     caption: Diamond Knurling 1 mm
+  - image: /images/IMG_8186 2-cropped.jpg
+    caption: Threaded Component
 preview:
   tag: Showcase
   title: Our Gallery
-  intro: Explore our gallery featuring our products, manufacturing processes, and precision engineering work
+  intro: Explore our gallery featuring our products, manufacturing processes, and
+    precision engineering work
   count: 2
   button: View Full Gallery
 cta_title: Ask for a Quote !
