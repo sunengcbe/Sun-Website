@@ -13,17 +13,6 @@ og_description: A diverse variety of Thread Forms suitable for all applications.
 <script src="js/thread-nut.js?v={{ site.time | date: '%s' }}" defer></script>
     <!-- PAGE HEADER END -->
 
-    <!-- THREAD FORMS INTRO START -->
-    <section class="section">
-      <div class="container">
-        <div class="forms-intro reveal">
-          {%- for line in forms.highlights %}
-          {{ line | markdownify }}
-          {%- endfor %}
-        </div>
-      </div>
-    </section>
-    <!-- THREAD FORMS INTRO END -->
 
     <!-- THREAD FORMS DETAILED LIST START -->
     <section class="section alt">
@@ -53,6 +42,18 @@ og_description: A diverse variety of Thread Forms suitable for all applications.
       </div>
     </section>
     <!-- THREAD FORMS DETAILED LIST END -->
+
+    <!-- THREAD FORMS INTRO START -->
+    <section class="section forms-intro-section">
+      <div class="container">
+        <div class="forms-intro reveal">
+          {%- for line in forms.highlights %}
+          {{ line | markdownify }}
+          {%- endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- THREAD FORMS INTRO END -->
 
     <!-- DIE CAPABILITIES START -->
     <section id="about" class="section about">

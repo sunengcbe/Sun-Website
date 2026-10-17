@@ -2221,3 +2221,7 @@ ul { list-style: none; }
 @media (max-width: 540px) {
   .to-top { right: 16px; bottom: 16px; width: 46px; height: 46px; }
 }
+
+/* Thread Forms: highlights block now sits between the forms list and Die Capabilities */
+.forms-intro-section { padding: 56px 0 8px; }
+@media (max-width: 540px) { .forms-intro-section { padding: 40px 0 0; } }
