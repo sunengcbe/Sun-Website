@@ -313,8 +313,10 @@ ul { list-style: none; }
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
-  transition: background var(--t), border-color var(--t), box-shadow var(--t);
+  transition: background var(--t), border-color var(--t), box-shadow var(--t), transform 0.35s ease;
 }
+/* Hidden while scrolling down (js/main.js); slides back when scrolling up */
+.header.header-hidden { transform: translateY(calc(-100% - 16px)); }
 .header.scrolled {
   background: rgba(255,255,255,0.95);
   border-color: var(--border);
