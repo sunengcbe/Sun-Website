@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  var canvas = document.querySelector(".nut-canvas");
+  var canvas = document.querySelector(".nut-canvas:not(.roll-canvas)");
   if (!canvas || !canvas.getContext) return;
   var header = canvas.parentElement;
   var ctx = canvas.getContext("2d");
@@ -158,6 +158,7 @@
     if (x < -NW) x = W + NW;
     th += dx / P * Math.PI;
 
+    if (!canvas.offsetWidth) { requestAnimationFrame(frame); return; }   /* hidden (Thread Forms on desktop) */
     var y = barCenterY();
     ctx.clearRect(0, 0, W, H);
     ctx.globalAlpha = 0.9;
