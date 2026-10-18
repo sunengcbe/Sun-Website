@@ -1146,9 +1146,17 @@ ul { list-style: none; }
   width: 100%;
   aspect-ratio: 4 / 3;          /* gallery page: keep in sync with crop-tool.html */
   object-fit: cover;
-  transition: opacity var(--t);
 }
-.gallery-item:hover > img { opacity: 0.6; }
+/* Black tint (40%) over the photo on hover, instead of fading the photo */
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background var(--t);
+  pointer-events: none;
+}
+.gallery-item:hover::after { background: rgba(0,0,0,0.4); }
 /* Preview section (About & Products pages): shorter, shows the middle band */
 .gallery-grid.preview .gallery-item > img { aspect-ratio: 16 / 9; }
 .gallery-grid.preview .img-placeholder { aspect-ratio: 16 / 9; }
@@ -1161,13 +1169,26 @@ ul { list-style: none; }
   color: var(--white);
   font-family: var(--font-head);
   font-weight: 500;
-  transition: opacity var(--t);
+  z-index: 1;
+  transition: opacity var(--t), transform var(--t);
 }
-/* On devices with a mouse: caption hidden until the photo is hovered.
+/* Gold line under the caption (grows in on hover) */
+.gallery-item figcaption::after {
+  content: "";
+  display: block;
+  width: 36px; height: 3px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: var(--yellow-1);
+  transition: width 0.4s ease 0.05s;
+}
+/* On devices with a mouse: caption + line hidden until the photo is hovered.
    (Phones/tablets have no hover, so captions stay visible there.) */
 @media (hover: hover) {
-  .gallery-item figcaption { opacity: 0; }
-  .gallery-item:hover figcaption { opacity: 1; }
+  .gallery-item figcaption { opacity: 0; transform: translateY(8px); }
+  .gallery-item figcaption::after { width: 0; }
+  .gallery-item:hover figcaption { opacity: 1; transform: none; }
+  .gallery-item:hover figcaption::after { width: 36px; }
 }
 
 
