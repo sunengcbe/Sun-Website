@@ -2303,3 +2303,24 @@ ul { list-style: none; }
   .section.products-preview { padding: 43px 0 54px; }
   .products-preview .section-head { margin-bottom: 20px; }
 }
+
+/* =========================================================
+   HOME "Know our Capabilities": three previews (Thread Forms,
+   Products, Gallery) in the same fading teaser style
+   ========================================================= */
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+.cap-col .pp-card img { height: 200px; }
+.cap-col .pp-more { margin-top: -64px; }
+@media (max-width: 900px) {
+  .cap-grid { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; gap: 20px; }
+  .cap-col .pp-card img { height: 150px; }
+  .cap-col .pp-more { margin-top: -54px; }
+}
+@media (max-width: 540px) {
+  .cap-col .pp-more .btn { width: auto; padding-left: 28px; padding-right: 28px; }
+}
