@@ -99,10 +99,33 @@ og_description: Crafted for demanding applications and solutions that Perform. T
           </p>
           {%- endfor %}
 
-          <div class="capability-buttons">
-             <a href="forms" class="btn btn-primary btn-sm">Thread Forms</a>
-              <a href="products" class="btn btn-primary btn-sm">Products</a>
-              <a href="gallery" class="btn btn-primary btn-sm">Gallery</a>
+        </div>
+
+        <!-- Three previews: Thread Forms, Products, Gallery (same teaser style) -->
+        {%- assign cap_forms_img = site.data.forms.die_capabilities.image -%}
+        {%- assign cap_prod_img = site.data.products.items.first.image -%}
+        {%- assign cap_gal_img = site.data.gallery.items.first.image -%}
+        <div class="cap-grid">
+          <div class="cap-col reveal">
+            <a href="forms" class="pp-card">
+              <img loading="lazy" decoding="async" src="{{ cap_forms_img | remove_first: '/' }}" alt="Thread Forms" />
+              <span class="pp-name">Thread Forms</span>
+            </a>
+            <div class="pp-more"><a href="forms" class="btn btn-primary">View Thread Forms</a></div>
+          </div>
+          <div class="cap-col reveal">
+            <a href="products" class="pp-card">
+              <img loading="lazy" decoding="async" src="{{ cap_prod_img | remove_first: '/' }}" alt="Products" />
+              <span class="pp-name">Products</span>
+            </a>
+            <div class="pp-more"><a href="products" class="btn btn-primary">View Products</a></div>
+          </div>
+          <div class="cap-col reveal">
+            <a href="gallery" class="pp-card">
+              <img loading="lazy" decoding="async" src="{{ cap_gal_img | remove_first: '/' }}" alt="Gallery" />
+              <span class="pp-name">Gallery</span>
+            </a>
+            <div class="pp-more"><a href="gallery" class="btn btn-primary">View Gallery</a></div>
           </div>
         </div>
       </div>
