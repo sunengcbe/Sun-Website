@@ -25,6 +25,8 @@ content:
       - { name: map_link, label: Google Maps link, type: string }
       - { name: hours, label: Business hours lines, type: string, list: true }
       - { name: cta_button, label: Quote banner button text, type: string }
+      - { name: iso_label, label: ISO badge text, type: string, description: "Shown on the home banner and footer. Leave empty to hide the ISO badge." }
+      - { name: iso_certificate, label: ISO certificate PDF link, type: string, description: "Path of the certificate PDF, e.g. /certificates/ISO-9001-2015-Certificate.pdf" }
 
   - name: home
     label: Home Page

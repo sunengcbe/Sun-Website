@@ -32,6 +32,14 @@ og_description: Crafted for demanding applications and solutions that Perform. T
             <a href="#services" class="btn btn-primary">{{ home.hero.primary_button }}</a>
             <a href="#capabilities" class="btn btn-ghost">{{ home.hero.secondary_button }}</a>
         </div>
+
+        {%- assign company = site.data.company -%}
+        {%- if company.iso_label %}
+        <a class="hero-iso reveal" href="{{ company.iso_certificate | remove_first: '/' }}" target="_blank" rel="noopener" title="View ISO 9001:2015 certificate">
+            <i class="fas fa-certificate" aria-hidden="true"></i>
+            <span>{{ company.iso_label }}</span>
+        </a>
+        {%- endif %}
     </div>
 
     <div class="hero-scroll reveal" aria-hidden="true">
