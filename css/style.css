@@ -511,28 +511,6 @@ ul { list-style: none; }
   flex-wrap: wrap;
 }
 
-/* ISO badge under hero buttons */
-.hero-iso {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  align-self: flex-start;
-  margin-top: var(--space-3);
-  padding: 8px 16px;
-  border: 1px solid rgba(255,196,0,0.6);
-  border-radius: 999px;
-  background: rgba(0,0,0,0.35);
-  color: var(--white);
-  font-family: var(--font-head);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-decoration: none;
-  transition: background .3s, border-color .3s;
-}
-.hero-iso i { color: var(--yellow-1); }
-.hero-iso:hover { background: rgba(255,196,0,0.15); border-color: var(--yellow-1); }
-
 /* --- 6.4 Scroll cue ------------------------------------ */
 .hero-scroll {
   position: absolute;
@@ -1462,15 +1440,6 @@ ul { list-style: none; }
   font-weight: 600;
   margin-bottom: 12px;
 }
-.footer-iso i { color: var(--yellow-1); margin-right: 4px; }
-.footer-iso a {
-  color: var(--yellow-1);
-  font-weight: 500;
-  margin-left: 8px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.footer-iso a:hover { color: #fff; }
 .footer-bottom p { margin: 6px 0; }
 
 

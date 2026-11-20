@@ -55,12 +55,7 @@
 
     <div class="footer-bottom">
       {%- if company.iso_label %}
-      <p class="footer-iso">
-        <i class="fas fa-certificate" aria-hidden="true"></i> {{ company.iso_label }}
-        {%- if company.iso_certificate %}
-        <a href="{{ company.iso_certificate | remove_first: '/' }}" target="_blank" rel="noopener">View Certificate</a>
-        {%- endif %}
-      </p>
+      <p class="footer-iso">{{ company.iso_label }}</p>
       {%- endif %}
 
       <p>
