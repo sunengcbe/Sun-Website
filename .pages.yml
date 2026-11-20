@@ -25,6 +25,7 @@ content:
       - { name: map_link, label: Google Maps link, type: string }
       - { name: hours, label: Business hours lines, type: string, list: true }
       - { name: cta_button, label: Quote banner button text, type: string }
+      - { name: iso_label, label: ISO badge text, type: string, description: "Shown in the footer. Leave empty to hide the ISO badge." }
 
   - name: home
     label: Home Page

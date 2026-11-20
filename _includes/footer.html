@@ -54,9 +54,9 @@
     <div class="footer-divider"></div>
 
     <div class="footer-bottom">
-      <p class="footer-iso">
-       <!--  ISO 9001:2015 Certified -->
-      </p>
+      {%- if company.iso_label %}
+      <p class="footer-iso">{{ company.iso_label }}</p>
+      {%- endif %}
 
       <p>
         © {{ site.time | date: "%Y" }} {{ company.name }}. All Rights Reserved.
